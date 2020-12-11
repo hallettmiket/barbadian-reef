@@ -1,0 +1,138 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{fancyhdr}
+\usepackage[margin=2.0cm]{geometry}%rounded up from 1.87, just to be safe...
+\usepackage{parskip}
+\usepackage{float}
+%\usepackage{times} %make sure that the times new roman is used
+\usepackage{mathptmx}
+
+\usepackage{blindtext}
+\title{Exploration of the Decentralization Method.}
+\date{October 2019}
+\author{Hallett group}
+
+
+%      ------ Format Stuff ---------
+\newlength{\itemdist}
+\setlength{\itemdist}{0.05ex}
+\newlength{\headdist}
+\setlength{\headdist}{0.04ex}
+
+\newcommand{\R}{\mathbb{R}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+%\pagestyle{fancy}
+
+\maketitle
+
+We explore the so-called {\em decentralization method} that tries to adjust observed
+count matrices in comparative metagenomic analyses.
+
+\subsection{Introduction}
+
+The basic observation here is that current metagenomic studies are relativistic in nature.
+A sample is taken from two more more sites. 
+Although the absolute number of organisms in two samples of the same size from
+the two sites might differ, 
+most modern -omic technologies require a specific amount of starting material
+For example, a specific number of micrograms of cDNA will be required for next
+generation sequencing, or a specific number of micrograms of protein will be required
+for mass spectrometry.
+Therefore, biomaterial harvested from the sites is either amplified or distilled to
+this level, meaning all subsequent analyses are relativistic in nature.
+Specifically, each samples produces a raw number of observations and these numbers
+may differ across the sampling sites.
+However, they cannot be attributed to biological differences (eg the number of micro-organisms
+per microlitre); rather due to technological variance (eg differences in calibration 
+of the machine or sample preparation).
+
+Each site ina metagenomic study essentially provides a frequency vector across all organisms 
+that can be used to compare the relative concentrations between organisms within that site.
+However it is problematic to compare the abundance of two organisms between sites (without
+some a priori information regarding the normalized absolute counts).
+
+An issue that arises in several studies including our study of two sites of the Barbados reef is 
+that  a very small number of organisms are greatly increased at one of the two sites but the 
+remainder of the organismal population does not change significantly.
+The frequency vector across all organisms between the two sites can suggest dramatic global changes.
+A common pattern is that components of the frequency vector for the site whose population has increased greatly for a handful of organisms is almost every where else smaller than the components of the frency vector of the second population. 
+In other words, the first population's distribution has become centralized.
+We discuss a strategy for removing decentralizing these distributions in order to better detect true absolulte differences between the populations at each site.
+
+
+
+We will need the functions and datasets from the Barbados reef project later in our analysis.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{options}\hlstd{(}\hlkwc{warn} \hlstd{=} \hlopt{-}\hlnum{1}\hlstd{)}
+\hlkwd{setwd}\hlstd{(}\hlstr{"~/repo/reefmicrobiome/experiments/exp5-decentralization"}\hlstd{)}
+\hlkwd{library}\hlstd{(xtable)}
+\hlkwd{source}\hlstd{(}\hlstr{"~/repo/reefmicrobiome/src/functions.R"}\hlstd{)}
+\hlkwd{load}\hlstd{(}\hlstr{"~/repo/reefmicrobiome/data/tree.latest"}\hlstd{)}
+\hlstd{tree[}\hlnum{1}\hlstd{,]}
+\end{alltt}
+\begin{verbatim}
+##   name tax_id parent    rank embl_code division_id  br_bel   br_may
+## 1 root      1     NA no rank                     8 4708322 10181105
+##   br_bel_frac br_may_frac Local.Freq.Bel Local.Freq.May Glob.Freq.Bel
+## 1           0           0             NA             NA             1
+##   Glob.Freq.May DeltaFreq Multinom Polarity Polarity.Adj path
+## 1             1         0        0       NA           NA root
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\end{document}

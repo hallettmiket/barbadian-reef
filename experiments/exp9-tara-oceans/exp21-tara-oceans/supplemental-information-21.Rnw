@@ -1,0 +1,595 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage[margin=2.0cm]{geometry}%rounded up from 1.87, just to be safe...
+\usepackage{parskip}
+\usepackage{float}
+%\usepackage{times} %make sure that the times new roman is used
+\usepackage{mathptmx}
+
+\usepackage{blindtext}
+\title{Supplemental Information 21: Comparisons with Tara Oceans Data}
+\date{May 2020}
+\author{Simpson, Bettauer et al.}
+
+
+%      ------ Format Stuff ---------
+\newlength{\itemdist}
+\setlength{\itemdist}{0.05ex}
+\newlength{\headdist}
+\setlength{\headdist}{0.04ex}
+
+\newcommand{\R}{\mathbb{R}}
+
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+%\pagestyle{fancy}
+
+\maketitle
+
+<<message=FALSE, warning=FALSE>>= 
+options(warn = -1)
+root <- rprojroot::find_root(".git/index"); setwd(root); source(file.path(root, "src/init.R"))
+source(file.path(root, "experiments/exp5-decentralization/decentralization_functions.R"))
+source(file.path(root, "experiments/exp21-tara-oceans/local-21.R"))
+figurefile <- file.path(mainfigurefile, "tara")
+vers <- 1.0
+#load raw tara oceans data (mapped to genera)
+tara <- read_tsv(file = "/home/data/raw/tara-ocean/miTAG.taxonomic.profiles.release.tsv")
+
+@
+
+
+
+<<>>=
+tarat <-   include_tara( tree, tara )[[1]]
+nc <- ncol(tarat)
+
+for (i in 1:nrow(tarat)) {
+  tarat[i , (nc+1): (nc+139) ] <- tarat[i, 25:163] / tarat[1, 25:163]
+}
+colnames(tarat)[(nc+1):(nc+139)] <- paste0(colnames(tarat[25:163]), "_Global_freq")
+
+toriginal <- tarat
+#save(tarat, file = "/home/data/refined/reef/R/tara_oceans_tree.june.9.Rdata")
+@
+
+Now we prepare the Tara Oceans metadata.
+<<>>=
+# sets variable tarat (tara tree)
+load(file = "/home/data/refined/reef/R/tara_oceans_tree.june.9.Rdata") 
+
+# load the tara oceans metadata 
+# tabs 1 and 8 from the spreadsheet availble at 
+# {\tt ocean-microbiome.embl.de\/companion.html}
+w1 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W1.csv")
+w5 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W5.csv")
+w5 <- w5[ 1:(nrow(w8)-2), ] # last two lines are comments
+
+w8 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W8.csv")
+w8 <- w8[ 1:(nrow(w8)-2), ] # last two lines are comments
+
+# column 5 of w1 matches column 1 of w8
+colnames(w1) <- c("TARA ID", "INSDC", "INSDC Run AC", "ENA", "PANGAEA", "PANGAEA Data",
+                        "TARA Station", "Date/Time", "Latitude", "Longtitude", "Depth",
+                        "Environment", "Size Fraction Low", "Size Fraction Up", "Biome",
+                        "Region", "MRGID")
+colnames(w5) <- c("PANGAEA", "X16S.miTAGs", "Richness observed", "Chao1 richness est.", 
+                  "Shannon diversity index")
+colnames(w8) <- c("PANGAEA", "Mean Date", "Mean Lat", "Mean Long", "Mean Depth[m]",
+                  "Mean Temp [C]", "Mean Salinity [PSU]", "Mean Oxygen [umol/kg]",
+                  "Mean Nitrates [umol/L]", "NO2 [umol/L]", "PO4 [umol/L]", "NO2NO3 [umol/L]",
+                  "SI [umol/L]", "AMODIS:PAR8d,Einsteins/m-2/d-1", "Okubo-Weiss",
+                  "Lyapunov_exp.", 
+                  "grad_SST_adv",	"retention",	"Mean Depth MLD Sigma [m]*",
+                  "Mean Depth Max Fluo [m]*",
+                  "Mean Depth Max N2 [m]*",	"Mean Depth Max O2 [m]*", "Mean Depth Min O2 [m]*",
+                  "Mean Depth Nitracline [m]*",	"miTAG.SILVA.Taxo.Richness",	
+                  "miTAG.SILVA.Phylo.Diversity",
+                  "miTAG.SILVA.Chao",	"miTAG.SILVA.ace",	"miTAG.SILVA.Shannon",
+                  "OG.Shannon",	"OG.Richness",	"OG.Evenness",	"FC - heterotrophs [cells/mL]",
+                  "FC - autotrophs [cells/mL]",	"FC - bacteria [cells/mL]",
+                  "FC - picoeukaryotes [cells/mL]",	"minimum generation time [h]")
+
+metatara <- data.frame()
+tnames <- colnames(tarat)[25:163]
+confused <- c()
+for (i in 1:nrow(tarat)) {
+  idx1 <- which(w1$`TARA ID`==tnames[i])
+  if ((length(idx1)==0) | (length(idx1)>1)) { confused <- c(confused, i) }
+  idx5 <- which(as.character(w5$PANGAEA) == as.character(w1$"PANGAEA"[idx1]))
+  if ((length(idx5)==0) | (length(idx5)>1)) { confused <- c(confused, i) }
+  idx8 <- which(as.character(w8$PANGAEA) == as.character(w1$"PANGAEA"[idx1]))
+  if ((length(idx8)==0) | (length(idx8)>1)) { confused <- c(confused, i) }
+
+  metatara <- rbind(metatara, cbind(cbind(w1[idx1, ], w5[idx5, -1]), w8[idx8, -1]))
+}
+@
+
+Now we will prep the resultant {\tt metatara} data frame for inclusion in heatmaps and other visualizations. 
+Columns with a finite number discrete levels will be converted to numeric.
+<<>>=
+# remove some redundancies
+
+# column, type, purpose
+# 8, weird, date time
+# 9, 10, numeric, lat long
+# 11, integers, depth (?)
+# 12, nominal, environment  (HERE)
+# 13, IGNORE
+# 14, size fraction, integer (HERE)
+# 15, biome, nominal (HERE)
+# 16, region, nominal (HERE)
+# 17, MRGID, nominal (HERE)
+# 18, numeric, 16S tags
+# 19, 20, 21, , richness, chao1, shannon, numeric
+# 22, date, same as 
+# 23, 24  same as 9 and 10
+# 25 redundant with 11
+# 26-36 numeric
+to_remove <- c(8, 11, 23, 24, 13, 47, 49 )
+metatara <- metatara[, -to_remove]
+save(metatara, file = "/home/data/refined/reef/R/metatara_1.0.RData")
+@
+
+<<>>=
+library(ComplexHeatmap)
+library(circlize)
+require(pals)
+
+load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+tree <- tarat
+bac <- induce_tree(2)  # bac tree
+rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
+g_bac <- bac[, c(7, 8, 25:163)]
+g_bac <- apply(g_bac, MARGIN=2, FUN = function(c) {c / c[1]})
+g_bac <- g_bac[which(bac$rank == "genus"), ]
+tmp <- apply(g_bac, MARGIN=1, var)
+tmp_order <- order(tmp, decreasing=TRUE) 
+top <- get_top_taxa( g_bac, lmt=5)
+small_bac <- g_bac[unique(as.vector(top)), ]
+
+mt_all <- prepare_metatara(metatara)
+
+
+col_fun = colorRamp2(c(0, 0.05, .3), c("blue", "white", "red"))
+col_fun(seq(0, 1))
+
+col_environment = c("DCM" = "pink",
+                    "DCM + oxy min" = "purple",
+                    "MES" = "blue",
+                    "MES + oxy min" = "red",
+                    "MIX" = "yellow",
+                    "SRF" = "orange"
+  )
+col_biome <- c("Coastal Biome "="red","Polar Biome" = "green", "Trades Biome"="yellow", "Westerlies Biome"="cyan")
+
+col_region <- c( "Indian" = glasbey()[1], "Med Sea" = glasbey()[2], "North Atlantic" = glasbey()[3],
+                 "North Pacific" = glasbey()[4], "Red Sea" = glasbey()[5], "South Atlantic" = glasbey()[6],
+                 "Southern" = glasbey()[7], "South Pacific" = glasbey()[8] )
+
+col_MRGID <- glasbey()[1:21]
+names(col_MRGID)<- c("ANTA",    "ARAB",   "BENG",   "CAMR",   "CARB",   
+                "CHIL",   "EAFR",   "FKLD",   "GFST",   "GUIA",   
+                "ISSG",   "MEDI",   "MONS",   "NAST-E", "NAST-W", 
+                "NPST",   "PEOD",   "PNEC",   "REDS",   "SATL",   
+                "SPSG")
+  
+fh = function(x) hclust(dist(x), method="ward.D2")
+cc <- fh(t(small_bac))
+# library(seriation)
+# o1 = seriate(fh(small_bac), method = "GW")
+# o2 = seriate(fh(t(small_bac)), method = "GW")
+
+a1 = HeatmapAnnotation(
+      Environment = mt_all[,10], 
+      Biome = mt_all[,12],
+      Region = factor(mt_all[,13]),
+      MRGID = mt_all[,14],
+      X16S.miTAGs =  mt_all[,15],
+      Richness = mt_all[,16],
+      Chao1 = mt_all[,17 ],
+      Shannon = mt_all[,18],
+      Depth= mt_all[,20],
+      Temp = mt_all[,21],
+      Salinity = mt_all[,22],
+      Oxygen = mt_all[,23],
+      Nitrates = mt_all[,24],
+      NO2 = mt_all[,25],
+      PO4 = mt_all[,26],
+      NO2NO3 = mt_all[,27],
+      SI = mt_all[,28],
+      AMODIS= mt_all[,29],
+      Okubo_Weiss = mt_all[,30],
+      Lyapunov= mt_all[,31],
+      grad_SST_adv = mt_all[,32],
+      retention = mt_all[,33],
+      Depth_MLD_Sigma = mt_all[,34],
+      Depth_Max_Fluo= mt_all[,35],
+      Depth_Max_N2= mt_all[,36],
+      Depth_Max_O2 = mt_all[,37],
+      Depth_Min_O2 = mt_all[,38],
+      Depth_Nitracline= mt_all[,39],
+      miTAG.Richness = mt_all[,40],
+      miTAG.Diversity = mt_all[,41],
+      miTAG.ace = mt_all[,42],
+      OG.Shannon = mt_all[,43],
+      OG.Richness = mt_all[,44],
+      OG.Evenness= mt_all[,45],
+      FC_heterotrophs = mt_all[,46],
+      FC_autotrophs = mt_all[,47],
+      FC_bacteria  = mt_all[,48],
+      FC_picoeuk. = mt_all[,49],
+      gen_time = mt_all[,50],
+      
+      annotation_name_side = "left",
+  #    row_names_gp = gpar(fontsize = 7),
+      col= list(Environment = col_environment, Biome = col_biome, Region = col_region, MRGID=col_MRGID)
+      )
+
+
+
+h1 <- Heatmap(small_bac, name = "expr", 
+  #      cluster_rows = TRUE,
+   #     cluster_columns = TRUE,
+        border = TRUE,
+        col = col_fun,
+        column_title = "Samples", 
+        row_title = "Genera",
+    #   row_dend_reorder = TRUE,
+    #    column_dend_reorder = TRUE,
+        
+        cluster_rows = fh(small_bac), 
+        cluster_columns =cc,
+    
+        row_names_gp = gpar(fontsize = 7),
+        column_names_gp = gpar(fontsize = 7),
+        top_annotation = a1
+        ) 
+
+draw(h1, merge_legend=TRUE)
+decorate_heatmap_body("expr", {
+    i = which(cc$order == 1)
+    x = i/ncol(small_bac)
+    grid.lines(c(x, x), c(0, 1), gp = gpar(lwd = 2, lty = 2))
+    grid.text("Bellairs", x, unit(1, "npc") + unit(-8, "mm"))
+})
+
+decorate_heatmap_body("expr", {
+    i = which(cc$order == 2)
+    x = i/ncol(small_bac)
+    grid.lines(c(x, x), c(0, 1), gp = gpar(lwd = 2, lty = 2))
+    grid.text("Maycocks", x, unit(1, "npc") + unit(-11, "mm"))
+})
+
+@
+
+
+\section{Compositional Data}
+
+In this section we explore some of the advice of Quinn et al.\ (2019) {\em GigaScience} for  compositional data (CoDA) methods. 
+
+<<>>=
+# install.packages(c("zCompositions", "propr"))
+BiocManager::install("ALDEx2")
+library(zCompositions); library(ALDEx2); library(propr)
+
+load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+tree <- tarat  # tarat extends tree to the tara oceans samples
+bac <- induce_tree(2)  # bac tree
+rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
+g_bac <- bac[, c(7, 8, 25:163)]
+g_bac <- g_bac[which(bac$rank == "genus"), ]
+
+m_bac <- t( as.matrix(g_bac) )
+
+zeros <- c()
+for (i in 1:nrow(m_bac)) {
+  zeros[i] <- length(which(m_bac[i,] == 0)) / ncol(m_bac) * 100
+}
+
+top <- 100
+favs <- matrix(nrow = nrow(m_bac), ncol = top)
+for (i in 1:nrow(m_bac)) {
+  favs[i, ] <- order(m_bac[i, ], decreasing  = TRUE)[1:top]
+  cat("\n", favs[i,])
+}
+all_favs <- unique(as.vector(favs))
+s_m_bac <- m_bac[, all_favs]
+
+zeros <- c()
+for (i in 1:nrow(s_m_bac)) {
+  zeros[i] <- length(which(s_m_bac[i,] == 0)) / ncol(s_m_bac) * 100
+}
+
+g_bac_p <- cmultRepl( s_m_bac, output = "p-counts")
+hist(as.matrix(g_bac_p) - s_m_bac)
+@
+
+We now explore UMAP.
+<<>>=
+BiocManager::install("M3C")
+library(M3C)
+source(file.path(root, "src/umap_M3C.R"))
+
+load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+tree <- tarat
+bac <- induce_tree(2)  # bac tree
+rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
+g_bac <- bac[, c(7, 8, 25:163)]
+g_bac <- apply(g_bac, MARGIN=2, FUN = function(c) {c / c[1]})
+g_bac <- g_bac[which(bac$rank == "genus"), ]
+tmp <- apply(g_bac, MARGIN=1, var)
+tmp_order <- order(tmp, decreasing=TRUE) 
+top <- get_top_taxa( g_bac, lmt=5)
+small_bac <- g_bac[unique(as.vector(top)), ]
+mt_all <- prepare_metatara(metatara)
+
+
+umap(small, labels=as.factor(mt_all$Biome), controlscale=TRUE,scale=3, dotsize = 2)
+umap(small, labels=as.factor(mt_all$Environment), controlscale=TRUE,scale=3)
+umap(small, labels=as.factor(mt_all$Region), controlscale=TRUE,scale=3)
+
+mt_all$"Mean Temp [C]"[1:2] <- c(0,0)
+umap(small, labels=scale(as.numeric(mt_all$"Mean Temp [C]")), controlscale = TRUE,scale=2, dotsize = 2)
+
+mt_all$"Mean Nitrates [umol/L]"[1:2] <- c(0,0)
+umap(small, labels=scale(as.numeric(mt_all$"Mean Nitrates [umol/L]")), controlscale = TRUE,scale=2, dotsize = 2)
+@
+
+Now let's repeat this but with other choices for the basis (not as
+restrictive as {\tt top} k per site).
+
+<<>>=
+
+@
+Here we add relavent information from sea water nutrient analysis perform at both Maycocks and Bellairs. And then see how the two sites compared to the Tara ocean information as highlighted above.
+<<>>=
+Nutrients_bell <- data.frame(matrix(ncol = 5, nrow = 5))
+x <- c("B1", "B2", "B3","Mean","STDV")
+p <- c("Time","Temperature", "DO(%)", "DO(mg/l)", "Salinity(ppt)")
+colnames(Nutrients_bell) <- p
+rownames(Nutrients_bell) <- x
+
+Nutrients_bell[1,] <- c(10.19, 29.031, 90.8, 5.77, 34.49)
+Nutrients_bell[2,] <- c(10.22, 29.016, 89.0, 5.63, 35.22)
+Nutrients_bell[3,]<- c(10.24, 29.045, 89.4, 5.65, 35.39)
+Nutrients_bell[4,] <- c(0, mean(Nutrients_bell[1:3,2]), mean(Nutrients_bell[1:3,3]), mean(Nutrients_bell[1:3,4]),mean(Nutrients_bell[1:3,5]))
+
+tempb <- Nutrients_bell$Temperature[1:3]
+dopb <- Nutrients_bell$`DO(%)`[1:3]
+domb <- Nutrients_bell$`DO(mg/l)`[1:3]
+salb <- Nutrients_bell$`Salinity(ppt)`[1:3]
+
+Nutrients_bell[5,] <- c(0, sd(tempb), sd(dopb), sd(domb), sd(salb))
+Nutrients_bell<-round(Nutrients_bell, 3)
+
+
+Nutrients_may <- data.frame(matrix(ncol = 5, nrow = 5))
+t <- c("M1", "M2", "M3","Mean","STDV")
+y <- c("Time","Temperature", "DO(%)", "DO(mg/l)", "Salinity(ppt)")
+colnames(Nutrients_may) <- y
+rownames(Nutrients_may) <- t
+
+Nutrients_may[1,] <- c(11.28, 29.098, 95.1, 6.01, 35.42)
+Nutrients_may[2,] <- c(11.30, 29.106, 95.3, 6.06, 34.24)
+Nutrients_may[3,] <- c(11.31, 29.197, 95.5, 6.05, 34.69)
+Nutrients_may[4,] <- c(0, mean(Nutrients_may[1:3,2]), mean(Nutrients_may[1:3,3]), mean(Nutrients_may[1:3,4]),mean(Nutrients_may[1:3,5]))
+
+temp <- Nutrients_may$Temperature[1:3]
+dop <- Nutrients_may$`DO(%)`[1:3]
+dom <- Nutrients_may$`DO(mg/l)`[1:3]
+sal <- Nutrients_may$`Salinity(ppt)`[1:3]
+
+Nutrients_may[5,] <- c(0, sd(temp), sd(dop), sd(dom), sd(sal))
+Nutrients_may <-round(Nutrients_may, 3)
+
+#NutrientsTable2-Nirates-Phosphates-Turbidity
+sea_chem <- data.frame(matrix(ncol = 13, nrow = 6))
+t <- c( "Site", "Nitrate#1(NO3-N)mg/l","Nitrate#2(NO3-N)mg/l","Nitrate#3(NO3-N)mg/l","NO3_Mean","NO3_STDV","Nitrites(NO2-N)mg/l","Phosphates#1(PO4)mg/l","Phosphates#2(PO4)mg/l","Phosphates#3(PO4)mg/l","PO4_Mean","PO4_STDV","Turbidity(NTU)")
+y <- c("F1","F2", "F3", "M1", "M2","M3")
+colnames(sea_chem) <- t
+rownames(sea_chem) <- y
+
+sea_chem$Site <- c('Bellairs','Bellairs','Bellairs','Maycocks','Maycocks','Maycocks')
+sea_chem$`Nitrate#1(NO3-N)mg/l` <- c(1.5,1.6,1.2,1.1,1.0,1.2)
+sea_chem$`Nitrate#2(NO3-N)mg/l` <- c(1.7,2.4,1.9,0.9,1.3,0.9)
+sea_chem$`Nitrate#3(NO3-N)mg/l` <- c(1.7,2.1,1.9,0.8,1.4,0.9)
+sea_chem$`Nitrites(NO2-N)mg/l` <- c(0.020,0.012,0.022,0.014,0.016,0.010)
+sea_chem$`Phosphates#1(PO4)mg/l`<- c(0.05,0.09,0.06,0.09,0.06,0.08)
+sea_chem$`Phosphates#2(PO4)mg/l` <- c(0.03,0.12,0.06,0.07,0.08,0.09)
+sea_chem$`Phosphates#3(PO4)mg/l` <- c(0.03,0.13,0.06,0.07,0.08,0.09)
+sea_chem$`Turbidity(NTU)` <- c(8,7,3,7,6,8)
+
+NO3_b1 <- c(sea_chem[1,2], sea_chem[1,3], sea_chem[1,4])
+NO3_b2 <- c(sea_chem[2,2], sea_chem[2,3], sea_chem[2,4])
+NO3_b3 <- c(sea_chem[3,2], sea_chem[3,3], sea_chem[3,4])
+NO3_m1 <- c(sea_chem[4,2], sea_chem[4,3], sea_chem[4,4])
+NO3_m2 <- c(sea_chem[5,2], sea_chem[5,3], sea_chem[5,4])
+NO3_m3 <- c(sea_chem[6,2], sea_chem[6,3], sea_chem[6,4])
+
+PO4_b1 <- c(sea_chem[1,8], sea_chem[1,9], sea_chem[1,10])
+PO4_b2 <- c(sea_chem[2,8], sea_chem[2,9], sea_chem[2,10])
+PO4_b3 <- c(sea_chem[3,8], sea_chem[3,9], sea_chem[3,10])
+PO4_m1 <- c(sea_chem[4,8], sea_chem[4,9], sea_chem[4,10])
+PO4_m2 <- c(sea_chem[5,8], sea_chem[5,9], sea_chem[5,10])
+PO4_m3 <- c(sea_chem[6,8], sea_chem[6,9], sea_chem[6,10])
+
+sea_chem$NO3_Mean <- round(c(mean(NO3_b1),mean(NO3_b2),mean(NO3_b3),mean(NO3_m1),mean(NO3_m2),mean(NO3_m3)), 3)
+sea_chem$NO3_STDV <- round(c(sd(NO3_b1),sd(NO3_b2),sd(NO3_b3),sd(NO3_m1),sd(NO3_m2),sd(NO3_m3)), 3)
+sea_chem$PO4_Mean <- round(c(mean(PO4_b1),mean(PO4_b2),mean(PO4_b3),mean(PO4_m1),mean(PO4_m2),mean(PO4_m3)),3)
+sea_chem$PO4_STDV <- round(c(sd(PO4_b1),sd(PO4_b2),sd(PO4_b3),sd(PO4_m1),sd(PO4_m2),sd(PO4_m3)) ,3)
+
+
+
+@
+Conducting the nonparametric test mann-whitney-wilcox test on nutrients data for both Bellairs and Maycocks. The null hypothesis is that bellairs and maycocks are sampled in waters with identical conditions while the alternative hypothesis is that the two stites are sampled in waters with different conditions.
+<<>>=
+# 
+library(dplyr)
+bell_temp <- Nutrients_bell
+bell_temp$Site <- c("Bell")
+may_temp <- Nutrients_may
+may_temp$Site <- c("May")
+comb_site <- rbind(may_temp, bell_temp)
+
+temperature <- comb_site[c(1:3,6:8),c(2,6)]
+dissolvedoxy <- comb_site[c(1:3,6:8),c(4,6)]
+salinity <- comb_site[c(1:3,6:8),c(5,6)]
+
+#Temperatue
+group_by(temperature, Site)%>% summarise(count = n(), median = median(Temperature, na.rm = TRUE), IQR = IQR(Temperature, na.rm = TRUE))
+wil_temp <- wilcox.test(Temperature ~ Site, data = temperature)
+
+#Dissolved Oxygen
+group_by(dissolvedoxy, Site)%>% summarise(count = n(), median = median(`DO(mg/l)`, na.rm = TRUE), IQR = IQR(`DO(mg/l)`, na.rm = TRUE))
+wil_doxy <- wilcox.test( `DO(mg/l)` ~ Site, data = dissolvedoxy, exact = FALSE)
+
+#Salinity 
+group_by(salinity, Site)%>% summarise(count = n(), median = median(`Salinity(ppt)`, na.rm = TRUE), IQR = IQR(`Salinity(ppt)`, na.rm = TRUE))
+wil_sal <- wilcox.test(`Salinity(ppt)` ~ Site, data = salinity,  exact = FALSE)
+
+#Nitrate
+group_by(sea_chem, Site)%>% summarise(count = n(), median = median(NO3_Mean, na.rm = TRUE), IQR = IQR(NO3_Mean, na.rm = TRUE))
+wil_nitrate <- wilcox.test(NO3_Mean ~ Site, data = sea_chem,  exact = FALSE)
+
+#Nitrite
+group_by(sea_chem, Site)%>% summarise(count = n(), median = median(`Nitrites(NO2-N)mg/l`, na.rm = TRUE), IQR = IQR(`Nitrites(NO2-N)mg/l`, na.rm = TRUE))
+wil_nitrite <- wilcox.test(`Nitrites(NO2-N)mg/l`~ Site, data = sea_chem,  exact = FALSE)
+
+#Phosphate
+group_by(sea_chem, Site)%>% summarise(count = n(), median = median(PO4_Mean, na.rm = TRUE), IQR = IQR(PO4_Mean, na.rm = TRUE))
+wil_phosphate <- wilcox.test(PO4_Mean~ Site, data = sea_chem,  exact = FALSE)
+
+#Turbidity
+group_by(sea_chem, Site)%>% summarise(count = n(), median = median(`Turbidity(NTU)`, na.rm = TRUE), IQR = IQR(`Turbidity(NTU)`, na.rm = TRUE))
+wil_turbidity <- wilcox.test(`Turbidity(NTU)`~ Site, data = sea_chem,  exact = FALSE)
+@
+Now we include the nutrient information for Maycocks andd Nutrient into the tara dataframe to compare.
+<<>>=
+# First we need to convert our values to align with Tara 
+conv_table <- sea_chem[,c(1,5,7,11)]
+
+colnames(conv_table) <- c('Site','NO3(umol/L)', 'NO2(umol/L)','PO4(umol/L)')
+
+
+
+#For nitrates. nitrites and Phosphate : mg/l to umol/l : following the conversion outlined in https://www.caryinstitute.org/sites/default/files/public/downloads/curriculum-project/4A1_Nitrogen_reading.pdf
+
+
+post <- c(1.633,2.033,1.667,0.933,1.233,1.000)
+post2 <- post
+
+
+mw <- 62.0049 #molecular weight of NO2
+
+for(i in length(post)){
+  
+  bld <- post[i]
+  
+  tw <- bld/1000 #mg/L to g/L
+  
+  kl <- tw/mw #g/l  to mol/L
+  
+  ans <-  kl/(0.000001)
+  
+ post2[i] <- ans
+  
+  
+}
+
+#Nitrate
+
+mw <- 62.0049  #molecular weight of NO3
+
+ for(i in 1:nrow(sea_chem)){
+  
+  bld <- sea_chem$NO3_Mean[i]
+  
+  tw <- bld/1000 #mg/L to g/L
+ 
+  kl <- tw/mw #g/l  to mol/L
+
+  ans <-  kl/0.000001
+  
+  conv_table$`NO3(umol/L)`[i] <- ans
+  
+}
+
+#Nitrite
+
+mw <- 46.0055 #molecular weight of NO2
+
+for(i in 1:nrow(sea_chem)){
+  
+  bld <- sea_chem$`Nitrites(NO2-N)mg/l`[i]
+  
+  tw <- bld/1000 #mg/L to g/L
+  
+  kl <- tw/mw #g/l  to mol/L
+  
+  ans <-  kl/(0.000001)
+  
+  conv_table$`NO2(umol/L)`[i] <- ans
+  
+}
+
+#Phosphate
+
+mw <- 94.971 #molecular weight of PO4
+
+for(i in 1:nrow(sea_chem)){
+  
+  bld <- sea_chem$PO4_Mean[i]
+  
+  tw <- bld/1000 #mg/L to g/L
+  
+  kl <- tw/mw #g/l  to mol/L
+  
+  ans <-  kl/(0.000001)
+  
+  conv_table$`PO4(umol/L)`[i] <- ans
+  
+}
+
+#Now we add the values to the TARA DATASET
+Bellairs_nitrate <- round(c(mean(conv_table[1,2], conv_table[2,2],conv_table[3,2])),3)
+Bellairs_nirate_sd <- round(c(sd(conv_table[1:3,2])),3)
+Maycocks_nitrate <- round(c(mean(conv_table[4,2], conv_table[5,2],conv_table[6,2])),3)
+Maycocks_nitrate_sd <- round(c(sd(conv_table[4:6,2])),3)
+
+
+Bellairs_nitrite <- round(c(mean(conv_table[1,3], conv_table[2,3],conv_table[3,3])),3)
+Bellairs_nitrite_sd <- round(c(sd(conv_table[1:3,3])),3)
+Maycocks_nitrite <- round(c(mean(conv_table[4,3], conv_table[5,3],conv_table[6,3])),3)
+Maycocks_nitrite_sd <- round(c(sd(conv_table[4:6,3])),3)
+
+
+Bellairs_phosphate <- round(c(mean(conv_table[1,4], conv_table[2,4],conv_table[3,4])),3)
+Bellairs_phosphate_sd <- round(c(sd(conv_table[1:3,4])),3)
+Maycocks_phosphate <- round(c(mean(conv_table[4,4], conv_table[5,4],conv_table[6,4])),3)
+Maycocks_phosphate_sd <- round(c(sd(conv_table[4:6,4])),3)
+
+
+Bellairs_salinty <- mean(salinity[4,1], salinity[5,1], salinity[6,1])
+Maycocks_salinity <-  mean(salinity[1,1], salinity[2,1], salinity[3,1])
+
+Bellairs_temperature <- mean(temperature[4,1],temperature[5,1],temperature[6,1])
+Maycocks_temperature <- mean(temperature[1,1],temperature[2,1],temperature[3,1])
+
+mt_all$`Mean Nitrates [umol/L]`[1] <- Bellairs_nitrate
+mt_all$`Mean Nitrates [umol/L]`[2] <- Maycocks_nitrate
+mt_all$`NO2 [umol/L]`[1] <- Bellairs_nitrite
+mt_all$`NO2 [umol/L]`[2] <- Maycocks_nitrite
+mt_all$`PO4 [umol/L]`[1] <- Bellairs_phosphate
+mt_all$`PO4 [umol/L]`[2] <- Maycocks_phosphate
+mt_all$`Mean Temp [C]`[1] <- Bellairs_temperature
+mt_all$`Mean Temp [C]`[2] <- Maycocks_temperature
+mt_all$`Mean Salinity [PSU]`[1] <- Bellairs_salinty
+mt_all$`Mean Salinity [PSU]`[2] <- Maycocks_salinity
+mt_all$`Mean Depth[m]`[1]<- 5
+mt_all$`Mean Depth[m]`[2]<- 5
+
+
+
+\end{document}

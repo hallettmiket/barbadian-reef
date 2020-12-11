@@ -1,0 +1,1633 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage[margin=2.0cm]{geometry}%rounded up from 1.87, just to be safe...
+\usepackage{parskip}
+\usepackage{float}
+%\usepackage{times} %make sure that the times new roman is used
+\usepackage{mathptmx}
+
+\usepackage{blindtext}
+\title{Comparison of the frequency vectors between Bellairs and Cement.}
+\date{July 2019}
+\author{Hallett group}
+
+
+%      ------ Format Stuff ---------
+\newlength{\itemdist}
+\setlength{\itemdist}{0.05ex}
+\newlength{\headdist}
+\setlength{\headdist}{0.04ex}
+
+\newcommand{\R}{\mathbb{R}}
+
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+%\pagestyle{fancy}
+
+\maketitle
+
+We perform some cursory exploration of the frequency tables obtained from Bracken (REF) and Kraken for 
+the Barbados and Cement reef marine samples.
+The code to perform this analysis is primarily in {\tt src/exp-4/percolate.R}, as some of the routines
+are too time consuming to be performed within the R markdown setting here.
+Column names from Bracken have been modified for readability below.
+Some of the code is reproduced here to explain the series of steps.
+We begin by reading in the two Braken files from the {\tt data} directory.
+
+<<>>= 
+options(warn = -1)
+setwd("~/repo/reefmicrobiome/experiments/exp4-species_abundance")
+library(xtable)
+source("../../src/functions.R")
+@
+
+The final tree will always be kept in\\ 
+\noindent
+{\tt repo/reefmicrobiome/data/tree.latest}. 
+This data.frame contains all the information we have about our samples.
+It was generated using the code in {\tt ad\_hoc\_scripts.R} and the functions in {\tt functions.R}
+<<>>==
+# load the finalized tree  computed in percolate.R with functions from abundance_comparison.R
+REEF_DIR <- "/home/data/refined/reef/R/"
+load( paste0(REEF_DIR, "tree.data.frame.april.8.RData" ) )
+tree[1:10, 1:7 ]
+@
+
+The {\tt make\_table()} function takes as input a {\tt tax\_id} and pretty prints
+the information regarding the children of that node.
+
+<<>>=
+root <- make_table( 1 );   # 1 is the root
+make_table( 131567 ) # superkingdoms 131567
+make_table( 2, precision = 4)  # 2 is tax_id for bacteria
+make_table( 1224, precision = 4) # proteobacteris is 1224
+make_table( 1218 )   # 1218 is the tax_id of Prochlorococcus
+make_table( 10239 )  # Viruses is tax_id 10239
+make_table( 2157 ) # Archaea
+make_table( 2759 ) # Eukaryota
+
+make_table( 33154 ) # parent of fungi
+make_table( 4751 ) # fungi
+@
+You can easily then send these tables to file using the {\tt write.csv()} function.
+
+\section{Background: how the tree was constructed}
+
+We now describe how we built the data.frame {\tt tree} and describe the purpose of each of its columns.
+
+\subsection{NCBI Taxonomy}
+<<>>==
+tree[1,]
+tree[1, 1:6]
+@
+
+All of these fields originate from the NCBI Taxonomy download. 
+File {\tt ad\_hoc\_scripts.R} contains code that addedthe names of each taxa after trying to 
+find the {\em scientific name} amongst synonyms. 
+The column {\tt tax\_id} is used throughout the code to find taxa of interest.
+The {\tt parent} column defines the structure of the tree (each node points to its unique parent).
+
+\subsection{Importing the Bracken counts for our two sites}
+I have never observed a big difference in the results if I look at Kraken versus Bracken.
+The script {\tt script\_bracken.bash} contains the shell commands used to generate these files.
+Therefore, I suggest we use only the Bracken mappings of reads to nodes in the tree from
+here on in.
+
+<<>>==
+tree[1,]
+tree[1, 7:8]
+@
+These two fields represent the Braken counts from Bellairs and Maycocks respectively. 
+The first step was to assign the {\tt est\_reads} from the {\tt bellairs.bracken} and {\tt cement.bracken}
+files (cement was the earlier name for Maycocks).
+This information was renamed {\tt br\_bel} and {\tt br\_may}.
+At the same time the {\tt fraction} fieds of the Bracken files were assigned to variables 
+{\tt br\_bel\_frac} and {\tt br\_may\_frac}.
+These reads were assigned to the leaves of {\tt tree}.
+The code is located in {\tt ad\_hoc\_scripts.R}.
+
+The next step was to percolate these reads ``up'' the tree of life to the root.
+More precisely, consider a node $t$ with children $c_1, \ldots, c_k$.
+At the Bellairs site child $c_i$ has with read count ${\tt br\_bel}_i$.
+Then, ${\tt br\_bel}$ for node $t$ is $\Sigma_{1 \leq i \leq k} {\tt br\_bel}_i$.
+This is defined analogously for Maycocks.
+
+Before doing this, the root of the tree of life was manually set to {\tt NA} (see {\tt ad\_hoc\_scripts.R}),
+as there was a mistake in the NCBI download (the root pointed to itself which causes
+a problem for recursion).
+<<>>==
+tree[1,]
+#percolate(1)  # note that this function takes about 1 day to run.
+tree[1,]
+@
+
+Next nodes with 0 counts for both Bellairs and Maycocks were removed (see {\tt ad\_hoc\_scripts.R}).
+Columns were rearranged and the scientific name from NCBI Taxonomy was assigned, if it existed (see comment
+above and {\tt ad\_hoc\_scripts.R}).
+
+\subsection{Global versus Local Frequencies}
+
+There are two distinct concepts of frequencies that each have advantages and disadvantages.
+Consider a node $t$ with total reads $r$ and children $c_1, \ldots, c_k$ with total reads $r_1, \ldots, r_k$ respectively.
+The {\em local frequency} $f_i$ for child $c_i$ is equal to $\frac{r_i}{r}$. 
+The {\em global frequency} $f_i$ for child $c_i$ is equal to $\frac{r_i}{R}$ where $R$ is the total number of reads
+at the root of the tree of life.
+
+The local frequencies were assigned to the {\tt tree} as follows.
+<<>>=
+#void <- local_frequencies(1)
+tree[1, ]
+# Local.Freq.Bel and Local.Freq.May
+@
+The global frequencies were assigned as follows.
+<<>>=
+#void <- global_frequencies(1)
+tree[1, ]
+# Glob.Freq.Bel and Glob.Freq.May, Delta.Freq
+@
+
+
+For convenience, I added a column to the {\tt tree} data.frame to record the difference in global frequencies between the two sites.
+<<>>=
+# tree$DeltaFreq <- tree$Glob.Freq.Bel - tree$Glob.Freq.May
+top <- tree[ order( -abs(tree$DeltaFreq) ),   ]
+top[1:max(which(top$DeltaFreq > 0.01)), c(1,2,3, 13:15) ]
+@
+
+
+\subsection{The Multinomial Statistic}
+
+
+I implemented the multinomial test and applied it to each node in the {\tt tree} datastructure. 
+The relevant function is in {\tt functions.R}.
+<<>>=
+#multinomial_tree_test(1)
+# Fraction significant 
+length(which(tree$Multinom < 0.01))  / nrow(tree)
+@
+
+
+\subsection{The Adjusted Polarity Statistic}
+
+Next I implemented the polarity statistic. 
+It adds two columns. {\tt Polarity}  is the estimated p-value calculated on the local frequencies of the children
+at each taxa. {\tt Adj.Polarity} is the p-value estimated after removing the ``outlier'' children and recomputing
+the binomial test.
+
+That is, those children that represent that are in the minority. For example,
+if $3$ of $7$ children are lower at Bellairs than Maycocks, those $3$ are removed. 
+The binomial is recomputed after re-normalizing the frequencies.
+(Note: we should also re-compute the multinomial here.)
+
+<<>>=
+# void <- polarity_test( 1 )
+tree[1,]
+@
+
+The intuition of the adjusted polarity statistic is as follows.
+When a node is deemed significant by the polarity statistic, we can
+test the hypothesis that the ``peak'' taxa in the ``losing'' site drain
+reads from the other taxa at the losing site, making it seem that the other
+site is the winner.
+
+Let's focus on the Bacteria, the second row of {\tt tree}. 
+We know that Bacteria is in fact significant for the polarity statistic, making
+it a good example here.
+<<>>=
+  parent <- 2
+  c <- p2c( parent );  c_i <- t2i(c);  ind <- t2i( parent )
+
+  M <- as.table(rbind(tree[c_i, "br_bel"], tree[c_i, "br_may"]))
+  if (sum(M[1,]) == 0) M[1,] <- 0 else M[1,] <- M[1,] / sum(M[1,])
+  if (sum(M[2,]) == 0) M[2,] <- 0 else M[2,] <- M[2,] / sum(M[2,])
+  X <- sum(M[1,] < M[2,])
+  (X)
+  (polarity.orig <- binom.test(x=X, n=ncol(M), p=0.5, alternative="two.sided" )$p.value)
+  (M)  
+@
+
+Bellairs is almost always bigger than Maycocks, and is  significant 
+for the polarity test. 
+In fact, only $1$ of $20$ taxa is more prevalent at Maycocks than Bellairs ($17th$).
+Now we remove entires where Bellairs is smaller than Maycocks, renormalize and
+recompute the polarity statistic.
+
+<<>>=
+  M <- M[ ,-which(M[1,]<M[2,])]
+  # renormalize 
+  M[1,] <- M[1,] / sum(M[1,]); M[2,] <- M[2,] / sum(M[2,])
+    
+  # and re-test
+  X <- sum(M[1,] < M[2,])
+  (X)
+  polarity.new <- binom.test(x=X, n=ncol(M), p=0.5, alternative="two.sided" )$p.value 
+  (polarity.orig); (polarity.new)
+@
+After adjustment, in fact $15$ of $19$ species have a lower frequency at Bellairs
+than Maycocks!
+The Bacteria node is no longer significant under the polarity test after adjustment.
+The function {\tt polarity\_test()} computes this at every node in {\tt tree}.
+
+So now let's look at all the taxa that are significant under the Polarity statistic
+and how they behave when adjusted.
+<<>>=
+leave <- setdiff( which(tree$Polarity < 0.01), which(tree$Polarity.Adj < 0.01) )
+remain <- intersect( which(tree$Polarity < 0.01), which(tree$Polarity.Adj < 0.01))
+@
+(Some nodes that weren't signficant became significant but these are not interesting.)
+Nodes $519$ (Synechococcus) and $1622$ (Burkholderia) both remain significant. Let's look Synechococcus first.
+ 
+<<>>=
+  parent <- tree[519, "tax_id"]
+  make_table( parent)
+  c <- p2c( parent );  c_i <- t2i(c);  ind <- t2i( parent )
+
+  M <- as.table(rbind(tree[c_i, "br_bel"], tree[c_i, "br_may"]))
+  if (sum(M[1,]) == 0) M[1,] <- 0 else M[1,] <- M[1,] / sum(M[1,])
+  if (sum(M[2,]) == 0) M[2,] <- 0 else M[2,] <- M[2,] / sum(M[2,])
+  X <- sum(M[1,] < M[2,])
+  (X); length(M[1,])
+@
+Only $5$ times (of $29$) is Bellairs smaller than Maycocks. So Bellairs has the more polarized
+distribution.
+<<>>=
+  (polarity.orig <- binom.test(x=X, n=ncol(M), p=0.5, alternative="two.sided" )$p.value)
+@
+It is significant. Now adjusting by removing the 5 taxa less frequent at Bellaris.
+<<>>=
+  M <- M[ ,-which(M[1,]<M[2,])]
+  # renormalize 
+  M[1,] <- M[1,] / sum(M[1,]); M[2,] <- M[2,] / sum(M[2,])
+    
+  # and re-test
+  X <- sum(M[1,] < M[2,])
+  (X); length(M[1,])
+@
+Now Bellairs is smaller $3$ times (out of are remainig $24$). It remains signficant.
+
+<<>>=
+  polarity.new <- binom.test(x=X, n=ncol(M), p=0.5, alternative="two.sided" )$p.value 
+  (polarity.orig); (polarity.new)
+@
+
+Now let's look at $1622$, the Burkholderia genus.
+
+<<>>=
+  parent <- tree[1622, "tax_id"]
+  make_table( parent)
+  c <- p2c( parent );  c_i <- t2i(c);  ind <- t2i( parent )
+
+  M <- as.table(rbind(tree[c_i, "br_bel"], tree[c_i, "br_may"]))
+  if (sum(M[1,]) == 0) M[1,] <- 0 else M[1,] <- M[1,] / sum(M[1,])
+  if (sum(M[2,]) == 0) M[2,] <- 0 else M[2,] <- M[2,] / sum(M[2,])
+  X <- sum(M[1,] < M[2,])
+  (X); length(M[1,])
+@
+Only $1$ time (of $21$) is Bellairs smaller than Maycocks. So Bellairs has the more polarized distribution.
+<<>>=
+  (polarity.orig <- binom.test(x=X, n=ncol(M), p=0.5, alternative="two.sided" )$p.value)
+@
+It is significant. Now adjusting by removing the 5 taxa less frequent at Bellairs.
+<<>>=
+  M <- M[ ,-which(M[1,]<M[2,])]
+  # renormalize 
+  M[1,] <- M[1,] / sum(M[1,]); M[2,] <- M[2,] / sum(M[2,])
+    
+  # and re-test
+  X <- sum(M[1,] < M[2,])
+  (X); length(M[1,])
+@
+Now Bellairs is smaller $3$ times (out of are remainig $20$). It remains signficant.
+<<>>=
+  polarity.new <- binom.test(x=X, n=ncol(M), p=0.5, alternative="two.sided" )$p.value 
+  (polarity.orig); (polarity.new)
+@
+
+However, of the $10$ significant taxa under the polarity statistic (p < 0.01),
+$8$ do not retain significance when adjusted.
+<<>>=
+  tree[leave, c("Polarity", "Polarity.Adj")]
+@
+
+\subsection{Taxa Path to Root}
+
+Finally, I added a character to the {\tt tree} data.frame that describes the phylogenetic path to the root.
+<<>>=
+# tree$path <- unlist(lapply( tree$tax_id, FUN = function(x) { return(paste(path2root(x)$name, collapse=" ")) } ))
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Taxa with Differential Behavior}
+
+\subsection{Taxa more frequent at Maycocks}
+
+Across the entire Tree of Life, we first identify the taxa that have the biggest shift in frequencies towards Maycocks.
+<<>>=
+may.big <- tree[ which(tree$DeltaFreq < -0.001), ] ; nrow(may.big)
+may.big <- may.big[ order( may.big$path, may.big$DeltaFreq ),   ]
+may.big[ , c(1:4,15 )]
+@
+There is a large increase in the fraction of bacteria at Maycocks ($6\%$) but the distribution
+within Bacteria is remarkably different between the two sites especially with respect
+to the Synechococcales and Prochloraceae (Terrabacteria group/Cyanobacteria). 
+Within Eukaryota, the Chlorophyta are slightly increased at Maycocks ($0.2\%$), specifically {\em Micromonas commoda} (genome size of 19Mb).
+Wrt viruses, both Prochlorococcus and Synechococcus phage viruses are slighted elevated at Maycocks.
+
+\subsection{Taxa more frequent at Bellairs}
+
+We repeat the above analysis for Bellairs.
+<<>>=
+bel.big <- tree[ which(tree$DeltaFreq > 0.001), ]; nrow(bel.big)
+bel.big <- bel.big[ order(  -bel.big$DeltaFreq ),   ]
+bel.big[ , c(1:4,15 )]
+@
+
+First we note that Bellairs has many more taxa
+that have higher frequency at this site and which pass the threshold of $0.1\%$ change (n= 350 vs 32).
+The major changes include large increases the the frequency of Proteobacteria ($15\%$), more specifically Alphaproteobacteria ($8\%$), Betaproteobacteria ($2\%$), and Gammaproteobacteria ($5\%$).
+To better identify the key taxa here, we repeated the analysis with a higher threshold.
+
+
+<<>>=
+bel.big <- tree[ which(tree$DeltaFreq > 0.01), ]; nrow(bel.big)
+bel.big <- bel.big[ order( bel.big$path, bel.big$DeltaFreq ),   ]
+bel.big[ , c(1:4,15 )]
+@
+
+Wrt Bacteria, this highlights the Flavobacteriaceae (FCB group), Rhodobacteraceae (Betaproteo-), Pseudomonas aeruginosa (Gammaproteo-), and Bacillales (Terrabacteria). 
+Wrt Eukaryota, this highlights Fabaceae and malvids; several trees of the Fabaceae family are growing on the shore where the sample at Bellairs was collected.
+It seems that many of the plants are higher at Bellairs. Is this due to closer proximity to shore plants?
+{\bf Check for the malvids too.}
+
+
+
+\subsubsection{Largest Archae Changes in Global Frequencies}
+Arhcae represent only $0.7\%$ of the reads at Bellairs and $0.4\%$ at Maycocks.
+Not suprisingly, we did not observe Archae in the global rankings due to their low frequency. 
+Here we restrict our attention to this superkingdom to identify subtle changes in frequency between the sites. 
+We ask which Archae taxa  are most prevalent at either site.
+<<>>=
+arch <- induce_tree(2157)  # tax_id of Archae
+big.bel <- arch[ order(-arch$Glob.Freq.Bel), c(1:4,15 ) ] 
+big.may <- arch[ order(-arch$Glob.Freq.May), c(1:4,15 )]
+big.diff <- arch[ order(-abs(arch$DeltaFreq)),c(1:4,15 ) ]
+@
+
+There is more Archae at Maycocks than Bellairs ($0.003\%$) absolute change but only $18$ Archae taxa are more frequent at Maycocks
+
+<<>>==
+may.big <- arch[ which(arch$DeltaFreq < -0.00), ] ; nrow(may.big)  # 0.001 was too stringent
+may.big <- may.big[ order( may.big$path, may.big$DeltaFreq ),   ]
+may.big[ , c(1:4,15 )]  #CHANGE
+@
+
+This highlights Thermococcus, Methanothermobacter, Methanocaldococcus, and others with very small differences.
+
+The Archae with highest change in frequency towards Bellairs are as follows.
+<<>>==
+(bel.big <- arch[ which(arch$DeltaFreq > -0.00), ]) ; nrow(bel.big)  # 0.001 was too stringent
+(bel.big <- bel.big[ order( -bel.big$DeltaFreq ),   ])
+(bel.big[ , c(1:4,15 )])
+@
+
+Here $405$ taxa are more frequent at Bellairs. The major changes in frequency are within the TACK group and 
+the Euryarchaeota.
+
+
+\subsubsection{Largest Viral Changes in Global Frequencies}
+
+Here we restrict our attention to Viruses to identify sublte changes in frequency between the sites. 
+We ask which Viruses taxa  are most prevalent at either site.
+<<>>=
+virus <- induce_tree(10239)  # tax_id of Virus
+(big.bel <- virus[ order(-virus$Glob.Freq.Bel), c(1:4,15 ) ])
+(big.may <- virus[ order(-virus$Glob.Freq.May), c(1:4,15 )])
+(big.diff <- virus[ order(-abs(virus$DeltaFreq)), c(1:4,15 )])
+@
+
+
+<<>>==
+may.big <- virus[ which(virus$DeltaFreq < -0.00), ] ; nrow(may.big)  # 0.001 was too stringent
+may.big <- may.big[ order( may.big$path, may.big$DeltaFreq ),   ]
+may.big[ , c(1:4,15 )]
+@
+
+
+<<>>==
+bel.big <- virus[ which(virus$DeltaFreq > -0.00), ] ; nrow(bel.big)  # 0.001 was too stringent
+bel.big <- bel.big[ order( -bel.big$DeltaFreq ),   ]
+bel.big[ , c(1:4,15 )]
+@
+
+There are generally a higher frequency of viruses at Maycocks than at Bellairs. 
+(Recall that almost all taxa are higher at Bellairs than Maycocks.)
+Adenoviridae, Alphasatellitidae, Baculoviridae are higher at Maycocks. CHECK THEIR HOSTS.
+{\bf Caudovirales are consistently higher at Bellairs.} We should investigate this Shawn - it seems that they are known to infect reefs. {\tt https://www.sciencedirect.com/topics/biochemistry-genetics-and-molecular-biology/caudovirales}
+
+
+\subsubsection{Largest Eukaryotic Changes in Global Frequencies}
+
+Here we restrict our attention to Viruses to identify sublte changes in frequency between the sites. 
+We ask which Viruses taxa  are most prevalent at either site.
+<<>>=
+euk <- induce_tree(2759 )  # tax_id of euk 
+(big.bel <- euk[ order(-euk$Glob.Freq.Bel), c(1:4,15 ) ])
+(big.may <- euk[ order(-euk$Glob.Freq.May),c(1:4,15 ) ])
+(big.diff <- euk[ order(-abs(euk$DeltaFreq)), c(1:4,15 )])
+
+@
+
+Bellairs has a higher fraction of Eukrayota than Maycocks ($7\%$) and most of this change
+is in the Viridiplantae as discussed above.
+Phylum Chlorophyta is one of the few cases where the frequency is higher at Maycocks.
+The analysis here also highlights Nicotiana attenuata, Olea europaea, Elaeis guineensis, Arachis ipaensis, Cajanus cajan, Gossypium raimondii, Malus domestica, Cynara cardunculus.
+
+
+<<>>==
+may.big <- euk[ which(euk$DeltaFreq < -0.00), ] ; nrow(may.big)  # 0.001 was too stringent
+may.big <- may.big[ order( may.big$path, may.big$DeltaFreq ),   ]
+may.big[ , c(1:4,15 )]
+@
+
+
+<<>>==
+bel.big <- euk[ which(euk$DeltaFreq > -0.00), ] ; nrow(bel.big)  # 0.001 was too stringent
+bel.big <- bel.big[ order( -bel.big$DeltaFreq ),   ]
+bel.big[ , c(1:4,15 )]
+@
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comaprison with the Spermonde Archipelago}
+
+The following investigates some of the findings from Kegler et al. (Spermonde Archipelago) in our data. First, they mention two OTUs that dominated the bacterial community composition: {\em Escheria/Shigella} (gamma proteo bacteria) and {\em Rastonia} (beta proteobacteria)
+<<>>=
+idx <- grep("Ralstonia", tree$name); tree[idx,]
+ral_tax_id <- 48736  # I think this is it.
+make_table(ral_tax_id)
+
+make_table( tree[idx[3], "parent"] )
+parent <- indexOfParent( 32008 )
+tree[parent,]
+@
+So we can see that Ralstonia genus is present in our data at $5\%$ of the Burkholderiaceae family but the Burkholderia genus is much more prevalent in our data at $60.6\%$. 
+The absolute fraction of reads is approx. $0.01\%$.
+Burkholderiacea is also highlighted by the polarity statistic.
+
+So now we focus on the {\em Escheria/Shigella} (gamma proteo bacteria). The absolute fraction is very 
+small at $0.2\%$.
+<<>>=
+idx <- grep("Escherichia", tree$name); tree[idx,]
+esch_tax_id <- 561  # I think this is it.
+make_table(esch_tax_id)
+
+make_table( tree[idx[1], "parent"] )
+@
+In our data, {\em Salmonella} is highest at both sites. {\em Escherichia} is second
+with approximatley $20\%$ and $17.8\% at Bellairs and Maycock. 
+This respresent about $0.2\%$ of all reads
+at both locations.
+{\em Shigella} is considerably lower at $2.8\%$ and $5.3\%$. 
+
+So in conclusion, we do not observe that these two species as overwhelming present.
+It is interesting to note that both Shigella and Escheria are descendants of 
+Enterobacteriaceace. 
+
+\subsection{Water Column, Fungia Mucus, Reef Sediments}
+
+In Kegler et al, Gammaproteobacteria ranged from $29\%$ at 6km to $69\%$ at the   27km station. 
+(So gamma- would be predicted to be lower at Bellairs.)
+Alphaproteobacteria ranged from $22\%$ at 6km to $5\%$ at 19km.
+(So alpha- on the other hand would be predicted to be higher at Bellairs.)
+Betaproteobacteria did not have a trend.
+
+Let's adjust to make all frequencies relative to Bacteria.
+<<>>==
+make_table(2, relative_taxa = 2)  # 2 is tax id for bacteria
+@
+
+In our dataset, we can see that both locations primarily break into three Bacterial groups: Proteo- ($47,23\%$), Terra ($41,72\%$) and FCB group ($10,4\%$).
+FCB and Terra- are not commented upon in the Kegler et al. effort.
+We now restrict our attention just to Proteo-, 
+
+<<>>==
+make_table(2, relative_taxa = 2)  # 2 is tax id for bacteria
+make_table(1224, relative_taxa = 2)  # 1224 is proteobacteria
+@
+Alpha- is higher at Bellairs but so are Gamma- and Beta-.
+
+
+Several human pathogenic bacteria were observed at high frequencies in the Indonesian study. 
+This includes Escherichia, Shigella, Ralstonia, Stenotrophomonas, and Phenylobacterium.
+They did not have absolute counts in our data. 
+As stated above, for Escherichia the abosolute read counts are $0.2\%$ at both locations. 
+For Shigella, Stenotrophomonas and Phenylobacterium, this is very close to $0\%$.  
+
+
+<<>>==
+make_table(28211, relative_taxa = 2)  # alpha
+make_table(1236, relative_taxa = 2)  # gamma
+make_table(28216, relative_taxa = 2)  # beta
+@
+
+<<>>=
+idx <- grep("Ralstonia", tree$name); tree[idx,]  # within beta proteo
+tid <- 48736  # I think this is it.
+path2root(48736)
+make_table(119060 , relative_taxa=2) # parent of 
+
+idx <- grep("Stenotrophomonas", tree$name); tree[idx,] # within gamma proteo
+tid <- 40323  # I think this is it.
+make_table(32033, relative_taxa=2) # parent of 
+
+idx <- grep("Phenylobacterium", tree$name); tree[idx,]  # within alpha proteo
+tid <- 20  # I think this is it.
+make_table( 76892, relative_taxa=2)
+
+idx <- grep("Mycobacterium", tree$name); tree[idx,]   # Terra Actino
+tid <- 1763  # I think this is it.
+path2root(1763)
+make_table(1762, relative_taxa=2) # parent of
+make_table(85007, relative_taxa=2) # parent of
+
+idx <- grep("Staphylococcus", tree$name); tree[idx,]  #Terra Firmicutes
+tid <- 1279  # I think this is it.
+path2root(1279)
+make_table(90964 , relative_taxa=2) # parent of 
+
+idx <- grep("Propionibacterium", tree$name); tree[idx,]  #Terra Actinobacteria
+tid <- 1743  # I think this is it.
+path2root(1743)
+make_table(31957 , relative_taxa=2) # parent of 
+
+idx <- grep("Planctomycetes", tree$name); tree[idx,]  # PVC group
+tid <- 203682  # I think this is it.
+path2root(203682)
+make_table(1783257 , relative_taxa=2) #  
+
+idx <- grep("Bacteroidetes", tree$name); tree[idx,]  # Bacteria FCB group
+tid <- 976  # I think this is it.
+path2root(976)
+make_table(68336 , relative_taxa=2) #  
+
+idx <- grep("Deltaproteobacteria", tree$name); tree[idx,]  # Proteo
+tid <- 28221   # I think this is it.
+path2root(28221 )
+make_table(68525 , relative_taxa=2) # 
+
+
+idx <- grep("Muriicola", tree$name); tree[idx,]  # Proteo
+tid <- 762641   # I think this is it.
+path2root(762641 )
+make_table(49546 , relative_taxa=2) #  
+
+idx <- grep("Carnobacteriaceae", tree$name); tree[idx,]  # Proteo
+tid <- 186828   # I think this is it.
+path2root(762641 )
+make_table( 186826    , relative_taxa=2) #  
+
+@
+
+
+
+Overall here we do not see the large numbers of these human pathogens in our data and they do not differ between sites.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comaprison with Dinsdale et.\ al.\}
+
+The following investigates some of the findings from Dinsdale et al.\ 
+(four coral atolls in the Northern Line Islands) in our data. 
+They stated the coral atoll Kiritimati,
+which is  a large and populated atoll,
+had mircobial and water chemistry characteristic of a near-shore enviroment. 
+On Kiritimati there were $10$ times more microbial cells and virus-like particles 
+in the water columnn. 
+
+This population was   dominated by heterophs including a large number potential pathogen. 
+Which maybe a key comparison site to our data. 
+
+They highlighted opportunistic pathogens("potential pathogens") vs autrophs & heterophs in Figure 3A. 
+
+\subsection{Pathogens}
+
+First lets look at the pathogens. 
+Human Pathogenic Genera: {\em Staphylococcus}, {\em Vibrio} and  {\em Escherichia}; Fish Pathogen Genera: {\em Aeromona} and Plant pathogenic Genera: {\em Xylella}. 
+Staphylococcus and Eschericha have been previously explored aboved and we found no significance in their abundance or any signifcant difference between sites. 
+
+\subsubsection{Aeromona}
+So lets start with {\em Aeromona}. 
+<<>>=
+idx <- grep("Aeromona", tree$name); tree[idx,]
+
+aerom_tax_id <- 642
+make_table(aerom_tax_id)
+make_table( tree[idx[3], "parent"] )
+
+parent<- indexOfParent(84642)
+tree[parent,]
+make_table(84642)#Aeromonadaceae(family)
+make_table(135624)#Aeromonadales(order)
+make_table(1236)#Gammaproteobacteria(Class)
+@
+Species from the Aeromona are present in our data however at very low frequencies. Within the Aeromonadaceae family the genera was found to have a local frequency of $78\%$ at both Bellairs and Maycocks however examining at a higher hierarchical level with the class of Gammaproteobacteria the order Aeromonadales of which Aeromona belongs to had a frequency of $1\%$ at both sites.
+
+MH: So I would say this is un-interesting in our data. Agreed?
+
+\subsubsection{Xylella}
+
+So now lets explore Xylella
+<<>>=
+idx <- grep("Xylella", tree$name); tree[idx,]
+
+xylella_tax_id <- 2370
+make_table(xylella_tax_id)
+make_table( tree[idx[3], "parent"] )
+
+parent<- indexOfParent(2370)
+tree[parent,]
+make_table(32033)#Xanthomonadaceae(family)
+make_table(135614)#Xanthomonadales(order)
+make_table(1236)#Gammaproteobacteria(Class)
+@
+Species of the Xylella were present in our data at $2-3\%$ in the family of Xanthomonadaceace while Stenotrophomonas had the highest frequency at Bellairs with $31\%$ and Xanthomonas at Maycocks with $32\%$ 
+
+MH: I think the question now is whether there are more plants at Maycocks than at Bellairs.  * Our previous observation were wrong, we were looking at the local frequencies which led us to think it was higher at Maycocks but it's not based on the global frequency.* - shawn
+
+so we have two species of Xyella in our data, X.fastidiosa(higher at Bellairs) and X.taiwanesis(higher at Bellairs) possible host could be coffee plants. * Further investigation to be done*
+
+*I think to show that these are bigger at Bellairs we can use  a bar chart* - Shawn
+
+
+<<<<<<< HEAD
+=======
+\subsection{Figure 3}
+
+To better make a comparison to the the Dinsdale results of the porportion of autrophs, heterotrophs and potential pathogens, since the Dinsdale did not highlight any specific phlyums that they classified as autotrophs and heterotrophs and We have not done any previous functional analysis on our data, we must find way to do so or carry out the necessary functional anaylsis. So futher work to be done here. Possible use of JGI results.
+
+The KEGG Orthology table which I made from the JGI results on the assembled data. I basically went through the given data looking for the functional groups such as photosystem 1 and 2, an extracted the numbers. However in some case there were no exact match-ups of functions names used by Dinsdale  to what we have from JGI. Using genome.jp and the KEGG page with access to the *KO ID* I tried my best to make the right associations and identify the functional groups. 
+
+Shawn: I'm not sure I undestand what you are saying about. 
+The section started out saying that we would look at each of the pathogens highlighted
+by Dinsdale et al.\ Two of these are investigated. The rest aren't. 
+I also don't understand your methodology here with respect to KEGG.
+
+So lets see how these gene count numbers match up to dinsdale. One main issue to this comparison is Dinsdales looked at the proportons of sequences similiar to each subsystem. What we have is the gene count.
+
+<<>>=
+keggorthology <- read.csv("~/repo/reefmicrobiome/data/keggorthology.csv")
+@
+ *Comparison with Dinsdale Figure 3 to be done*
+ Just looking at the table I can see that our numbers do not align.
+
+Are these numbers normalized (for total counts per site)? *I need to review this, functionality and also numbers for each photosystem* - Shawn
+Total JGI Kegg orthology Gene count for Maycocks = 1074113
+Total JGI Kegg orthology Gene Count for Bellairs = 1176702
+<<>>=
+sum(keggorthology[1, -1])
+sum(keggorthology[2, -1])
+keggorthology[1, -1] / sum(keggorthology[1, -1])
+keggorthology[2, -1] / sum(keggorthology[2, -1])
+@
+
+The two normalized vectors are pretty similar at both sites, but the 
+one big difference $14\%$ Bellairs versus $5\%$ Maycocks in with respect to
+UDP N acetylmuramate, consist with the gradients of Dinsdale et al. 
+The other classes are more  similar but Maycocks does have more Photosystem I and II, $F_0 F_1$ 
+type ATP synthase.
+
+>>>>>>> 30906c3fff3ba37b9c887c497f39002d49f7bbb6
+\subsection{Viral Abundances}
+
+Now we look at the microbial abundances relative to their matched viral abundences at both sites. 
+In the Dinsdale  study they show that there was a higher abundance in human viral organism 
+E.coli phi prophage CP4-6 at the Kiritimati site which also has a higer abundance of potential pathogens (Host). 
+While the Prochlorococcus marinus SSMP4, which infects the open water autotrophic cyanobacteria, was high in abundance where cyanobacteria dominated such as at the Tabuaeran and Palmyra sites.
+
+First lets look at the Viral Abundances at both Maycocks and Bellairs.
+<<>>=
+make_table(10239) #Virus
+@
+The Caudovirales order was the most dominated viral order in our dataset with $95\%$ at Bellairs and $96\%$ at Maycocks. 
+This is a relative large increase at Maycocks.
+
+\subsection{Order Caudovirales}
+<<>>=
+make_table(28883) #Caudovirales
+@
+Within the Caudovirales order Myoviridae family had highest overall local frequencies at both sites; $87\%$ at Bellairs and $96\%$ at Maycocks.There is also difference of $8\%$ between Bellairs ($12\%$) and Maycock s($4\%$) within the family of Podoviridae. 
+Similiar results in seen within Siphoviridae family.
+
+So first we look at the Myoviridae family 
+<<>>=
+make_table(10662) #Myoviridae
+make_table(196896) #Unclassified Myovridae = Virus Species
+make_table(1912144) #Lubbockvirus 
+make_table(1912146) #Unclassified Lubbockvirus  -> Virus Species
+idx <- grep("Clostridium", tree$name); tree[idx,]
+clostridum_tax_id <- 1485 #Clostridium genra
+make_table(1890424) #Synechococcales Order which contains the Prochlorococcus & Synechococcus species
+make_table(1218) #Prochlorococcus Genus -> species
+make_table(1129) #Synechococcus Genus -> species
+@
+So the Myoridae family is dominated by viruses known to infect common cyanobacteria Synechococcales. Where at the viral genus level of Myoridae bellairs had a local frequency of $97\%$ and maycocks was $99.5\%$. 
+
+Considering the global Frequencies between the two sites; 
+Maycocks has higer frequencies of Prochloraceae and Synechococcaceae. '
+This was a similar result among majority of cyanobacteria infecting virsuses. 
+
+At the bellairs site, the genus Lubbockvirus was showed to have a local sequence percentage of $2\%$ this is due to the viral species Clostridium phage CDMH1. This viral species was not sequenced at Maycocks. This species infects bacteria of the genus Clostridium (Firmicutes phylum) which are known human pathogens.
+<<>>=
+make_table(1485)
+@
+MH: Note that Bellairs is always higher than Maycocks, consistent with the virus levels.
+
+
+\subsubsection{Myoviridae}
+
+<<>>=
+#Lets Look at the viral species that were higher at Bellairs within the Unclassified Myoridae.
+ myo<- induce_tree(196896 )  # tax_id of Unclassified Myovridae 
+bel.big <- myo[ which(myo$DeltaFreq > -0.00), ] ; nrow(bel.big)  # 0.001 was too stringent
+bel.big <- bel.big[ order( -bel.big$DeltaFreq ),   ]
+bel.big[ , c(1:4,15 )]
+
+@
+
+Six Myoridae viral species were highlighted to have a higher presence at bellair in comparison to maycocks, going against the establish trend. Only one of species are known to infect cyanobacteria; Synechococcus phage ACG-2015j while the other 5 species have different hosts. 
+
+1) Pelagibacter phage HTVC008M - known host is Candidatus Pelagibacter(Alphaproteobacteria)(heterotrophic)
+
+2) Clostridium phage phiMMP04 - known hosts are Clostridium and Clostridioides (Both are Firmicutes; Clostridia)(human pathogen)
+
+3) Caulobacter phage Cr30 - known hosts are Caulobacter species(Alphaproteobacteria)
+
+4) Yersinia phage phiR1-37 - known hosts are Yerninia species(Gammaproteobacteria)(possibly Yersinia enterocolitica)(human pathogen)
+
+5) Vibrio phage henriette 12B8 - known hosts are Vibrio species(Gammaproteobacteria)(coral pathogens, or marine pathogens)
+
+Do we find similar result with the corresponding hosts of these 5 viral species.
+<<>>=
+#Pelagibacter phage - Candidatus Pelagibacter
+idx <- grep("Candidatus Pelagibacter", tree$name); tree[idx,]
+Candipelagi_tax_id <- 198251
+make_table(Candipelagi_tax_id)
+make_table(1655514) #Pelagibacteraceae -Parent
+
+#Clostridium phage phiMMP04 -Clostridium and Clostridioides
+idx <- grep("Clostridium", tree$name); tree[idx,]
+make_table(31979 ) #Clostridiaceae -Parent
+idx <- grep("Clostridioides", tree$name); tree[idx,]
+make_table(186804)#Peptostreptococcaceae -Parent
+
+#Caulobacter phage Cr30 - Caulobacter
+idx <- grep("Caulobacter", tree$name); tree[idx,]
+caulobacter_tax_id <-  75
+make_table(caulobacter_tax_id)
+make_table(76892)#Caulobacteraceae - Parent
+
+#Yersina phage phiR1-37  - Yerninia 
+idx <- grep("Yersinia", tree$name); tree[idx,]
+yersinia_tax_id <- 629
+make_table(yersinia_tax_id)
+make_table(1903411) #Yersiniaceae - Parent
+
+#Vibrio phage henriette 12B8 - Vibrio
+idx <- grep("Vibrio", tree$name); tree[idx,]
+Vibrio_tax_id <- 662
+make_table(Vibrio_tax_id)
+make_table(641) #Vibrionaceae - Parent
+@
+Similiar Pattern Established. 
+
+\subsubsection{Podoviridae}
+
+Next we look at the 
+Podiviridae Family
+<<>>=
+make_table(10744) #Podoviridae
+make_table(542835) #Autographivirinae
+make_table(1132574)#unclassified Autographivirinae
+make_table(196895) #unclassified Podoviridae
+make_table(2560206)#Pollyceevirus
+@
+So the Podiviridae famly consist mainly cyanobacteria viral species like Myoviridae family however it expresses a different trend to Myovirida. 
+Higher global frequencies of viral species are seen at the bellairs contrary to cyanobacteria having a higher global frequency at Maycocks. 
+The top two genus/subfamily within the Podoviridae family were Autograhivirinae and unclassified Podoviridae. Autographivirinae had a local frequency of $78\%$ at Bellairs and $83\%$ at Maycocks.
+Examining this subfamily we found that the unclassified Autographivirinae species group dominated
+where the species within this group all had higher global frequencies at bellairs instead 
+of Maycocks. 
+
+Going back to the Autographivirinae subfamily the viral species Synechococcus virus 60 and genus Pollyceevirus(tax id:2560206) were only sequenced at the Maycocks site. The viral species Pseudomonas virus PollyC was the only species sequenced of the Pollyceevirus genus.
+
+
+\subsubsection{Siphoviridae}
+<<>>=
+make_table(10699) #Siphoviridae
+make_table(196894) #UnclassifiedSiphoviridae
+make_table(2560124) #Efquatrovirus
+make_table(1623306) #Timquatrovirus
+make_table(2562717) #unclassified Timquatrovirus 
+@
+Within the Siphoviridae Family unclassified Siphoviridae had the highest local frequency at both sites however there was a difference of $26\%$ between. 
+Bellairs had $82\%$ and Maycocks with $56\%$; 
+Cynophage MED4-117 and Prochlorococcus phage MED-184 were the most dominanant viral species within the unclassified Siphoviridae group. 
+Both viral species had higher local frequencies at the Bellairs site compared to Maycocks; 
+Cyanophage MED4-117(B:$48\%$,M:$22\%$) and P.phage MED-184(B:$39\%$,M:$22\%$). 
+Both of these viral infect are known to infect Cyanobacteria species how out of the 17 species, 7 viral species were higher at bellairs 
+including the top two previously discussed who infect Cyanobacteria 
+however the 5 remaining species are linked human pathogenic and non-cyanobacteria hosts:
+
+
+1) Clostridium phage phi3626 - known host Clostridium perfringens(Firmicutes)(higher at Bellairs)-  can be found in marine sediment, humans and decaying vegetables.     
+
+2) Bacillus phage vB_BanS-Tsamsa - known host is human pathogen Bacillus anthracis(Firmicutes)(higher at Maycocks) - linked to anthrax 
+
+3) Brevibacillus phage Sundance - known host Brevibacillus laterosporus(Firmicutes)(higher at Bellairs)
+
+4) Mycobacterium phage Bipper - known host  Mycobacterium(Actinobacteria)(higher at Bellairs)
+
+5) Clostridium phage c-st - known host Clostridium botulinum(Firmicutes)(higher at Bellairs) - soil bacterium 
+
+<<>>=
+
+#Clostridium phage phi3626 - Clostridium perfringens
+idx <- grep("Clostridium perfringens", tree$name); tree[idx,]
+clostridium_Perfrin_ID <- 1502
+make_table(1485) #Clostridium Perfringens-Parent
+
+#Bacillus phage vB_BanS-Tsamsa - Bacillus anthracis
+idx <- grep("Bacillus anthracis", tree$name); tree[idx,]
+bacillus_anthracis_ID <- 1392
+make_table(86661) #Bacillus anthracis-Parent
+
+#Brevibacillus phage Sundance - Brevibacillus laterosporus
+idx <- grep("Brevibacillus laterosporus", tree$name); tree[idx,]
+Brev_laterosporus_ID <- 1465
+make_table(55080) #Brevibacillus laterosporus - Parent
+
+#Mycobacterium phage Bipper - Mycobacterium
+idx <- grep("Mycobacterium", tree$name); tree[idx,]
+Mycobacterium_tax_ID <- 1763
+make_table(Mycobacterium_tax_ID)
+make_table(1762) #Mycobacterium - Parent 
+
+#Clostridium phage c-st - Clostridium botulinum C str. Stockholm 
+idx <- grep("Clostridium botulinum", tree$name); tree[idx,]
+Clostridium_botulinum_tax_ID <- 1491
+make_table(1485) #Clostridium Perfringens-Parent
+@
+The second highest genus within the Siphoviridae family was Efquatrovirus(tax ID:2560124) where all of its $7\%$ local frequency is due to one species Enterococcus virus LY0322(tax Id: 2560427). This virus infects the human pathogenic bacterium Enterococcus faecalis(Firmicutes) which is has a higher global frequency at the Bellairs site, aligning with the same result of the viral species. 
+<<>>=
+idx <- grep("Enterococcus faecalis", tree$name); tree[idx,]
+Enterofaecalis_tax_id <- 1351
+make_table(1350)#Enterococcus - Parent
+
+@
+The viral species Mycobacterium phage OkiRoe accounted for all of the Timquatrovirus genus($3\%$) of the Siphoviridae family. The is viral species known to infect Mycobacteria species. It was found to be higher at the Bellairs site based on its global frequency similar to Mycobacteria.
+<<>>=
+
+mycophage_okiroe_tax_id <- 1486473
+make_table(2562717) #M.OkieRoe- Parent
+
+@
+
+
+<<<<<<< HEAD
+\section{Figure 3}
+
+To better make a comparison to the the Dinsdale results of the porportion of autrophs, heterotrophs and potential pathogens, since the Dinsdale did not highlight any specific phlyums that they classified as autotrophs and heterotrophs and We have not done any previous functional analysis on our data, we must find way to do so or carry out the necessary functional anaylsis. So futher work to be done here. Possible use of JGI results.
+
+The KEGG Orthology table which I made from the JGI results on the assembled data. I basically went through the given data looking for the functional groups such as photosystem 1 and 2, an extracted the numbers. However in some case there were no exact match-ups of functions names used by Dinsdale  to what we have from JGI. Using genome.jp and the KEGG page with access to the *KO ID* I tried my best to make the right associations and identify the functional groups. 
+
+Shawn: I'm not sure I undestand what you are saying about. 
+The section started out saying that we would look at each of the pathogens highlighted
+by Dinsdale et al.\ Two of these are investigated. The rest aren't. 
+I also don't understand your methodology here with respect to KEGG.
+
+So lets see how these gene count numbers match up to dinsdale. 
+One main issue to this comparison is Dinsdales looked at the proportons of sequences similiar to each subsystem. 
+What we have is the gene count.
+
+<<>>=
+keggorthology <- read.csv("~/repo/reefmicrobiome/data/keggorthology.csv")
+@
+ *Comparison with Dinsdale Figure 3 to be done*
+ Just looking at the table I can see that our numbers do not align.
+
+Are these numbers normalized (for total counts per site)?
+<<>>=
+sum(keggorthology[1, -1])
+sum(keggorthology[2, -1])
+keggorthology[1, -1] / sum(keggorthology[1, -1])
+keggorthology[2, -1] / sum(keggorthology[2, -1])
+@
+
+The two normalized vectors are pretty similar at both sites, but the 
+one big difference $14\%$ Bellairs versus $5\%$ Maycocks in with respect to
+UDP N acetylmuramate, consist with the gradients of Dinsdale et al. 
+The other classes are more  similar but Maycocks does have more Photosystem I and II, $F_0 F_1$ 
+type ATP synthase.
+=======
+\subsection{Viral v Host Visualisation}
+
+So to create a beautiful representation of the viral load, a graph will be constructed with the x-axis being the host/pathogen(H/P) of Bellair vs host/pathogen (H/P) of Maycocks on the y-axis. 
+
+First we look at the pathogens of the Cynanobacteria species Synechococcus and Prochlorococcus. Since they are numerous phages and viral agents which infect each Cyanobacterium for simplication all of the viral counts will be sum. Onequestions is how should we treat Cyanophages. This pathogen infects both cynaobacteria species. For now I won't include it. 
+
+*So i was finding the given ratios quite large so i flipped it to pathogen/host just see how it sits.*
+
+Viral-Load Table
+<<>>=
+viral_load <- data_frame(Host = character(),Bellairs = integer(), Maycocks = integer())
+colnames(viral_load) <- c("Host","Bellairs","Maycocks")
+@
+Synechococcus
+<<>>=
+idx <- grep("Synechococcus phage", tree$name); all_syn_phages = tree[idx,] #All Synech phages
+idx2<- grep("Cyanophage", tree$name); all_cyno_phages = tree[idx2,] #All Cyanophages
+idx3<- grep(1129,tree$tax_id); synech = tree[idx3,] #Synechococcus genus using it's tax ID 
+synech<- synech[1,]
+synech_br <- sum(synech$br_bel)#Sum of syn bacteria at Bellairs
+synech_may <- sum(synech$br_may)#Sum of syn bacteria at Maycocks
+totsyn_phages_br <- sum(all_syn_phages$br_bel) #Sum for Bellairs
+totsyn_phages_may <- sum(all_syn_phages$br_may) #Sum for Maycocks
+Synbr_v_host <-  totsyn_phages_br / synech_br  #Ratio of Synech bact : Synech viral at Bellairs 
+Synmy_v_host <-  totsyn_phages_may / synech_may #Ratio of Synech bact : Synech viral at Maycocks 
+newrow <- data_frame( Host = 'Synechococcus', Bellairs= Synbr_v_host , Maycocks = Synmy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Prochlorococcus 
+<<>>=
+idx4 <- grep("Prochlorococcus phage", tree$name); all_proch_phages = tree[idx4,] #All Proch phages
+idx5<- grep(1218,tree$tax_id); proch = tree[idx5,] #Prochlorococcus genus using it's tax ID 
+proch<- proch[1,]
+proch_br <- sum(proch$br_bel)#Sum of proch bacteria at Bellairs
+proch_may <- sum(proch$br_may)#Sum of proch bacteria at Maycocks
+totpr_phages_br <- sum(all_proch_phages$br_bel) #Sum for Bellairs
+totpr_phages_may <- sum(all_proch_phages$br_may) #Sum for Maycocks
+Prochbr_v_host <- totpr_phages_br / proch_br #Ratio of Proch bact : Proch viral at Bellairs 
+Prochmy_v_host <- totpr_phages_may / proch_may #Ratio of Proch bact : Proch viral at Maycocks 
+newrow <- data_frame( Host = 'Prochlorococcus', Bellairs= Prochbr_v_host , Maycocks = Prochmy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Creating a visual of the all cyanobacteria species/all cyanobactria viruses and phages
+Cynanobacteria species : Prochlorococcus + Synechococcus / Proch phages + Cyanophages + Synech Phages 
+
+
+<<>>= 
+idx30 <- grep("Cyanophage", tree$name); all_cyano_phages = tree[idx30,] #All Cyano phages
+
+all_cyano_phages_br <- sum(all_cyano_phages$br_bel) #Sum of Cyanophages at Bellairs 
+all_cyano_phages_may <- sum(all_cyano_phages$br_may) #Sum of Cyanophages at Maycocks
+tot_cyan_may <- proch_may + synech_may
+tot_cyan_br <- proch_br + synech_br
+tot_vr_br <- all_cyano_phages_br + totsyn_phages_br + totpr_phages_br
+tot_vr_may <-  all_cyano_phages_may + totpr_phages_may + totsyn_phages_may
+Cyanbr_v_host <- tot_vr_br / tot_cyan_br
+Cyanmay_v_host <- tot_vr_may / tot_cyan_may
+newrow <- data_frame( Host = 'All Cyanobacteria', Bellairs= Cyanbr_v_host , Maycocks = Cyanmay_v_host)
+viral_load <- rbind(viral_load, newrow)
+
+
+
+
+@
+Clostridium 
+<<>>=
+idx6 <- grep("Clostridium phage", tree$name); all_clost_phages = tree[idx6,] #All Clostridium phages
+idx7<- grep(1485,tree$tax_id); clost = tree[idx7,] #Clostridium genus using it's tax ID 
+clost<- clost[1,]
+clost_br <- sum(clost$br_bel)#Sum of clost bacteria at Bellairs
+clost_may <- sum(clost$br_may)#Sum of clost bacteria at Maycocks
+totct_phages_br <- sum(all_clost_phages$br_bel) #Sum for Bellairs
+totct_phages_may <- sum(all_clost_phages$br_may) #Sum for Maycocks
+clostbr_v_host <- totct_phages_br / clost_br  #Ratio of clost bact : clost viral at Bellairs 
+clostmy_v_host <- totct_phages_may / clost_may  #Ratio of clost bact : Proch viral at Maycocks 
+newrow <- data_frame( Host = 'Clostridium', Bellairs= clostbr_v_host , Maycocks = clostmy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Yersinia
+<<>>=
+idx8 <- grep("Yersinia phage", tree$name); all_yers_phages = tree[idx8,] #All Yersinia phages
+idx9<- grep(629,tree$tax_id); yers = tree[idx9,] #Yersinia genus using it's tax ID 
+yers<- yers[1,]
+yers_br <- sum(yers$br_bel)#Sum of yersinia bacteria at Bellairs
+yers_may <- sum(yers$br_may)#Sum of yersinia bacteria at Maycocks
+totyers_phages_br <- sum(all_yers_phages$br_bel) #Sum for Bellairs
+totyers_phages_may <- sum(all_yers_phages$br_may) #Sum for Maycocks
+yersbr_v_host <- totyers_phages_br / yers_br #Ratio of yersinia bact : yersinia viral at Bellairs 
+yersmy_v_host <- totyers_phages_may / yers_may #Ratio of yersinia bact : yersinia viral at Maycocks 
+newrow <- data_frame( Host = 'Yersina', Bellairs= yersbr_v_host , Maycocks = yersmy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Vibrio
+<<>>=
+idx10 <- grep("Vibrio phage", tree$name); all_vib_phages = tree[idx10,] #All Vibrio phages
+idx11<- grep(662,tree$tax_id); vibrio = tree[idx11,] #Vibrio genus using it's tax ID 
+vibrio<- vibrio[1,]
+vibrio_br <- sum(vibrio$br_bel)#Sum of vibrio bacteria at Bellairs
+vibrio_may <- sum(vibrio$br_may)#Sum of vibrio bacteria at Maycocks
+totvib_phages_br <- sum(all_vib_phages$br_bel) #Sum for Bellairs
+totvib_phages_may <- sum(all_vib_phages$br_may) #Sum for Maycocks
+vibbr_v_host <-  totvib_phages_br / vibrio_br #Ratio of vibrio bact : vibrio viral at Bellairs 
+vibmy_v_host <-  totvib_phages_may / vibrio_may #Ratio of vibrio bact : vibrio viral at Maycocks 
+newrow <- data_frame( Host = 'Vibrio', Bellairs= vibbr_v_host , Maycocks = vibmy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Bacillus
+<<>>=
+idx12 <- grep("Bacillus phage", tree$name); all_baci_phages = tree[idx12,] #All bacillus phages
+idx13<- grep(1386,tree$tax_id); baci = tree[idx13,] #Bacillus genus using it's tax ID 
+baci<- baci[1,]
+baci_br <- sum(baci$br_bel)#Sum of proch bacteria at Bellairs
+baci_may <- sum(baci$br_may)#Sum of proch bacteria at Maycocks
+totbc_phages_br <- sum(all_baci_phages$br_bel) #Sum for Bellairs
+totbc_phages_may <- sum(all_baci_phages$br_may) #Sum for Maycocks
+bacibr_v_host <- totbc_phages_br / baci_br #Ratio of Proch bact : Proch viral at Bellairs 
+bacimy_v_host <- totbc_phages_may / baci_may  #Ratio of Proch bact : Proch viral at Maycocks 
+newrow <- data_frame( Host = 'Bacillus', Bellairs= bacibr_v_host , Maycocks = bacimy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Caulobacter
+<<>>=
+idx14 <- grep("Caulobacter phage", tree$name); all_caul_phages = tree[idx14,] #All Caul phages
+idx15<- grep(75,tree$tax_id); caul = tree[idx15,] #Caulobacter genus using it's tax ID 
+caul<- caul[1,]
+caul_br <- sum(caul$br_bel)#Sum of caul bacteria at Bellairs
+caul_may <- sum(caul$br_may)#Sum of caul bacteria at Maycocks
+totcaul_phages_br <- sum(all_caul_phages$br_bel) #Sum for Bellairs
+totcaul_phages_may <- sum(all_caul_phages$br_may) #Sum for Maycocks
+caulbr_v_host <-  totcaul_phages_br / caul_br #Ratio of caul bact : caul viral at Bellairs 
+caulmy_v_host <-  totcaul_phages_may / caul_may #Ratio of caul bact : caul viral at Maycocks 
+newrow <- data_frame( Host = 'Caulobacter', Bellairs= caulbr_v_host , Maycocks = caulmy_v_host)
+viral_load <- rbind(viral_load, newrow)
+@
+Scatter Plot of Viral Load - Some big ratios coming from the non-cyano, so I will fix that issue later. So this is just a temporary plot.
+<<>>=
+install.packages("ggplot2")
+options(scipen=999)  # turn-off scientific notation like 1e+48
+library(ggplot2)
+library(grid)
+library(gridExtra)
+theme_set(theme_bw())
+
+viral_cyn <- ggplot(viral_load[1:3,], aes(x=Bellairs, y=Maycocks)) + 
+  geom_point(aes(col=Host)) + 
+  labs(subtitle="Host Vs Pathogen", 
+       y="Maycocks", 
+       x="Bellairs", 
+       title="Cyano bacteria - Host vs Pathogen Ratio", 
+       caption = "Source: viral_load")
+
+viral_pth <- ggplot(viral_load[3:6,], aes(x=Bellairs, y=Maycocks)) + 
+  geom_point(aes(col=Host))  + 
+  labs(subtitle="Host Vs Pathogen", 
+       y="Maycocks", 
+       x="Bellairs", 
+       title="Host vs Pathogen Ratio", 
+       caption = "Source: viral_load")
+
+viral_totcyn <- ggplot(viral_load[3,], aes(x=Bellairs, y=Maycocks)) + 
+  geom_point(aes(col=Host))  + 
+  labs(subtitle="Host Vs Pathogen", 
+       y="Maycocks", 
+       x="Bellairs", 
+       title="Total Cyanobacteria View", 
+       caption = "Source: viral_load")
+
+plot(viral_cyn)
+plot(viral_pth)
+
+
+@
+>>>>>>> 30906c3fff3ba37b9c887c497f39002d49f7bbb6
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comparison with the study of the coral reef systems in the Caribbean waters of Curaçao}
+ The following investigates some of the findings from Frias-Lopez et al. 2002
+ 
+ So on page 4 they look at Microbial communities inhabiting overlying seawater. The most abundant sequences at both locations was found to be cyanobacteria(30 to $43\%$). The next most abundent were gamma-proteobacteria(6 to $38\%$) and alpha-proteobacteria(6 to $31\%$).Moving forward we will make a comparison to the percentages of the overlying sea water sampled above the three coral samples shown in Fig #3, Fig #4 and Fig #5 of their manuscript. These figures illustrate the division-level diversity of the partial 16S rRNA bacterial sequences comprising the clone libraries associated with each coral species. There is a conflict with these figures, they include chloroplasts refering to eurkaryotic organisms yet defined the illustration as 16S rRNA bacterial sequences.
+ 
+Fig #3 - page 11 - Monastrea annularis
+
+<<>>=
+fig3 <- data_frame(nrow = 5, ncol = 2)
+colnames(fig3)<- c("Name","Percentage")
+
+fig3[1,] <- c("Cyanobacteria",0.34)
+fig3[2,] <- c("Alpha_Prot", 0.31)
+fig3[3,]<- c("Gamma_Prot",0.29)
+fig3[4,]<- c("Chloroplasts",0.03)
+fig3[5,]<- c("FCB", 0.03) 
+
+
+@
+Fig #4 - page 12 - Montastrea cavernosa
+<<>>=
+fig4 <- data_frame(nrow = 7, ncol = 2)
+colnames(fig4)<- c("Name","Percentage")
+
+fig4[1,1] <- "Cyanobacteria"
+fig4[1,2] <- 0.43
+fig4[2,] <- c("Alpha_Prot", 0.20)
+
+fig4[3,]<- c("Unknown",0.03)
+fig4[4,]<- c("Gamma_Prot",0.06)
+fig4[5,]<- c("Delta_Prot",0.11)
+fig4[6,]<- c("Planctomycetales",0.03)
+fig4[7,]<- c("FCB", 0.14) 
+
+
+
+@
+fig #5 - Page 13 - Diploria strigosa
+<<>>=
+fig5 <- data_frame(nrow = 7, ncol = 2)
+colnames(fig5)<- c("Name","Percentage")
+
+fig5[1,] <- c("Cyanobacteria", 0.30)
+fig5[2,] <- c("Alpha_Prot", 0.06)
+
+fig5[3,]<- c("[Unknown",0.06)
+fig5[4,]<- c("Gamma_Prot",0.38)
+fig5[5,]<- c("Chloroplasts",0.08)
+fig5[6,]<- c("Planctomycetales",0.06)
+fig5[7,]<- c("FCB", 0.03) 
+
+
+@
+I will construct a similar figures of our two sites with just these specific bacterial divisions, taking each division sequence. Due to the conflict highlighted above, Chloroplasts will excluded.
+<<>>=
+PieCharts <- data_frame( nrows = 7 , ncols = 5)
+colnames(PieCharts)<- c("Name","Bellairs","Maycocks")
+
+idx <- grep("Cyanobacteria", tree$name); tmp = tree[idx,]
+PieCharts[1,1]<-tmp$name[1]
+PieCharts[1,2]<- tmp$br_bel[1] 
+PieCharts[1,3]<- tmp$br_may[1]
+idx <- grep("Firmicutes", tree$name); tmp = tree[idx,]
+PieCharts[2,1]<-tmp$name[1]
+PieCharts[2,2]<- tmp$br_bel[1] 
+PieCharts[2,3]<- tmp$br_may[1]
+idx <- grep("Gammaproteobacteria", tree$name); tmp = tree[idx,]
+PieCharts[3,1]<-tmp$name[1]
+PieCharts[3,2]<- tmp$br_bel[1] 
+PieCharts[3,3]<- tmp$br_may[1]
+idx <- grep("Alphaproteobacteria", tree$name); tmp = tree[idx,]
+PieCharts[4,1]<-tmp$name[1]
+PieCharts[4,2]<- tmp$br_bel[1] 
+PieCharts[4,3]<- tmp$br_may[1]
+idx <- grep("Deltaproteobacteria", tree$name); tmp = tree[idx,]
+PieCharts[5,1]<-tmp$name[1]
+PieCharts[5,2]<- tmp$br_bel[1] 
+PieCharts[5,3]<- tmp$br_may[1]
+idx <- grep("Planctomycetales", tree$name); tmp = tree[idx,]
+PieCharts[6,1]<-tmp$name[1]
+PieCharts[6,2]<- tmp$br_bel[1] 
+PieCharts[6,3]<- tmp$br_may[1]
+idx <- grep("FCB", tree$name); tmp = tree[idx,]
+PieCharts[7,1]<-tmp$name[1]
+PieCharts[7,2]<- tmp$br_bel[1] 
+PieCharts[7,3]<- tmp$br_may[1]
+
+Bell<- ggplot(PieCharts, aes(x="", y=Bellairs, fill=Name)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)
+May<- ggplot(PieCharts, aes(x="", y=Maycocks, fill=Name)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)
+
+@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Renormalization based on genome size}
+ The following looks at methods of renormalizing the counts of the top 50 most abundant genres spread across the all the kingdoms and domains in our data by considering the size of the genomes. *How to treat no rank? species level e.g Mesangiospermae* <- I think i can come back to this as a common Eurkay.
+<<>>=
+ idx<- grep("genus", tree$rank); genome_data = tree[idx,] #Filter out all genre
+gnempool<-head(arrange(genome_data,desc(br_bel)), n=52) #Top 50
+gnempool<- gnempool[,c(1:3,7:8)]
+gnempool["gn_size(Mb)"] <- NA
+head(gnempool)
+@
+Prochlorococcus : https://www.ncbi.nlm.nih.gov/genome/13712
+So I just took the median total length(Mb)
+
+<<>>=
+gnempool[1,6] <- 1.1161 
+@
+Candidatus Pelagibacter : https://www.ncbi.nlm.nih.gov/genome/491
+<<>>=
+gnempool[2,6] <- 1.0169
+@
+Synechococcus : https://www.ncbi.nlm.nih.gov/genome/13522
+<<>>=
+gnempool[3,6] <- 2.1014 
+@
+Pseudomonas : https://www.ncbi.nlm.nih.gov/genome/13508
+<<>>=
+gnempool[4,6] <- 6.17703
+@
+Homo : https://www.ncbi.nlm.nih.gov/genome/?term=Homo
+<<>>=
+gnempool[5,6] <- 2987.97
+@
+Streptomyces : https://www.ncbi.nlm.nih.gov/genome/13511
+<<>>=
+gnempool[6,6] <- 8.25185
+@
+Gossypium : So couldn't find a length for just the Genus, so I searched our tree to see what species we have.
+1) G.hirsutim : https://www.ncbi.nlm.nih.gov/genome/10704
+2) G.arboreum : https://www.ncbi.nlm.nih.gov/genome/10948
+3) G.raimondii : https://www.ncbi.nlm.nih.gov/genome/3239
+
+<<>>=
+idx <- grep("Gossypium", tree$name); tree[idx,]
+G_hirsutim <- 2287.87 #CottonPlant
+G_arboreum <- 1778.42 #Cotton
+G_raimondii <- 767.667 #Cotton
+avg <- (G_hirsutim + G_arboreum + G_raimondii)/3
+
+gnempool[7,6] <- avg
+@
+Capsicum
+All the counts of the Capsicum Genus come from the species C.annuum
+https://www.ncbi.nlm.nih.gov/genome/10896
+<<>>=
+idx <- grep("Capsicum", tree$name); tree[idx,] #Sweet/Chili Peppers
+make_table(4071)
+gnempool[8,6] <- 2999.87
+@
+Brassica
+B.rapa :https://www.ncbi.nlm.nih.gov/genome/229
+B.napus :https://www.ncbi.nlm.nih.gov/genome/203
+B.oleracea :https://www.ncbi.nlm.nih.gov/genome/10901
+<<>>=
+idx <- grep("Brassica", tree$name); tree[idx,] #Cabbages
+
+B_rapa <- 299.497
+B_napus <- 912.196
+B_oleracea <- 514.431
+avg <- (B_rapa + B_napus + B_oleracea)/3
+gnempool[9,6] <- avg
+@
+Arachis
+A.hypogaea : https://www.ncbi.nlm.nih.gov/genome/2875
+A.duranensis : https://www.ncbi.nlm.nih.gov/genome/12052
+A.ipaensis : https://www.ncbi.nlm.nih.gov/genome/35711
+<<>>=
+idx <- grep("Arachis", tree$name); tree[idx,]
+
+A_hypogaea <- 2551.68 #Peanut
+A_duranensis <- 1080.11 #HerbPlant
+A_ipaensis <-1353.5 #HerbPlant
+avg <- (A_ipaensis + A_duranensis + A_hypogaea)/3
+gnempool[10,6] <- avg
+@
+Paenibacillus : https://www.ncbi.nlm.nih.gov/genome/13690
+<<>>=
+gnempool[11,6] <- 6.84058
+@
+Vigna
+V.angularis : https://www.ncbi.nlm.nih.gov/genome/11109
+V.unguiculata : https://www.ncbi.nlm.nih.gov/genome/11030
+V.radiata : https://www.ncbi.nlm.nih.gov/genome/664
+<<>>=
+idx <- grep("Vigna", tree$name); tree[idx,]
+
+V_angularis <- 455.87  #RedBean
+V_unguiculata <- 607.057 #Cowpea
+V_radiata <- 459.272 #GreenPea
+avg <- (V_angularis+V_unguiculata+V_radiata)/3
+  
+
+gnempool[12,6] <- avg
+@
+Solanum
+S.lycopersicum : https://www.ncbi.nlm.nih.gov/genome/7
+S.pennellii : https://www.ncbi.nlm.nih.gov/genome/24150
+<<>>=
+idx <- grep("Solanum", tree$name); tree[idx,]
+S_lycopersicum <- 792.038 #Tomato
+S_pennellii <- 720.458 #Tomato
+avg<- (S_lycopersicum+S_pennellii)/2
+
+
+
+
+gnempool[13,6] <-avg
+@
+
+Micromonas
+Micromonas commoda : https://www.ncbi.nlm.nih.gov/genome/44422
+<<>>=
+idx <- grep("Micromonas", tree$name); tree[idx,] #GreenAlgae
+gnempool[15,6] <- 21.1093
+@
+Helianthus
+Helianthus annuus : https://www.ncbi.nlm.nih.gov/genome/?term=Helianthus+annuus
+<<>>=
+idx <- grep("Helianthus", tree$name); tree[idx,] #Sunflower 
+
+gnempool[16,6] <- 3087.84
+@
+Burkholderia : https://www.ncbi.nlm.nih.gov/genome/1135 #PathogenicProteobacteria
+<<>>=
+gnempool[17,6] <- 7.47367
+@
+Papaver
+Papaver somniferum: https://www.ncbi.nlm.nih.gov/genome/?term=Papaver+somniferum
+<<>>=
+idx <- grep("Papaver", tree$name); tree[idx,] #OpiumPoppy
+gnempool[18,6] <- 2715.53 
+@
+Glycine
+G.max : https://www.ncbi.nlm.nih.gov/genome/5
+G.soja : https://www.ncbi.nlm.nih.gov/genome/13239
+<<>>=
+idx <- grep("Glycine", tree$name); tree[idx,]
+G_max <- 997.663 #Soybean
+G_soja <- 985.26 #WildSoybean
+avg <- (G_max+G_soja)/2
+gnempool[19,6] <- avg
+@
+Bacillus : https://www.ncbi.nlm.nih.gov/genome/13517
+<<>>=
+gnempool[21,6] <- 5.01268
+@
+Nicotiana
+Nicotiana attenuata : https://www.ncbi.nlm.nih.gov/genome/13243
+<<>>=
+idx <- grep("Nicotiana", tree$name); tree[idx,] #Tobaccco
+gnempool[22,6] <- 2096.73
+@
+Acinetobacter : https://www.ncbi.nlm.nih.gov/genome/13512
+<<>>=
+gnempool[23,6] <- 3.69129
+@
+Vibrio : https://www.ncbi.nlm.nih.gov/genome/1362
+<<>>=
+gnempool[24,6] <- 5.05438
+@
+Clostridium : https://www.ncbi.nlm.nih.gov/genome/13521
+<<>>=
+gnempool[25,6] <- 2.92474
+@
+Candidatus Portiera 
+Candidatus Portiera aleyrodidarum : https://www.ncbi.nlm.nih.gov/genome/13176
+<<>>=
+idx <-grep("Candidatus Portiera", tree$name); tree[idx,] #EndosymbiontOftheWhitefly
+gnempool[26,6] <- 0.32245
+@
+Flavobacterium : https://www.ncbi.nlm.nih.gov/genome/13513 
+<<>>=
+gnempool[27,6] <- 3.69922 #FishDiasease
+@
+Elaeis
+E.guineensis : https://www.ncbi.nlm.nih.gov/genome/2669
+<<>>=
+idx <- grep("Elaeis", tree$name); tree[idx,] #OilPalmTree
+gnempool[28,6] <- 1017.1
+@
+Olea
+O.europaea : https://www.ncbi.nlm.nih.gov/genome/?term=Olea
+<<>>=
+idx <- grep("Olea", tree$name); tree[idx,] #OlivePlant
+gnempool[29,6] <- 1229.9
+@
+Oryza
+O.brachyantha : https://www.ncbi.nlm.nih.gov/genome/10862 
+O.sativa : https://www.ncbi.nlm.nih.gov/genome/10
+<<>>=
+idx <- grep("Oryza", tree$name); tree[idx,] #Grass(Rice)
+O_brachyantha <- 259.908
+O_sativa <- 382.389
+avg <- (O_sativa + O_branchyantha)/2 
+gnempool[30,6] <- avg
+@
+Sulfitobacter : https://www.ncbi.nlm.nih.gov/genome/13643
+<<>>=
+gnempool[31,6] <- 3.94618
+@
+Cajanus
+C.cajan : https://www.ncbi.nlm.nih.gov/genome/?term=Cajanus
+<<>>=
+idx <- grep("Cajanus", tree$name); tree[idx,] #pigeon pea
+gnempool[32,6] <- 620.626
+@
+Chryseobacterium : https://www.ncbi.nlm.nih.gov/genome/13849
+<<>>=
+gnempool[33,6] <- 4.49417
+@
+Lupinus
+L.angustifolius: https://www.ncbi.nlm.nih.gov/genome/?term=Lupinus
+<<>>=
+idx <- grep("Lupinus", tree$name); tree[idx,] #FloweringPlant
+gnempool[34,6] <- 557.909
+@
+Coffea
+C.arabica : https://www.ncbi.nlm.nih.gov/genome/77 
+C.eugenioides : https://www.ncbi.nlm.nih.gov/genome/73741
+<<>>=
+idx <- grep("Coffea", tree$name); tree[idx,] #Coffee
+C_arabica <- 1094.45
+C_eugenioides <- 699.904
+avg <- (C_arabica+C_eugenioides)/2
+gnempool[35,6] <- avg
+@
+Staphylococcus : https://www.ncbi.nlm.nih.gov/genome/13533
+<<>>=
+gnempool[36,6] <- 2.53374
+@
+Asparagus
+A.officinalis : https://www.ncbi.nlm.nih.gov/genome/?term=Asparagus
+<<>>=
+idx <- grep("Asparagus", tree$name); tree[idx,]
+gnempool[37,6] <- 1187.54
+@
+Polaribacter : https://www.ncbi.nlm.nih.gov/genome/13647
+<<>>=
+gnempool[38,6] <- 3.22485
+@
+Cicer
+C.arietinum : https://www.ncbi.nlm.nih.gov/genome/2992
+<<>>=
+idx <- grep("Cicer", tree$name); tree[idx,] #Chickpea
+gnempool[39,6] <- 511.684
+@
+Zea 
+Z.mays : https://www.ncbi.nlm.nih.gov/genome/?term=Zea
+<<>>=
+idx <- grep("Zea", tree$name); tree[idx,] #Corn
+gnempool[40,6] <- 2171.65
+@
+Phaeobacter : https://www.ncbi.nlm.nih.gov/genome/17466
+<<>>=
+gnempool[41,6] <- 4.13911
+@
+Cynara : https://www.ncbi.nlm.nih.gov/genome/?term=Cynara
+<<>>=
+gnempool[42,6] <- 725.198 #Plant
+@
+Plasmodium : https://www.ncbi.nlm.nih.gov/genome/13798
+<<>>=
+idx <- grep("Plasmodium", tree$name); tree[idx,] #Unicellular Eukaryote thats parasitic to vertebrates and insects , Mosquitoes/Malaria
+gnempool[43,6] <- 22.1907
+@
+Phaseolus
+P.vulgaris : https://www.ncbi.nlm.nih.gov/genome/380
+<<>>=
+idx <- grep("Phaseolus", tree$name); tree[idx,] #WildBean
+gnempool[44,6] <- 535.413
+@
+Malus
+M.domestica : https://www.ncbi.nlm.nih.gov/genome/358
+<<>>=
+idx <- grep("Malus", tree$name); tree[idx,] #Apples
+gnempool[45,6] <- 703.358
+@
+Paracoccus : https://www.ncbi.nlm.nih.gov/genome/13601
+<<>>=
+gnempool[46,6] <- 3.90517
+@
+Physcomitrella 
+P.patens : https://www.ncbi.nlm.nih.gov/genome/?term=Physcomitrella
+<<>>=
+gnempool[47,6] <- 472.081 #Moss(Bryophyte)
+@
+Medicago
+M.truncatula : https://www.ncbi.nlm.nih.gov/genome/?term=Medicago
+<<>>=
+gnempool[48,6] <- 419.474 #CloverPlant
+@
+Sorghum
+S.bicolor : https://www.ncbi.nlm.nih.gov/genome/?term=Sorghum
+<<>>=
+idx <- grep("Sorghum", tree$name); tree[idx,] #Grass/Grain
+gnempool[49,6] <- 666.155
+@
+Camelina
+C.sativa : https://www.ncbi.nlm.nih.gov/genome/?term=Camelina
+<<>>=
+idx <- grep("Camelina", tree$name); tree[idx,] #Linseed
+gnempool[50,6] <- 594.503
+@
+Beta
+B.vulgaris : https://www.ncbi.nlm.nih.gov/genome/221
+<<>>=
+idx <- grep("Beta", tree$name); tree[idx,] #Beets
+make_table(3554)
+gnempool[51,6] <- 511.892
+@
+Manihot
+M.esculenta : https://www.ncbi.nlm.nih.gov/genome/?term=Manihot
+<<>>=
+idx <- grep("Manihot", tree$name); tree[idx,] #Cassava
+gnempool[52,6] <- 582.279
+@
+Just tying up the dataframe, since there were two subgenuses
+<<>>=
+gnempool <- gnempool[-c(20),]
+gnempool <- gnempool[-c(14),]
+write.csv(gnempool, file = "Genomesizes.csv" ) #
+read.csv("~/repo/reefmicrobiome/data/Genomesizes.csv")
+@
+* To renormalize the counts what if we create a ratio based on the totals # of counts sequenced at specific location and divide it by the length of a genome size. A given organism's counts by that ratio.* - Shawn
+
+(Tot # of BellairCounts / Prochlorococcus genome size) * (# of Bellairs Prochlorococcus counts )
+
+
+
+
+\subsection Attempting method mentioned above.
+<<>>=
+bel_tot <- 4708322 #Tot # of BellairsCounts 
+may_tot <- 10181105 #Tot # of MaycocksCounts
+colnames(gnempool)[6] <-c("gn_size")
+gnempool$gn_size <- gnempool$gn_size * 1000000
+
+for (i in 1:nrow(gnempool)) {
+    gnempool$renorm_bel_ratio[i] <- (bel_tot / gnempool$gn_size[i])
+    gnempool$renorm_may_ratio[i] <- (may_tot / gnempool$gn_size[i])
+    gnempool$renorm_bel_counts[i] <- (gnempool$renorm_bel_ratio[i] * gnempool$br_bel[i])
+    gnempool$renorm_may_counts[i] <- (gnempool$renorm_may_ratio[i] * gnempool$br_may[i])
+}
+
+library(ggplot2)
+theme_set(theme_classic())
+
+#Temporary Plots
+renorm_bel_plot <- ggplot(gnempool[1:20,], aes(name, renorm_bel_counts))
+renorm_bel_plot + geom_bar(stat="identity", width = 0.3, fill="tomato2") + 
+      labs(title="Renormalize Bellairs Counst", 
+           subtitle="Top 20 organisms by counts", 
+           caption="Source: Gnempool, Genome Sizes dataset") +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+renorm_may_plot <- ggplot(gnempool[1:20,], aes(name, renorm_may_counts))
+renorm_may_plot + geom_bar(stat="identity", width = 0.3, fill="tomato2") + 
+      labs(title="Renormalize Maycocks Counts", 
+           subtitle="Top 20 organisms by counts", 
+           caption="Source: Gnempool, Genome Sizes dataset") +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+norm_may_plot <- ggplot(gnempool[1:20,], aes(name, br_may))
+norm_may_plot + geom_bar(stat="identity", width = 0.3, fill="tomato2") + 
+      labs(title="Original Maycocks Counts", 
+           subtitle="Top 20 organisms by counts", 
+           caption="Source: Gnempool, Genome Sizes dataset") +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+norm_bel_plot <- ggplot(gnempool[1:20,], aes(name, br_bel))
+norm_bel_plot + geom_bar(stat="identity", width = 0.3, fill="tomato2") + 
+      labs(title="Origingal Bellairs Counts", 
+           subtitle="Top 20 organisms by counts", 
+           caption="Source: Gnempool, Genome Sizes dataset") +
+      theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Removal of Contaminating DNA}
+Uncontaminated Table location : /repo/reefmicrobiome/data/Uncontaminated.csv
+<<>>=
+#Human
+idx <- grep("Homo", tree$name); tree[idx,]
+Human_tax_id <- 9605
+Uncon_tree <- reduce_tree(tree, Human_tax_id)
+
+#Embryophyta
+idx <- grep("Embryophyta", tree$name); tree[idx,]
+Embry_tax_id <- 3193
+Uncon_tree <- reduce_tree(Uncon_tree, Embry_tax_id)
+
+#SavingTable
+write.csv(Uncon_tree, file = "Uncontaminated.csv")
+@
+
+\end{document}

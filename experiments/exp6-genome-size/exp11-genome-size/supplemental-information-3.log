@@ -1,0 +1,2117 @@
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2019.11.24)  20 APR 2020 14:24
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**supplemental-information-3.tex
+(./supplemental-information-3.tex
+LaTeX2e <2017-04-15>
+Babel <3.18> and hyphenation patterns for 7 language(s) loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: xetex.def on input line 99.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/xetex.def
+File: xetex.def 2017/06/24 v5.0h Graphics/color driver for xetex
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: xetex.def on input line 147.
+)
+(/usr/share/texmf/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip43
+\fb@frw=\dimen105
+\fb@frh=\dimen106
+\FrameRule=\dimen107
+\FrameSep=\dimen108
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip44
+\f@nch@O@elh=\skip45
+\f@nch@O@erh=\skip46
+\f@nch@O@olh=\skip47
+\f@nch@O@orh=\skip48
+\f@nch@O@elf=\skip49
+\f@nch@O@erf=\skip50
+\f@nch@O@olf=\skip51
+\f@nch@O@orf=\skip52
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
+\Gm@bindingoffset=\dimen109
+\Gm@wd@mp=\dimen110
+\Gm@odd@mp=\dimen111
+\Gm@even@mp=\dimen112
+\Gm@layoutwidth=\dimen113
+\Gm@layoutheight=\dimen114
+\Gm@layouthoffset=\dimen115
+\Gm@layoutvoffset=\dimen116
+\Gm@dimlist=\toks15
+)
+(/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty
+Package: parskip 2001/04/09 non-zero parskip adjustments
+)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count90
+\float@exts=\toks16
+\float@box=\box26
+\@float@everytoks=\toks17
+\@floatcapt=\box27
+)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/mathptmx.sty
+Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/ztmcm/m/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ztmcm/m/n on input line 28.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 29.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/ztmcm/m/it on input line 29.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/ztmcm/m/it on input line 29.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 30.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/ztmcm/m/n on input line 30.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/ztmcm/m/n on input line 30.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 31.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
+\symbold=\mathgroup4
+\symitalic=\mathgroup5
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
+LaTeX Info: Redefining \hbar on input line 50.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/blindtext/blindtext.sty
+Package: blindtext 2012/01/06 V2.0 blindtext-Package
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+\c@blindtext=\count91
+\c@Blindtext=\count92
+\c@blind@countparstart=\count93
+\blind@countxx=\count94
+\blindtext@numBlindtext=\count95
+\blind@countyy=\count96
+\c@blindlist=\count97
+\c@blindlistlevel=\count98
+\c@blindlist@level=\count99
+\blind@listitem=\count100
+\c@blind@listcount=\count101
+\c@blind@levelcount=\count102
+\blind@mathformula=\count103
+\blind@Mathformula=\count104
+\c@blind@randomcount=\count105
+\c@blind@randommax=\count106
+\c@blind@pangramcount=\count107
+\c@blind@pangrammax=\count108
+)
+\itemdist=\skip53
+\headdist=\skip54
+
+(/usr/share/texlive/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+)
+LaTeX Info: Redefining \oldstylenums on input line 334.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
+Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+))
+(./supplemental-information-3.aux)
+\openout1 = `supplemental-information-3.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 73.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 73.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Try loading font information for TU+ptm on input line 73.
+LaTeX Font Info:    No file TUptm.fd. on input line 73.
+
+
+LaTeX Font Warning: Font shape `TU/ptm/m/n' undefined
+(Font)              using `TU/lmr/m/n' instead on input line 73.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 500.484pt, 56.9055pt)
+* v-part:(T,H,B)=(56.9055pt, 681.15898pt, 56.9055pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=500.484pt
+* \textheight=681.15898pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-52.36449pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\big@size=\dimen117
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 77
+.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
+File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 77
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd
+File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 77
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd
+File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 77
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd
+File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 77.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 80.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 80.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 80.
+Package color Info: Redefining color shadecolor on input line 87.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 89.
+
+Overfull \hbox (83.80602pt too wide) in paragraph at lines 102--103
+[]\TU/ptm/m/n/10 We begin by reading in the NCBI’s summary file of all genes ob
+tained from \TU/lmtt/m/n/10 ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME_REPORTS/\
+TU/ptm/m/n/10 . 
+ []
+
+Package color Info: Redefining color shadecolor on input line 105.
+File: figure/unnamed-chunk-2-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-2-1.pdf>
+[1
+
+]
+Package color Info: Redefining color shadecolor on input line 112.
+
+Overfull \hbox (92.766pt too wide) in paragraph at lines 118--118
+[][]\TU/lmtt/m/n/10 cell.hist[] []<-[] []\TU/lmtt/b/n/10 rbind[][]\TU/lmtt/m/n/
+10 ( cell.hist,[] []\TU/lmtt/b/n/10 data.frame[][]\TU/lmtt/m/n/10 ([] []taxa[] 
+[]=[] []"bac"[][],[] []genome_size[] []= bac[][]$[][]genome_size[[][]![][]\TU/l
+mtt/b/n/10 is.na[][]\TU/lmtt/m/n/10 (bac[][]$[][]genome_size)]))[][] 
+ []
+
+
+Overfull \hbox (108.516pt too wide) in paragraph at lines 119--119
+[][]\TU/lmtt/m/n/10 cell.hist[] []<-[] []\TU/lmtt/b/n/10 rbind[][]\TU/lmtt/m/n/
+10 ( cell.hist,[] []\TU/lmtt/b/n/10 data.frame[][]\TU/lmtt/m/n/10 ([] []taxa[] 
+[]=[] []"arch"[][],[] []genome_size[] []= arch[][]$[][]genome_size[[][]![][]\TU
+/lmtt/b/n/10 is.na[][]\TU/lmtt/m/n/10 (arch[][]$[][]genome_size)]))[][] 
+ []
+
+File: figure/unnamed-chunk-3-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-3-1.pdf>
+[2]
+
+LaTeX Font Warning: Font shape `TU/ptm/m/it' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 131.
+
+Package color Info: Redefining color shadecolor on input line 134.
+Package color Info: Redefining color shadecolor on input line 148.
+
+Overfull \hbox (24.516pt too wide) in paragraph at lines 155--155
+[]  []\TU/lmtt/b/n/10 labs[][]\TU/lmtt/m/n/10 ([][]title[][]=[][]"Genome Size o
+f Eukaryota in the Barbadian Reefs"[] [],[][]x[][]=[][]"Genome Size (Mbp)"[][],
+[] []y[] []=[] []"Count"[][])[][]+[][] 
+ []
+
+[3]
+File: figure/unnamed-chunk-5-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-5-1.pdf>
+Package color Info: Redefining color shadecolor on input line 170.
+
+Overfull \hbox (287.016pt too wide) in paragraph at lines 173--173
+[]   []\TU/lmtt/b/n/10 cat[][]\TU/lmtt/m/n/10 ([][]"\n"[][], largest_species[i,
+[] []"name"[][]],[] []"\t\t"[][],  largest_species[i,[] []"tax_id"[][]], larges
+t_species[i,[] []"genome_size"[][]],[] []"\t"[][],  largest_species[i,[] []"pat
+h"[][]] )[][] 
+ []
+
+
+Overfull \hbox (355.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chara braunii   69332 1751.21   root.cellular organisms.E
+ukaryota.Viridiplantae.Streptophyta.Streptophytina.Charophyceae.Charales.Charac
+eae.Chara.Chara braunii[] 
+ []
+
+
+Overfull \hbox (339.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Euglena gracilis   3039 1435.5   root.cellular organisms.
+Eukaryota.NA.Euglenozoa.Euglenida.NA.Euglenophyceae.Euglenales.Euglenaceae.Eugl
+ena.Euglena gracilis[] 
+ []
+
+
+Overfull \hbox (381.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Symbiodinium kawagutii   104179 935.067   root.cellular o
+rganisms.Eukaryota.Sar.Alveolata.Dinophyceae.Suessiales.Symbiodiniaceae.Symbiod
+inium.Symbiodinium kawagutii[] 
+ []
+
+
+Overfull \hbox (575.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Nephromyces sp. ex Molgula occidentalis   2544991 560.451
+   root.cellular organisms.Eukaryota.Sar.Alveolata.Apicomplexa.Apicomplexa ince
+rtae sedis.Nephromyces.NA.Nephromyces sp. ex Molgula occidentalis[] 
+ []
+
+
+Overfull \hbox (633.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Hemileia vastatrix   203904 543.605   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Pucciniomycotina.Puccin
+iomycetes.Pucciniales.Pucciniales incertae sedis.Hemileia.Hemileia vastatrix[] 
+
+ []
+
+
+Overfull \hbox (439.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Saccharina japonica   88149 539.4045   root.cellular orga
+nisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.NA.Phaeophyceae.Laminariales.Lamin
+ariaceae.Saccharina.Saccharina japonica[] 
+ []
+
+
+Overfull \hbox (507.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Dunaliella salina   3046 343.704   root.cellular organism
+s.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.Chlamydom
+onadales.Dunaliellaceae.Dunaliella.Dunaliella salina[] 
+ []
+
+
+Overfull \hbox (376.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Kappaphycus alvarezii   38544 336.721   root.cellular org
+anisms.Eukaryota.Rhodophyta.Florideophyceae.NA.Gigartinales.Solieriaceae.Kappap
+hycus.Kappaphycus alvarezii[] 
+ []
+
+
+Overfull \hbox (308.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Digenea simplex   945030 299.321   root.cellular organism
+s.Eukaryota.Rhodophyta.Florideophyceae.NA.Ceramiales.Rhodomelaceae.NA.Digenea.D
+igenea simplex[] 
+ []
+
+
+Overfull \hbox (449.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Mesostigma viride   41882 289.67   root.cellular organism
+s.Eukaryota.Viridiplantae.Streptophyta.Mesostigmatophyceae.Mesostigmatales.Meso
+stigmataceae.Mesostigma.Mesostigma viride[] 
+ []
+
+
+Overfull \hbox (465.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cymbomonas tetramitiformis   36881 281.27   root.cellular
+ organisms.Eukaryota.Viridiplantae.Chlorophyta.Pyramimonadophyceae.Pyramimonada
+les.NA.Cymbomonas.Cymbomonas tetramitiformis[] 
+ []
+
+
+Overfull \hbox (607.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Haematococcus lacustris   44745 268.7845   root.cellular 
+organisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.C
+hlamydomonadales.Haematococcaceae.Haematococcus.Haematococcus lacustris[] 
+ []
+
+
+Overfull \hbox (476.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Tetraselmis striata   3165 227.954   root.cellular organi
+sms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.NA.Chlorodendrales.Ch
+lorodendraceae.Tetraselmis.Tetraselmis striata[] 
+ []
+
+
+Overfull \hbox (591.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Oxytricha trifallax   1172189 219.9967   root.cellular or
+ganisms.Eukaryota.Sar.Alveolata.Ciliophora.Intramacronucleata.Spirotrichea.Stic
+hotrichia.NA.Oxytrichidae.Oxytrichinae.Oxytricha.Oxytricha trifallax[] 
+ []
+
+
+Overfull \hbox (444.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Physarum polycephalum   5791 205.176   root.cellular orga
+nisms.Eukaryota.NA.NA.Eumycetozoa.Myxogastria.Myxogastromycetidae.Physariida.Ph
+ysaraceae.Physarum.Physarum polycephalum[] 
+ []
+
+
+Overfull \hbox (460.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Ectocarpus siliculosus   2880 195.811   root.cellular org
+anisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.NA.Phaeophyceae.Ectocarpales.Ecto
+carpaceae.Ectocarpus.Ectocarpus siliculosus[] 
+ []
+
+
+Overfull \hbox (155.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chromera velia   505693 187.455   root.cellular organisms
+.Eukaryota.Sar.Alveolata.Colpodellida.NA.Chromera.Chromera velia[] 
+ []
+
+
+Overfull \hbox (675.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Botryococcus braunii   38881 184.382   root.cellular orga
+nisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae.Tr
+ebouxiophyceae incertae sedis.Elliptochloris clade.Botryococcus.Botryococcus br
+aunii[] 
+ []
+
+
+Overfull \hbox (402.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phytophthora infestans   4787 177.7035   root.cellular or
+ganisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Phy
+tophthora.Phytophthora infestans[] 
+ []
+
+
+Overfull \hbox (476.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cladosiphon okamuranus   309737 169.731   root.cellular o
+rganisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.NA.Phaeophyceae.Ectocarpales.Ch
+ordariaceae.Cladosiphon.Cladosiphon okamuranus[] 
+ []
+
+
+Overfull \hbox (318.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichomonas vaginalis   5722 164.072   root.cellular orga
+nisms.Eukaryota.NA.Parabasalia.Trichomonadida.Trichomonadidae.Trichomonas.Trich
+omonas vaginalis[] 
+ []
+
+
+Overfull \hbox (801.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cantharellus lutescens   104198 160.367   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Aga
+ricomycetes.Agaricomycetes incertae sedis.Cantharellales.Cantharellaceae.Cantha
+rellus.Cantharellus lutescens[] 
+ []
+
+
+Overfull \hbox (528.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Tetradesmus obliquus   3088 157.946   root.cellular organ
+isms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.Sphaer
+opleales.Scenedesmaceae.Tetradesmus.Tetradesmus obliquus[] 
+ []
+
+
+Overfull \hbox (423.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   658196 153.876   root.cellular organisms.Eukaryota.O
+pisthokonta.Fungi.Fungi incertae sedis.Mucoromycota.Glomeromycotina.Glomeromyce
+tes.Glomerales.Glomeraceae.Glomus.NA[] 
+ []
+
+
+Overfull \hbox (465.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Gonium pectorale   33097 148.806   root.cellular organism
+s.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.Chlamydom
+onadales.Volvocaceae.Gonium.Gonium pectorale[] 
+ []
+
+
+Overfull \hbox (455.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   588596 145.3173   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Fungi incertae sedis.Mucoromycota.Glomeromycotina.Glomeromyc
+etes.Glomerales.Glomeraceae.Rhizophagus.NA[] 
+ []
+
+
+Overfull \hbox (565.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Yamagishiella unicocca   51707 137.536   root.cellular or
+ganisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.Chl
+amydomonadales.Volvocaceae.Yamagishiella.Yamagishiella unicocca[] 
+ []
+
+
+Overfull \hbox (528.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Tetrabaena socialis   47790 135.78   root.cellular organi
+sms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.Chlamyd
+omonadales.Tetrabaenaceae.Tetrabaena.Tetrabaena socialis[] 
+ []
+
+
+Overfull \hbox (371.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Plasmopara halstedii   4781 127.0636   root.cellular orga
+nisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Plasm
+opara.Plasmopara halstedii[] 
+ []
+
+
+Overfull \hbox (560.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Tuber melanosporum   39416 124.946   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.Pezizomycetes.Pezizales.Tuberaceae.Tuber.Tuber melanosporum[] 
+ []
+
+
+Overfull \hbox (628.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chlamydomonas reinhardtii   3055 120.405   root.cellular 
+organisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.C
+hlamydomonadales.Chlamydomonadaceae.Chlamydomonas.Chlamydomonas reinhardtii[] 
+ []
+
+
+Overfull \hbox (297.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Sphaeroforma arctica   72019 115.142   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Ichthyosporea.Ichthyophonida.Sphaeroforma.Sphaerof
+orma arctica[] 
+ []
+
+
+Overfull \hbox (208.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Diplonema papillatum   91374 107.915   root.cellular orga
+nisms.Eukaryota.NA.Euglenozoa.Diplonemea.NA.Diplonema.Diplonema papillatum[] 
+ []
+
+
+Overfull \hbox (255.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pyropia yezoensis   2788 107.591   root.cellular organism
+s.Eukaryota.Rhodophyta.Bangiophyceae.Bangiales.Bangiaceae.Pyropia.Pyropia yezoe
+nsis[] 
+ []
+
+
+Overfull \hbox (974.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Ophiocordyceps sinensis   72228 106.603   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreal
+es.Ophiocordycipitaceae.Ophiocordyceps.Ophiocordyceps sinensis[] 
+ []
+
+
+Overfull \hbox (302.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chondrus crispus   2769 104.98   root.cellular organisms.
+Eukaryota.Rhodophyta.Florideophyceae.NA.Gigartinales.Gigartinaceae.Chondrus.Cho
+ndrus crispus[] 
+ []
+
+
+Overfull \hbox (229.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cyanophora paradoxa   2762 99.9404   root.cellular organi
+sms.Eukaryota.Glaucocystophyceae.Cyanophoraceae.Cyanophora.Cyanophora paradoxa[
+] 
+ []
+
+
+Overfull \hbox (318.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Ulva mutabilis   498180 98.4847   root.cellular organisms
+.Eukaryota.Viridiplantae.Chlorophyta.Ulvophyceae.OUU clade.Ulvales.Ulvaceae.Ulv
+a.Ulva mutabilis[] 
+ []
+
+
+Overfull \hbox (654.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chlorella sp. ArM0029B   1415603 92.9613   root.cellular 
+organisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophycea
+e.Chlorellales.Chlorellaceae.Chlorella clade.Chlorella.NA.Chlorella sp. ArM0029
+B[] 
+ []
+
+
+Overfull \hbox (371.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Plasmopara viticola   143451 92.59207   root.cellular org
+anisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Plas
+mopara.Plasmopara viticola[] 
+ []
+
+
+Overfull \hbox (749.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Thalassiosira oceanica   159749 92.1856   root.cellular o
+rganisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.Bacillariophyta.Coscinodiscophy
+ceae.Thalassiosirophycidae.Thalassiosirales.Thalassiosiraceae.Thalassiosira.Tha
+lassiosira oceanica[] 
+ []
+
+
+Overfull \hbox (533.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Psammoneis japonica   517775 91.4306   root.cellular orga
+nisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.Bacillariophyta.NA.Biddulphiophyci
+dae.Triceratiales.Plagiogrammaceae.NA.Psammoneis japonica[] 
+ []
+
+
+Overfull \hbox (308.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Ulva prolifera   3117 87.8893   root.cellular organisms.E
+ukaryota.Viridiplantae.Chlorophyta.Ulvophyceae.OUU clade.Ulvales.Ulvaceae.Ulva.
+Ulva prolifera[] 
+ []
+
+
+Overfull \hbox (287.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Porphyra umbilicalis   2786 87.889   root.cellular organi
+sms.Eukaryota.Rhodophyta.Bangiophyceae.Bangiales.Bangiaceae.Porphyra.Porphyra u
+mbilicalis[] 
+ []
+
+
+Overfull \hbox (365.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phytophthora sojae   67593 84.23815   root.cellular organ
+isms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Phytop
+hthora.Phytophthora sojae[] 
+ []
+
+
+Overfull \hbox (308.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Acanthamoeba castellanii   5755 80.8823   root.cellular o
+rganisms.Eukaryota.NA.NA.Longamoebia.NA.Acanthamoebidae.Acanthamoeba.Acanthamoe
+ba castellanii[] 
+ []
+
+
+Overfull \hbox (612.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chlamydomonas applanata   35704 78.5042   root.cellular o
+rganisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.Ch
+lamydomonadales.Chlamydomonadaceae.Chlamydomonas.Chlamydomonas applanata[] 
+ []
+
+
+Overfull \hbox (628.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Amanita bisporigera   87325 75.3463   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agarico
+mycetes.Agaricomycetidae.Agaricales.Amanitaceae.Amanita.Amanita bisporigera[] 
+ []
+
+
+Overfull \hbox (497.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chlorokybus atmophyticus   3144 74.3303   root.cellular o
+rganisms.Eukaryota.Viridiplantae.Streptophyta.Chlorokybophyceae.Chlorokybales.C
+hlorokybaceae.Chlorokybus.Chlorokybus atmophyticus[] 
+ []
+
+
+Overfull \hbox (418.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Hyphochytrium catenoides   42384 73.08465   root.cellular
+ organisms.Eukaryota.Sar.Stramenopiles.Hyphochytriomycetes.Hyphochytriaceae.Hyp
+hochytrium.Hyphochytrium catenoides[] 
+ []
+
+
+Overfull \hbox (518.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Hyaloperonospora arabidopsidis   272952 72.35685   root.c
+ellular organisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronospo
+raceae.Hyaloperonospora.Hyaloperonospora arabidopsidis[] 
+ []
+
+
+Overfull \hbox (533.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Paramecium tetraurelia   5888 72.0945   root.cellular org
+anisms.Eukaryota.Sar.Alveolata.Ciliophora.Intramacronucleata.Oligohymenophorea.
+Peniculida.Parameciidae.Paramecium.Paramecium tetraurelia[] 
+ []
+
+
+Overfull \hbox (722.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Ganoderma boninense   34458 69.75715   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaric
+omycetes.Agaricomycetes incertae sedis.Polyporales.Polyporaceae.Ganoderma.Ganod
+erma boninense[] 
+ []
+
+
+Overfull \hbox (581.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Monoraphidium neglectum   145388 69.7118   root.cellular 
+organisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.S
+phaeropleales.Selenastraceae.Monoraphidium.Monoraphidium neglectum[] 
+ []
+
+
+Overfull \hbox (665.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Asterionella formosa   210441 68.4198   root.cellular org
+anisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.Bacillariophyta.Fragilariophyceae
+.Fragilariophycidae.Fragilariales.Fragilariaceae.Asterionella.Asterionella form
+osa[] 
+ []
+
+
+Overfull \hbox (659.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Sterkiella histriomuscorum   94289 66.3686   root.cellula
+r organisms.Eukaryota.Sar.Alveolata.Ciliophora.Intramacronucleata.Spirotrichea.
+Stichotrichia.NA.Oxytrichidae.Stylonychinae.Sterkiella.Sterkiella histriomuscor
+um[] 
+ []
+
+
+Overfull \hbox (875.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Diaporthe helianthi   158607 63.672   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycot
+ina.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Diaporthales.
+Diaporthaceae.Diaporthe.Diaporthe helianthi[] 
+ []
+
+
+Overfull \hbox (455.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Rostrostelium ellipticum   361140 62.1602   root.cellular
+ organisms.Eukaryota.NA.NA.Eumycetozoa.Dictyostelia.Acytosteliales.Acytosteliac
+eae.Rostrostelium.Rostrostelium ellipticum[] 
+ []
+
+
+Overfull \hbox (381.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aphanomyces invadans   157072 61.7834   root.cellular org
+anisms.Eukaryota.Sar.Stramenopiles.Oomycota.Saprolegniales.Saprolegniaceae.Apha
+nomyces.Aphanomyces invadans[] 
+ []
+
+
+Overfull \hbox (491.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Toxoplasma gondii   5811 61.5763   root.cellular organism
+s.Eukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Eimer
+iorina.Sarcocystidae.Toxoplasma.Toxoplasma gondii[] 
+ []
+
+
+Overfull \hbox (439.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   554055 61.0189   root.cellular organisms.Eukaryota.V
+iridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae.Chlorellales.Chlore
+llaceae.Chlorella clade.Micractinium.NA[] 
+ []
+
+
+Overfull \hbox (423.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Eimeria mitis   44415 60.4151   root.cellular organisms.E
+ukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Eimerior
+ina.Eimeriidae.Eimeria.Eimeria mitis[] 
+ []
+
+
+Overfull \hbox (654.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Armillaria ostoyae   47428 60.1068   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricom
+ycetes.Agaricomycetidae.Agaricales.Physalacriaceae.Armillaria.Armillaria ostoya
+e[] 
+ []
+
+
+Overfull \hbox (1148.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Colletotrichum graminicola   31870 59.9141   root.cellula
+r organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezi
+zomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Glomer
+ellales.NA.Colletotrichum.Colletotrichum graminicola species complex.Colletotri
+chum graminicola[] 
+ []
+
+
+Overfull \hbox (365.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aphanomyces astaci   112090 59.69445   root.cellular orga
+nisms.Eukaryota.Sar.Stramenopiles.Oomycota.Saprolegniales.Saprolegniaceae.Aphan
+omyces.Aphanomyces astaci[] 
+ []
+
+
+Overfull \hbox (402.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phytophthora cinnamomi   4785 59.63075   root.cellular or
+ganisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Phy
+tophthora.Phytophthora cinnamomi[] 
+ []
+
+
+Overfull \hbox (560.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Parachlorella kessleri   3074 59.1878   root.cellular org
+anisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae.C
+hlorellales.Chlorellaceae.Parachlorella.Parachlorella kessleri[] 
+ []
+
+
+Overfull \hbox (418.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chrysochromulina tobinii   1460289 59.0731   root.cellula
+r organisms.Eukaryota.NA.Haptophyta.NA.Prymnesiales.Chrysochromulinaceae.Chryso
+chromulina.Chrysochromulina tobinii[] 
+ []
+
+
+Overfull \hbox (502.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Besnoitia besnoiti   94643 58.8459   root.cellular organi
+sms.Eukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Eim
+eriorina.Sarcocystidae.Besnoitia.Besnoitia besnoiti[] 
+ []
+
+
+Overfull \hbox (528.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Moneuplotes crassus   5936 58.5666   root.cellular organi
+sms.Eukaryota.Sar.Alveolata.Ciliophora.Intramacronucleata.Spirotrichea.Hypotric
+hia.Euplotida.Euplotidae.Moneuplotes.Moneuplotes crassus[] 
+ []
+
+
+Overfull \hbox (617.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chlorella sorokiniana   3076 58.33862   root.cellular org
+anisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae.C
+hlorellales.Chlorellaceae.Chlorella clade.Chlorella.Chlorella sorokiniana[] 
+ []
+
+
+Overfull \hbox (927.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   690256 57.55417   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomycet
+a.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Glomerellales.NA.Colletotric
+hum.Colletotrichum gloeosporioides species complex.NA[] 
+ []
+
+
+Overfull \hbox (250.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Mastigamoeba balamuthi   108607 57.2666   root.cellular o
+rganisms.Eukaryota.NA.NA.NA.NA.Mastigamoebidae.Mastigamoeba.Mastigamoeba balamu
+thi[] 
+ []
+
+
+Overfull \hbox (1216.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Colletotrichum gloeosporioides   474922 57.2517   root.ce
+llular organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta
+.Pezizomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.G
+lomerellales.NA.Colletotrichum.Colletotrichum gloeosporioides species complex.C
+olletotrichum gloeosporioides[] 
+ []
+
+
+Overfull \hbox (617.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Auxenochlorella pyrenoidosa   3078 56.993   root.cellular
+ organisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyce
+ae.Chlorellales.Chlorellaceae.Auxenochlorella.Auxenochlorella pyrenoidosa[] 
+ []
+
+
+Overfull \hbox (392.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aphanomyces euteiches   100861 56.9046   root.cellular or
+ganisms.Eukaryota.Sar.Stramenopiles.Oomycota.Saprolegniales.Saprolegniaceae.Aph
+anomyces.Aphanomyces euteiches[] 
+ []
+
+
+Overfull \hbox (397.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aureococcus anophagefferens   44056 56.6606   root.cellul
+ar organisms.Eukaryota.Sar.Stramenopiles.Pelagophyceae.Pelagomonadales.Aureococ
+cus.Aureococcus anophagefferens[] 
+ []
+
+
+Overfull \hbox (764.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Rhizoctonia solani   456999 56.0285   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agarico
+mycetes.Agaricomycetes incertae sedis.Cantharellales.Ceratobasidiaceae.Rhizocto
+nia.Rhizoctonia solani[] 
+ []
+
+
+Overfull \hbox (360.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Salpingoeca rosetta   946362 55.4403   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Choanoflagellata.Craspedida.Salpingoecidae.Salping
+oeca.Salpingoeca rosetta[] 
+ []
+
+
+Overfull \hbox (885.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Clonostachys rosea   29856 55.30035   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycot
+ina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.B
+ionectriaceae.Clonostachys.Clonostachys rosea[] 
+ []
+
+
+Overfull \hbox (455.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Eimeria necatrix   51315 55.0079   root.cellular organism
+s.Eukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Eimer
+iorina.Eimeriidae.Eimeria.Eimeria necatrix[] 
+ []
+
+
+Overfull \hbox (880.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Amorphotheca resinae   5101 54.4745   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycot
+ina.leotiomyceta.sordariomyceta.Leotiomycetes.Leotiomycetes incertae sedis.Myxo
+trichaceae.Amorphotheca.Amorphotheca resinae[] 
+ []
+
+
+Overfull \hbox (381.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phytophthora capsici   4784 53.41358   root.cellular orga
+nisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Phyto
+phthora.Phytophthora capsici[] 
+ []
+
+
+Overfull \hbox (759.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Porodaedalea pini   108901 53.3469   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricom
+ycetes.Agaricomycetes incertae sedis.Hymenochaetales.Hymenochaetaceae.Porodaeda
+lea.Porodaedalea pini[] 
+ []
+
+
+Overfull \hbox (292.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pyropia haitanensis   1262161 53.2546   root.cellular org
+anisms.Eukaryota.Rhodophyta.Bangiophyceae.Bangiales.Bangiaceae.Pyropia.Pyropia 
+haitanensis[] 
+ []
+
+
+Overfull \hbox (1027.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium oxysporum   5507 52.02895   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Ne
+ctriaceae.Fusarium.Fusarium oxysporum species complex.Fusarium oxysporum[] 
+ []
+
+
+Overfull \hbox (560.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Stichococcus bacillaris   37433 51.9927   root.cellular o
+rganisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae
+.Prasiolales.Prasiolaceae.Stichococcus.Stichococcus bacillaris[] 
+ []
+
+
+Overfull \hbox (586.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Raphidocelis subcapitata   307507 51.1627   root.cellular
+ organisms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Chlorophyceae.
+Sphaeropleales.Selenastraceae.Raphidocelis.Raphidocelis subcapitata[] 
+ []
+
+
+Overfull \hbox (575.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Stylonychia lemnae   5949 50.1645   root.cellular organis
+ms.Eukaryota.Sar.Alveolata.Ciliophora.Intramacronucleata.Spirotrichea.Stichotri
+chia.NA.Oxytrichidae.Stylonychinae.Stylonychia.Stylonychia lemnae[] 
+ []
+
+
+Overfull \hbox (733.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Morchella importuna   1174673 49.9687   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.Pezizomycetes.Pezizales.Morchellaceae.Morchella.Morchella elata clade.Mor
+chella importuna[] 
+ []
+
+
+Overfull \hbox (633.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fistulifera solaris   1519565 49.7366   root.cellular org
+anisms.Eukaryota.Sar.Stramenopiles.Ochrophyta.Bacillariophyta.Bacillariophyceae
+.Bacillariophycidae.Naviculales.Naviculaceae.Fistulifera.Fistulifera solaris[] 
+
+ []
+
+
+Overfull \hbox (1163.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Colletotrichum higginsianum   80884 49.4357   root.cellul
+ar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pez
+izomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Glome
+rellales.NA.Colletotrichum.Colletotrichum destructivum species complex.Colletot
+richum higginsianum[] 
+ []
+
+
+Overfull \hbox (911.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phialocephala scopiformis   149040 48.8763   root.cellula
+r organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezi
+zomycotina.leotiomyceta.sordariomyceta.Leotiomycetes.Helotiales.Helotiales ince
+rtae sedis.Phialocephala.Phialocephala scopiformis[] 
+ []
+
+
+Overfull \hbox (644.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Ichthyophthirius multifiliis   5932 48.8   root.cellular 
+organisms.Eukaryota.Sar.Alveolata.Ciliophora.Intramacronucleata.Oligohymenophor
+ea.Hymenostomatida.Ophryoglenina.Ichthyophthirius.Ichthyophthirius multifiliis[
+] 
+ []
+
+
+Overfull \hbox (407.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Coremiostelium polycephalum   142831 48.621   root.cellul
+ar organisms.Eukaryota.NA.NA.Eumycetozoa.Dictyostelia.Dictyosteliales.Coremiost
+elium.Coremiostelium polycephalum[] 
+ []
+
+
+Overfull \hbox (953.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Colletotrichum orchidophilum   1209926 48.5565   root.cel
+lular organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.
+Pezizomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Gl
+omerellales.NA.Colletotrichum.Colletotrichum orchidophilum[] 
+ []
+
+
+Overfull \hbox (675.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   1578925 48.3379   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomycet
+a.sordariomyceta.Sordariomycetes.Sordariomycetidae.NA.Pyriculariaceae.Pyricular
+ia.NA[] 
+ []
+
+
+Overfull \hbox (407.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phytophthora parasitica   4792 47.7626   root.cellular or
+ganisms.Eukaryota.Sar.Stramenopiles.Oomycota.Peronosporales.Peronosporaceae.Phy
+tophthora.Phytophthora parasitica[] 
+ []
+
+
+Overfull \hbox (423.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   554065 46.1595   root.cellular organisms.Eukaryota.V
+iridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae.Chlorellales.Chlore
+llaceae.Chlorella clade.Chlorella.NA[] 
+ []
+
+
+Overfull \hbox (1226.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Leptosphaeria maculans   5022 45.9865   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Pleosporal
+es.Pleosporineae.Leptosphaeriaceae.Leptosphaeria.Leptosphaeria maculans species
+ complex.Leptosphaeria maculans[] 
+ []
+
+
+Overfull \hbox (428.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Eimeria maxima   5804 45.9751   root.cellular organisms.E
+ukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Eimerior
+ina.Eimeriidae.Eimeria.Eimeria maxima[] 
+ []
+
+
+Overfull \hbox (470.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Eimeria acervulina   5801 45.8306   root.cellular organis
+ms.Eukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Eime
+riorina.Eimeriidae.Eimeria.Eimeria acervulina[] 
+ []
+
+
+Overfull \hbox (864.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichoderma virens   29875 45.8201   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Hy
+pocreaceae.Trichoderma.Trichoderma virens[] 
+ []
+
+
+Overfull \hbox (985.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium solani   169388 45.8133   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina
+.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Nect
+riaceae.Fusarium.Fusarium solani species complex.Fusarium solani[] 
+ []
+
+
+Overfull \hbox (1069.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium proliferatum   948311 45.78918   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreal
+es.Nectriaceae.Fusarium.Fusarium fujikuroi species complex.Fusarium proliferatu
+m[] 
+ []
+
+
+Overfull \hbox (843.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus mulundensis   1810919 45.3419   root.cellular
+ organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Peziz
+omycotina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillacea
+e.Aspergillus.Aspergillus mulundensis[] 
+ []
+
+
+Overfull \hbox (623.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Rhizopus oryzae   64495 45.04514   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Fungi incertae sedis.Mucoromycota.Mucoromycotina
+.Mucoromycetes.Mucorales.Mucorineae.Rhizopodaceae.Rhizopus.Rhizopus oryzae[] 
+ []
+
+
+Overfull \hbox (1027.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium fujikuroi   5127 44.92106   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Ne
+ctriaceae.Fusarium.Fusarium fujikuroi species complex.Fusarium fujikuroi[] 
+ []
+
+
+Overfull \hbox (612.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Agrocybe aegerita   5400 44.7908   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricomyc
+etes.Agaricomycetidae.Agaricales.Bolbitiaceae.Agrocybe.Agrocybe aegerita[] 
+ []
+
+
+Overfull \hbox (1205.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chrysoporthe austroafricana   354353 44.6689   root.cellu
+lar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pe
+zizomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Diap
+orthales.Cryphonectriaceae.Cryphonectria-Endothia species complex.Chrysoporthe.
+Chrysoporthe austroafricana[] 
+ []
+
+
+Overfull \hbox (843.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pyricularia grisea   148305 44.31875   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.NA.Pyricular
+iaceae.Pyricularia.Pyricularia grisea[] 
+ []
+
+
+Overfull \hbox (1016.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pseudocercospora fijiensis   1873960 44.1245   root.cellu
+lar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pe
+zizomycotina.leotiomyceta.dothideomyceta.Dothideomycetes.Dothideomycetidae.Capn
+odiales.Mycosphaerellaceae.Pseudocercospora.Pseudocercospora fijiensis[] 
+ []
+
+
+Overfull \hbox (292.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pythium insidiosum   114742 44.08819   root.cellular orga
+nisms.Eukaryota.Sar.Stramenopiles.Oomycota.Pythiales.Pythiaceae.Pythium.Pythium
+ insidiosum[] 
+ []
+
+
+Overfull \hbox (549.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cyclospora cayetanensis   88456 43.98724   root.cellular 
+organisms.Eukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiori
+da.Eimeriorina.Eimeriidae.Cyclospora.Cyclospora cayetanensis[] 
+ []
+
+
+Overfull \hbox (722.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   563466 43.82915   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomycet
+a.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Microascales.Microascaceae.S
+cedosporium.NA[] 
+ []
+
+
+Overfull \hbox (486.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Eimeria falciformis   84963 43.6713   root.cellular organ
+isms.Eukaryota.Sar.Alveolata.Apicomplexa.Conoidasida.Coccidia.Eucoccidiorida.Ei
+meriorina.Eimeriidae.Eimeria.Eimeria falciformis[] 
+ []
+
+
+Overfull \hbox (308.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Achlya hypogyna   1202772 43.3985   root.cellular organis
+ms.Eukaryota.Sar.Stramenopiles.Oomycota.Saprolegniales.Saprolegniaceae.Achlya.A
+chlya hypogyna[] 
+ []
+
+
+Overfull \hbox (822.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Venturia effusa   50376 42.9507   root.cellular organisms
+.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.
+leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Venturiales.Vent
+uriaceae.Venturia.Venturia effusa[] 
+ []
+
+
+Overfull \hbox (806.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Lobosporangium transversale   64571 42.7689   root.cellul
+ar organisms.Eukaryota.Opisthokonta.Fungi.Fungi incertae sedis.Mucoromycota.Mor
+tierellomycotina.Mortierellomycetes.Mortierellales.Mortierellaceae.Lobosporangi
+um.Lobosporangium transversale[] 
+ []
+
+
+Overfull \hbox (1064.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  [Nectria] haematococca   140110 42.65957   root.cellular 
+organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizo
+mycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocrea
+les.Nectriaceae.Fusarium.Fusarium solani species complex.[Nectria] haematococca
+[] 
+ []
+
+
+Overfull \hbox (1100.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium verticillioides   117187 42.40943   root.cellula
+r organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezi
+zomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocr
+eales.Nectriaceae.Fusarium.Fusarium fujikuroi species complex.Fusarium verticil
+lioides[] 
+ []
+
+
+Overfull \hbox (617.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichosporon coremiiforme   82509 42.3533   root.cellular
+ organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.T
+remellomycetes.Trichosporonales.NA.Trichosporon.Trichosporon coremiiforme[] 
+ []
+
+
+Overfull \hbox (728.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   569365 42.30655   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomycet
+a.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Herpotrichiellaceae.Clad
+ophialophora.NA[] 
+ []
+
+
+Overfull \hbox (617.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Lentinula edodes   5353 41.46406   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricomyc
+etes.Agaricomycetidae.Agaricales.Omphalotaceae.Lentinula.Lentinula edodes[] 
+ []
+
+
+Overfull \hbox (560.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Crithidia fasciculata   5656 41.2974   root.cellular orga
+nisms.Eukaryota.NA.Euglenozoa.Kinetoplastea.Metakinetoplastina.Trypanosomatida.
+Trypanosomatidae.Leishmaniinae.Crithidia.Crithidia fasciculata[] 
+ []
+
+
+Overfull \hbox (565.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trypanosoma congolense   5692 41.2334   root.cellular org
+anisms.Eukaryota.NA.Euglenozoa.Kinetoplastea.Metakinetoplastina.Trypanosomatida
+.Trypanosomatidae.Trypanosoma.Nannomonas.Trypanosoma congolense[] 
+ []
+
+
+Overfull \hbox (880.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Annulohypoxylon stygium   326628 41.1319   root.cellular 
+organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizo
+mycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Xylariomycetidae.Xylariale
+s.NA.Annulohypoxylon.Annulohypoxylon stygium[] 
+ []
+
+
+Overfull \hbox (586.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Chlorella vulgaris   3077 41.10782   root.cellular organi
+sms.Eukaryota.Viridiplantae.Chlorophyta.core chlorophytes.Trebouxiophyceae.Chlo
+rellales.Chlorellaceae.Chlorella clade.Chlorella.Chlorella vulgaris[] 
+ []
+
+
+Overfull \hbox (848.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Neurospora crassa   5141 40.98185   root.cellular organis
+ms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotin
+a.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Sordariales.Sor
+dariaceae.Neurospora.Neurospora crassa[] 
+ []
+
+
+Overfull \hbox (224.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Naegleria gruberi   5762 40.9641   root.cellular organism
+s.Eukaryota.NA.Heterolobosea.NA.NA.Vahlkampfiidae.Naegleria.Naegleria gruberi[]
+ 
+ []
+
+
+Overfull \hbox (565.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichosporon ovoides   82524 40.9337   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Tremel
+lomycetes.Trichosporonales.NA.Trichosporon.Trichosporon ovoides[] 
+ []
+
+
+Overfull \hbox (1006.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phialemoniopsis curvata   1093900 40.3666   root.cellular
+ organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Peziz
+omycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Xylariomycetidae.Xylarial
+es.Xylariales incertae sedis.Phialemoniopsis.Phialemoniopsis curvata[] 
+ []
+
+
+Overfull \hbox (717.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   568076 40.3173   root.cellular organisms.Eukaryota.O
+pisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomyceta
+.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Clavicipitaceae.M
+etarhizium.NA[] 
+ []
+
+
+Overfull \hbox (896.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichoderma harzianum   5544 40.25984   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales
+.Hypocreaceae.Trichoderma.Trichoderma harzianum[] 
+ []
+
+
+Overfull \hbox (822.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus alliaceus   209559 40.15425   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.
+Aspergillus.Aspergillus alliaceus[] 
+ []
+
+
+Overfull \hbox (764.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus sojae   41058 40.054   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina
+.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.Aspergi
+llus.Aspergillus sojae[] 
+ []
+
+
+Overfull \hbox (843.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium culmorum   5516 40.0196   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina
+.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Nect
+riaceae.Fusarium.NA.Fusarium culmorum[] 
+ []
+
+
+Overfull \hbox (801.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus caelatus   61420 40.0164   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.Asp
+ergillus.Aspergillus caelatus[] 
+ []
+
+
+Overfull \hbox (670.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Arthrobotrys oligospora   13349 40.00234   root.cellular 
+organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizo
+mycotina.Orbiliomycetes.Orbiliales.Orbiliaceae.Arthrobotrys.Arthrobotrys oligos
+pora[] 
+ []
+
+
+Overfull \hbox (308.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Bodo saltans   75058 39.8644   root.cellular organisms.Eu
+karyota.NA.Euglenozoa.Kinetoplastea.Metakinetoplastina.Eubodonida.Bodonidae.Bod
+o.Bodo saltans[] 
+ []
+
+
+Overfull \hbox (701.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Schizophyllum commune   5334 39.7789   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaric
+omycetes.Agaricomycetidae.Agaricales.Schizophyllaceae.Schizophyllum.Schizophyll
+um commune[] 
+ []
+
+
+Overfull \hbox (833.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Hypoxylon pulicicidum   1243767 39.6241   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Xylariomycetidae.Xylariales
+.NA.Hypoxylon.Hypoxylon pulicicidum[] 
+ []
+
+
+Overfull \hbox (838.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pyricularia oryzae   318829 39.4074   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycot
+ina.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.NA.Pyriculari
+aceae.Pyricularia.Pyricularia oryzae[] 
+ []
+
+
+Overfull \hbox (1169.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cryphonectria parasitica   5116 39.2611   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Diaportha
+les.Cryphonectriaceae.Cryphonectria-Endothia species complex.Cryphonectria.Cryp
+honectria parasitica[] 
+ []
+
+
+Overfull \hbox (843.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Phanerochaete chrysosporium   5306 39.2051   root.cellula
+r organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.
+Agaricomycetes.Agaricomycetes incertae sedis.Polyporales.Phanerochaetaceae.Phan
+erochaete.Phanerochaete chrysosporium[] 
+ []
+
+
+Overfull \hbox (397.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Thraustotheca clavata   74557 39.1007   root.cellular org
+anisms.Eukaryota.Sar.Stramenopiles.Oomycota.Saprolegniales.Saprolegniaceae.Thra
+ustotheca.Thraustotheca clavata[] 
+ []
+
+
+Overfull \hbox (701.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Sparassis crispa   139825 39.0203   root.cellular organis
+ms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricomy
+cetes.Agaricomycetes incertae sedis.Polyporales.Sparassidaceae.Sparassis.Sparas
+sis crispa[] 
+ []
+
+
+Overfull \hbox (854.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Sordaria macrospora   5147 38.8634   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Sordariales.So
+rdariaceae.Sordaria.Sordaria macrospora[] 
+ []
+
+
+Overfull \hbox (859.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium venenatum   56646 38.6602   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.Ne
+ctriaceae.Fusarium.NA.Fusarium venenatum[] 
+ []
+
+
+Overfull \hbox (733.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Dichomitus squalens   114155 38.59503   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agari
+comycetes.Agaricomycetes incertae sedis.Polyporales.Polyporaceae.Dichomitus.Dic
+homitus squalens[] 
+ []
+
+
+Overfull \hbox (581.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   1725355 38.5165   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Saccharomycotina.Saccharom
+ycetes.Saccharomycetales.Saccharomycopsidaceae.Saccharomycopsis.NA[] 
+ []
+
+
+Overfull \hbox (1100.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Paraphaeosphaeria sporulosa   1460663 38.464   root.cellu
+lar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pe
+zizomycotina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Ple
+osporales.Massarineae.Didymosphaeriaceae.Paraphaeosphaeria.Paraphaeosphaeria sp
+orulosa[] 
+ []
+
+
+Overfull \hbox (859.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus pseudotamarii   132259 38.2439   root.cellula
+r organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezi
+zomycotina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillace
+ae.Aspergillus.Aspergillus pseudotamarii[] 
+ []
+
+
+Overfull \hbox (885.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Exophiala oligosperma   215243 38.2245   root.cellular or
+ganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomy
+cotina.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Herpot
+richiellaceae.Exophiala.Exophiala oligosperma[] 
+ []
+
+
+Overfull \hbox (869.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichoderma gamsii   398673 38.1993   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycot
+ina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.H
+ypocreaceae.Trichoderma.Trichoderma gamsii[] 
+ []
+
+
+Overfull \hbox (932.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Zymoseptoria tritici   1047171 38.1077   root.cellular or
+ganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomy
+cotina.leotiomyceta.dothideomyceta.Dothideomycetes.Dothideomycetidae.Capnodiale
+s.Mycosphaerellaceae.Zymoseptoria.Zymoseptoria tritici[] 
+ []
+
+
+Overfull \hbox (911.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichoderma asperellum   101201 38.0794   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreal
+es.Hypocreaceae.Trichoderma.Trichoderma asperellum[] 
+ []
+
+
+Overfull \hbox (1069.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Parastagonospora nodorum   13684 38.03676   root.cellular
+ organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Peziz
+omycotina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Pleosp
+orales.Pleosporineae.Phaeosphaeriaceae.Parastagonospora.Parastagonospora nodoru
+m[] 
+ []
+
+
+Overfull \hbox (859.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus welwitschiae   1341132 37.84645   root.cellul
+ar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pez
+izomycotina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillac
+eae.Aspergillus.Aspergillus welwitschiae[] 
+ []
+
+
+Overfull \hbox (875.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Neurospora discreta   29879 37.76317   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Sordariales.
+Sordariaceae.Neurospora.Neurospora discreta[] 
+ []
+
+
+Overfull \hbox (838.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus oryzae   5062 37.63278   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.Asper
+gillus.Circumdati.Aspergillus oryzae[] 
+ []
+
+
+Overfull \hbox (806.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus bombycis   109264 37.4746   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.As
+pergillus.Aspergillus bombycis[] 
+ []
+
+
+Overfull \hbox (670.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trametes hirsuta   5327 37.434   root.cellular organisms.
+Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricomycet
+es.Agaricomycetes incertae sedis.Polyporales.Polyporaceae.Trametes.Trametes hir
+suta[] 
+ []
+
+
+Overfull \hbox (1001.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Purpureocillium lilacinum   33203 37.4171   root.cellular
+ organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Peziz
+omycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocre
+ales.Ophiocordycipitaceae.Purpureocillium.Purpureocillium lilacinum[] 
+ []
+
+
+Overfull \hbox (1090.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium coffeatum   231269 37.40235   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.
+Nectriaceae.Fusarium.Fusarium incarnatum-equiseti species complex.Fusarium coff
+eatum[] 
+ []
+
+
+Overfull \hbox (859.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus pseudonomius   1506151 37.24685   root.cellul
+ar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pez
+izomycotina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillac
+eae.Aspergillus.Aspergillus pseudonomius[] 
+ []
+
+
+Overfull \hbox (833.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Endocarpon pusillum   364733 37.1732   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Verrucariales.Verrucaria
+ceae.Endocarpon.Endocarpon pusillum[] 
+ []
+
+
+Overfull \hbox (959.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cladophialophora bantiana   89940 37.0879   root.cellular
+ organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Peziz
+omycotina.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Her
+potrichiellaceae.Cladophialophora.Cladophialophora bantiana[] 
+ []
+
+
+Overfull \hbox (838.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus flavus   5059 37.00717   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.Asper
+gillus.Circumdati.Aspergillus flavus[] 
+ []
+
+
+Overfull \hbox (880.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium graminearum   5518 36.80952   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.
+Nectriaceae.Fusarium.NA.Fusarium graminearum[] 
+ []
+
+
+Overfull \hbox (953.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fusarium pseudograminearum   101028 36.70635   root.cellu
+lar organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pe
+zizomycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypo
+creales.Nectriaceae.Fusarium.NA.Fusarium pseudograminearum[] 
+ []
+
+
+Overfull \hbox (665.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   2587410 36.5797   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomycet
+a.sordariomyceta.Sordariomycetes.Sordariomycetidae.Sordariales.Chaetomiaceae.NA
+.NA[] 
+ []
+
+
+Overfull \hbox (911.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trichoderma atroviride   63577 36.53947   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreal
+es.Hypocreaceae.Trichoderma.Trichoderma atroviride[] 
+ []
+
+
+Overfull \hbox (974.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Bipolaris sorokiniana   45130 36.5329   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Pleosporal
+es.Pleosporineae.Pleosporaceae.Bipolaris.Bipolaris sorokiniana[] 
+ []
+
+
+Overfull \hbox (675.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Flammulina velutipes   38945 36.4597   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaric
+omycetes.Agaricomycetidae.Agaricales.Physalacriaceae.Flammulina.Flammulina velu
+tipes[] 
+ []
+
+
+Overfull \hbox (911.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cercospora beticola   122368 36.28903   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.dothideomyceta.Dothideomycetes.Dothideomycetidae.Capnodiales
+.Mycosphaerellaceae.Cercospora.Cercospora beticola[] 
+ []
+
+
+Overfull \hbox (638.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Mucor circinelloides   36080 36.2576   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Fungi incertae sedis.Mucoromycota.Mucoromyco
+tina.Mucoromycetes.Mucorales.Mucorineae.Mucoraceae.Mucor.Mucor circinelloides[]
+ 
+ []
+
+
+Overfull \hbox (827.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Talaromyces pinophilus   128442 35.8832   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Trichocomaceae.
+Talaromyces.Talaromyces pinophilus[] 
+ []
+
+
+Overfull \hbox (733.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   655981 35.8182   root.cellular organisms.Eukaryota.O
+pisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomyceta
+.sordariomyceta.Leotiomycetes.Leotiomycetes incertae sedis.Pseudeurotiaceae.Pse
+udogymnoascus.NA[] 
+ []
+
+
+Overfull \hbox (539.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Trypanosoma cruzi   5693 35.76182   root.cellular organis
+ms.Eukaryota.NA.Euglenozoa.Kinetoplastea.Metakinetoplastina.Trypanosomatida.Try
+panosomatidae.Trypanosoma.Schizotrypanum.Trypanosoma cruzi[] 
+ []
+
+
+Overfull \hbox (880.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Beauveria bassiana   176275 35.63905   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Hypocreales.
+Cordycipitaceae.Beauveria.Beauveria bassiana[] 
+ []
+
+
+Overfull \hbox (1064.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pyrenophora tritici-repentis   45151 35.51074   root.cell
+ular organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.P
+ezizomycotina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Pl
+eosporales.Pleosporineae.Pleosporaceae.Pyrenophora.Pyrenophora tritici-repentis
+[] 
+ []
+
+
+Overfull \hbox (680.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Drechslerella brochopaga   47238 35.4316   root.cellular 
+organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizo
+mycotina.Orbiliomycetes.Orbiliales.Orbiliaceae.Drechslerella.Drechslerella broc
+hopaga[] 
+ []
+
+
+Overfull \hbox (827.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus niger   5061 35.42943   root.cellular organis
+ms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotin
+a.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.Asperg
+illus.Circumdati.Aspergillus niger[] 
+ []
+
+
+Overfull \hbox (780.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Aspergillus nomius   41061 35.2805   root.cellular organi
+sms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycoti
+na.leotiomyceta.Eurotiomycetes.Eurotiomycetidae.Eurotiales.Aspergillaceae.Asper
+gillus.Aspergillus nomius[] 
+ []
+
+
+Overfull \hbox (864.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fonsecaea monophora   254056 35.2298   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Herpotri
+chiellaceae.Fonsecaea.Fonsecaea monophora[] 
+ []
+
+
+Overfull \hbox (360.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Cafeteria roenbergensis   33653 35.04308   root.cellular 
+organisms.Eukaryota.Sar.Stramenopiles.NA.NA.Bicosoecida.Cafeteriaceae.Cafeteria
+.Cafeteria roenbergensis[] 
+ []
+
+
+Overfull \hbox (985.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Diplodia corticola   236234 34.9861   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycot
+ina.leotiomyceta.dothideomyceta.Dothideomycetes.Dothideomycetes incertae sedis.
+Botryosphaeriales.Botryosphaeriaceae.Diplodia.Diplodia corticola[] 
+ []
+
+
+Overfull \hbox (833.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fonsecaea erecta   1367422 34.748   root.cellular organis
+ms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotin
+a.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Herpotrichi
+ellaceae.Fonsecaea.Fonsecaea erecta[] 
+ []
+
+
+Overfull \hbox (644.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Pleurotus ostreatus   5322 34.72905   root.cellular organ
+isms.Eukaryota.Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agarico
+mycetes.Agaricomycetidae.Agaricales.Pleurotaceae.Pleurotus.Pleurotus ostreatus[
+] 
+ []
+
+
+Overfull \hbox (554.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   1659845 34.5224   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Basidiomycota.Agaricomycotina.Agaricomycetes.Agarico
+mycetes incertae sedis.Hymenochaetales.Hymenochaetaceae.NA.NA[] 
+ []
+
+
+Overfull \hbox (701.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  NA   2587412 34.5062   root.cellular organisms.Eukaryota.
+Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina.leotiomycet
+a.sordariomyceta.Sordariomycetes.Sordariomycetidae.Sordariales.Chaetomiaceae.Po
+dospora.NA[] 
+ []
+
+
+Overfull \hbox (901.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Exophiala lecanii-corni   91925 34.4207   root.cellular o
+rganisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizom
+ycotina.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Herpo
+trichiellaceae.Exophiala.Exophiala lecanii-corni[] 
+ []
+
+
+Overfull \hbox (271.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Paramoeba pemaquidensis   180228 34.387   root.cellular o
+rganisms.Eukaryota.NA.NA.Flabellinia.NA.Paramoebidae.Paramoeba.Paramoeba pemaqu
+idensis[] 
+ []
+
+
+Overfull \hbox (838.266pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Podospora comata   48703 34.3855   root.cellular organism
+s.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotina
+.leotiomyceta.sordariomyceta.Sordariomycetes.Sordariomycetidae.Sordariales.Chae
+tomiaceae.Podospora.Podospora comata[] 
+ []
+
+
+Overfull \hbox (948.516pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Verticillium dahliae   27337 34.03032   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.sordariomyceta.Sordariomycetes.Hypocreomycetidae.Glomerellal
+es.Plectosphaerellaceae.Verticillium.Verticillium dahliae[] 
+ []
+
+
+Overfull \hbox (1268.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Alternaria alternata   5599 33.95789   root.cellular orga
+nisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyco
+tina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Pleosporale
+s.Pleosporineae.Pleosporaceae.Alternaria.Alternaria sect. Alternaria.Alternaria
+ alternata complex.Alternaria alternata[] 
+ []
+
+
+Overfull \hbox (1148.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Alternaria arborescens   156630 33.83602   root.cellular 
+organisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizo
+mycotina.leotiomyceta.dothideomyceta.Dothideomycetes.Pleosporomycetidae.Pleospo
+rales.Pleosporineae.Pleosporaceae.Alternaria.Alternaria sect. Alternaria.Altern
+aria arborescens[] 
+ []
+
+
+Overfull \hbox (722.766pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Lachnellula hyalina   1316788 33.8283   root.cellular org
+anisms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomyc
+otina.leotiomyceta.sordariomyceta.Leotiomycetes.Helotiales.NA.Lachnellula.Lachn
+ellula hyalina[] 
+ []
+
+
+Overfull \hbox (833.016pt too wide) in paragraph at lines 378--378
+[]\TU/lmtt/m/n/10 ##  Fonsecaea nubica   856822 33.7874   root.cellular organis
+ms.Eukaryota.Opisthokonta.Fungi.Dikarya.Ascomycota.saccharomyceta.Pezizomycotin
+a.leotiomyceta.Eurotiomycetes.Chaetothyriomycetidae.Chaetothyriales.Herpotrichi
+ellaceae.Fonsecaea.Fonsecaea nubica[] 
+ []
+
+
+Overfull \hbox (890.766pt too wide) in paragraph at lines 380--380
+[][]\TU/lmtt/m/it/10 # to_kill <- c(69332, 2544991, 88149, 38544, 945030, 2880,
+ 309737, 104198, 658196, 39416, 2788, 72228, 2769, 2786, 87325, 3144, 272952, 3
+4458,  47428, 108901, 1262161, 1174673, 5400, 5353, 326628, 5334, 5306, 74557, 
+139825, 114155, 5327, 38945, 122368, 36080, 5693,[][] 
+ []
+
+
+Overfull \hbox (3.516pt too wide) in paragraph at lines 391--391
+[][]\TU/lmtt/m/it/10 #save(tree, file = paste0(paste0("/home/data/refined/reef/
+R/ultra.pure.tree.", date), ".RData"))[][] 
+ []
+
+
+Overfull \hbox (19.266pt too wide) in paragraph at lines 392--392
+[][]\TU/lmtt/m/it/10 #write.csv(tree, file = paste0(paste0("/home/data/refined/
+reef/R/ultra.pure.tree.", date), ".csv"))[][] 
+ []
+
+
+Underfull \vbox (badness 1478) detected at line 394
+ []
+
+[4]
+Underfull \vbox (badness 10000) detected at line 394
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 394
+ []
+
+[5]
+Underfull \vbox (badness 10000) detected at line 394
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 394
+ []
+
+[6]
+Underfull \vbox (badness 10000) detected at line 394
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 394
+ []
+
+[7]
+Package color Info: Redefining color shadecolor on input line 399.
+
+Overfull \hbox (24.516pt too wide) in paragraph at lines 409--409
+[]  []\TU/lmtt/b/n/10 labs[][]\TU/lmtt/m/n/10 ([][]title[][]=[][]"Genome Size o
+f Eukaryota in the Barbadian Reefs"[] [],[][]x[][]=[][]"Genome Size (Mbp)"[][],
+[] []y[] []=[] []"Count"[][])[][]+[][] 
+ []
+
+
+Underfull \vbox (badness 5622) detected at line 413
+ []
+
+[8]
+File: figure/unnamed-chunk-7-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-7-1.pdf>
+Package color Info: Redefining color shadecolor on input line 420.
+ [9]
+File: figure/unnamed-chunk-8-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-8-1.pdf>
+ [10]
+Package color Info: Redefining color shadecolor on input line 458.
+File: figure/unnamed-chunk-9-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-9-1.pdf>
+
+
+LaTeX Font Warning: Font shape `TU/ptm/bx/n' undefined
+(Font)              using `TU/ptm/m/n' instead on input line 477.
+
+Package color Info: Redefining color shadecolor on input line 485.
+[11]
+Overfull \hbox (50.766pt too wide) in paragraph at lines 489--489
+[][]\TU/lmtt/m/n/10 euk_species_a[] []<-[] []euk_species; euk_species_a[][]$[][
+]site[] []<-[] []"bellairs"[][]; euk_species_a[][]$[][]reads[] []<-[] []euk_spe
+cies[][]$[][]br_bel[][] 
+ []
+
+
+Overfull \hbox (50.766pt too wide) in paragraph at lines 490--490
+[][]\TU/lmtt/m/n/10 euk_species_b[] []<-[] []euk_species; euk_species_b[][]$[][
+]site[] []<-[] []"maycocks"[][]; euk_species_b[][]$[][]reads[] []<-[] []euk_spe
+cies[][]$[][]br_may[][] 
+ []
+
+File: figure/unnamed-chunk-10-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-10-1.pdf>
+Package color Info: Redefining color shadecolor on input line 502.
+[12]
+Overfull \hbox (103.266pt too wide) in paragraph at lines 506--506
+[][]\TU/lmtt/m/n/10 virus_species_a[] []<-[] []virus_species; virus_species_a[]
+[]$[][]site[] []<-[] []"bellairs"[][]; virus_species_a[][]$[][]reads[] []<-[] [
+]virus_species[][]$[][]br_bel[][] 
+ []
+
+
+Overfull \hbox (103.266pt too wide) in paragraph at lines 507--507
+[][]\TU/lmtt/m/n/10 virus_species_b[] []<-[] []virus_species; virus_species_b[]
+[]$[][]site[] []<-[] []"maycocks"[][]; virus_species_b[][]$[][]reads[] []<-[] [
+]virus_species[][]$[][]br_may[][] 
+ []
+
+File: figure/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-11-1.pdf>
+Package color Info: Redefining color shadecolor on input line 519.
+
+Overfull \hbox (50.766pt too wide) in paragraph at lines 523--523
+[][]\TU/lmtt/m/n/10 bac_species_a[] []<-[] []bac_species; bac_species_a[][]$[][
+]site[] []<-[] []"bellairs"[][]; bac_species_a[][]$[][]reads[] []<-[] []bac_spe
+cies[][]$[][]br_bel[][] 
+ []
+
+
+Overfull \hbox (50.766pt too wide) in paragraph at lines 524--524
+[][]\TU/lmtt/m/n/10 bac_species_b[] []<-[] []bac_species; bac_species_b[][]$[][
+]site[] []<-[] []"maycocks"[][]; bac_species_b[][]$[][]reads[] []<-[] []bac_spe
+cies[][]$[][]br_may[][] 
+ []
+
+[13]
+File: figure/unnamed-chunk-12-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-12-1.pdf>
+Package color Info: Redefining color shadecolor on input line 536.
+
+Overfull \hbox (77.016pt too wide) in paragraph at lines 540--540
+[][]\TU/lmtt/m/n/10 arch_species_a[] []<-[] []arch_species; arch_species_a[][]$
+[][]site[] []<-[] []"bellairs"[][]; arch_species_a[][]$[][]reads[] []<-[] []arc
+h_species[][]$[][]br_bel[][] 
+ []
+
+
+Overfull \hbox (77.016pt too wide) in paragraph at lines 541--541
+[][]\TU/lmtt/m/n/10 arch_species_b[] []<-[] []arch_species; arch_species_b[][]$
+[][]site[] []<-[] []"maycocks"[][]; arch_species_b[][]$[][]reads[] []<-[] []arc
+h_species[][]$[][]br_may[][] 
+ []
+
+File: figure/unnamed-chunk-13-1.pdf Graphic file (type pdf)
+<use figure/unnamed-chunk-13-1.pdf>
+[14]
+Package color Info: Redefining color shadecolor on input line 563.
+ [15])
+! Emergency stop.
+<*> supplemental-information-3.tex
+                                  
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 2214 strings out of 494956
+ 32676 string characters out of 6177212
+ 175272 words of memory out of 5000000
+ 6021 multiletter control sequences out of 15000+600000
+ 19956 words of font info for 57 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 25i,6n,43p,387b,238s stack positions out of 5000i,500n,10000p,200000b,80000s
+Output written on supplemental-information-3.pdf (15 pages).

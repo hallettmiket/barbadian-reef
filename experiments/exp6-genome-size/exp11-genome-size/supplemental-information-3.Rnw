@@ -1,0 +1,600 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage[margin=2.0cm]{geometry}%rounded up from 1.87, just to be safe...
+\usepackage{parskip}
+\usepackage{float}
+%\usepackage{times} %make sure that the times new roman is used
+\usepackage{mathptmx}
+
+\usepackage{blindtext}
+\title{Supplemental Information 3: Genome Size }
+\date{April 2020}
+\author{Simpson, Bettauer et al.}
+
+
+%      ------ Format Stuff ---------
+\newlength{\itemdist}
+\setlength{\itemdist}{0.05ex}
+\newlength{\headdist}
+\setlength{\headdist}{0.04ex}
+
+\newcommand{\R}{\mathbb{R}}
+
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+%\pagestyle{fancy}
+
+\maketitle
+
+This supplemental methods describes our investigations of the relative sizes of genomes.
+We examine the $50$ most abundant 
+ genres at each site spread across the all the kingdoms and domains in our data by considering the size of the genomes. 
+If the genomes of species different greatly, we will need to correct for genome size in the calculation
+of frequency.
+
+We begin by loading the refined data after cleaning.
+At the end of this file, a new version of the tree is saved and the linear models
+for correcting for genome size.
+<<message=FALSE, warning=FALSE>>= 
+options(warn = -1)
+library(xtable); library(ggplot2); library(vcd); library(MASS); library(FNN); library(rlang)
+library("DescTools")
+
+source("~/repo/reefmicrobiome/src/functions.R")
+
+# Load the tree data.frame with Bracken counts etc.
+REEF_DIR <- "/home/data/refined/reef/R/"
+date <- "april.19"
+load(file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+original <- tree # for safe keeping
+mt <- make_table
+figurefile <- "/home/data/refined/reef/R/figures/genome_size"
+@
+
+We begin by reading in the NCBI's summary file of all genes obtained from {\tt ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME\_REPORTS/}.
+
+<<message=FALSE, warning=FALSE,echo=FALSE>>=
+ncbi_euk <- read.csv( paste0(REEF_DIR, "GENOME_REPORTS/eukaryotes.txt" ), sep = '\t')
+ncbi_euk$Size..Mb. <- as.numeric(as.character( ncbi_euk$Size..Mb.))
+ncbi_prok <- read.csv( paste0(REEF_DIR, "GENOME_REPORTS/prokaryotes.txt" ), sep = '\t')
+ncbi_vir <- read.csv( paste0(REEF_DIR, "GENOME_REPORTS/viruses.txt" ), sep = '\t')
+ncbi_vir$Size..Mb. <- ncbi_vir$Size..Kb./1000
+ncbi <- list( ncbi_euk, ncbi_prok, ncbi_vir )
+
+source("~/repo/reefmicrobiome/experiments/exp11-genome-size/local_functions.R")
+void <- pgs(1, ncbi)  # this pgs == percolate_genome_size() calculates the averqge gene size for every taxa in tree.
+@
+
+<<>>=
+cell <- induce_tree(131567)
+virus <- induce_tree(10239)
+unclassified <- induce_tree(12908)
+root.hist <- data.frame( taxa = "cell", genome_size = cell$genome_size[!is.na(cell$genome_size)])
+root.hist <- rbind( root.hist, data.frame( taxa = "virus", genome_size = virus$genome_size[!is.na(virus$genome_size)]))
+# root.hist <-  rbind( root.hist, data.frame( taxa = "unclass", genome_size = unclassified$genome_size[!is.na(unclassified$genome_size)]))
+# removed becasue it is empty
+
+p<-ggplot(root.hist, aes(x=genome_size, fill=taxa, color=taxa)) +
+  geom_histogram(position="identity", alpha=0.5, binwidth = 0.1) +
+  labs(title="Genome Size of Viruses versus Cellular Organisms" ,x="Genome Size (Mbp)", y = "Count")+
+  theme_classic()
+p
+@
+
+Notice that there remain some very large genomes at approxiamtely $1.5$ billion bp. We investigate these large (non-viral) genomes next.
+<<>>=
+euk <- induce_tree(2759);       
+bac <- induce_tree(2)   
+arch <- induce_tree(2157)
+cell.hist <- data.frame( taxa = "euk", genome_size = euk$genome_size[!is.na(euk$genome_size)])
+cell.hist <- rbind( cell.hist, data.frame( taxa = "bac", genome_size = bac$genome_size[!is.na(bac$genome_size)]))
+cell.hist <- rbind( cell.hist, data.frame( taxa = "arch", genome_size = arch$genome_size[!is.na(arch$genome_size)]))
+p<-ggplot(cell.hist, aes(x=genome_size, fill=taxa, color=taxa)) +
+  geom_histogram(position="identity", alpha=0.5, binwidth = 0.1) +
+  labs(title="Genome Size of Cellular Organisms" ,x="Genome Size (Mbp)", y = "Count")+
+  theme_classic()
+p
+@
+
+The largest bacterial genome in our data is {\em Minicystis rosea} at $16$ Mbp and the largest Archaea genome
+is $6$ Mbp.
+<<>>=
+largest <- arrange(bac,desc(genome_size))
+largest_species <- largest[ which(largest$rank == "species"), ]
+
+largest <- arrange(arch,desc(genome_size))
+largest_species <- largest[ which(largest$rank == "species"), ]
+
+@
+
+Therefore, we focus our attention on Eukaryota only of which there are many large genomes.
+
+<<>>=
+largest <- arrange(euk,desc(genome_size))
+largest_species <- largest[ which(largest$rank == "species"), ]
+
+p<-ggplot(largest, aes(x=genome_size)) +
+  geom_histogram(position="identity", alpha=0.5, binwidth=10) +
+  labs(title="Genome Size of Eukaryota in the Barbadian Reefs" ,x="Genome Size (Mbp)", y = "Count")+
+  theme_classic()
+p
+@
+
+Many, but certainly not all, of the large genomes correspond to multicellular organisms. 
+We remove the largest ($>30$ Mbp)  from further analysis.
+We adjusted the number of counts for each of the remaining genomes that are below this cut off below.
+
+The following taxa were removed.
+<<>>=
+for (i in 1:200) {
+   cat("\n", largest_species[i, "name"], "\t\t",  largest_species[i, "tax_id"], largest_species[i, "genome_size"], "\t",  largest_species[i, "path"] )
+ }
+
+
+# to_kill <- c(69332, 2544991, 88149, 38544, 945030, 2880, 309737, 104198, 658196, 39416, 2788, 72228, 2769, 2786, 87325, 3144, 272952, 34458,  47428, 108901, 1262161, 1174673, 5400, 5353, 326628, 5334, 5306, 74557, 139825, 114155, 5327, 38945, 122368, 36080, 5693,
+#         33653, 5322)
+#         
+# #pre.modified <- tree
+# for (i in 1:length(to_kill)) {
+#   void <- remove_update_tree( to_kill[i] )
+#   
+#   to_remove <- intersect( which(tree$br_bel==0), which(tree$br_may==0) )
+#   if (length(to_remove)>0) tree <- tree[ -to_remove, ]
+# } 
+
+#save(tree, file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+#write.csv(tree, file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".csv"))
+
+@
+
+Let's revisit briefly after these deletions.
+<<>>=
+load(file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+
+euk <- induce_tree(2759);       
+largest <- arrange(euk,desc(genome_size))
+largest_species <- largest[ which(largest$rank == "species"), ]
+
+p<-ggplot(largest_species, aes(x=genome_size)) +
+  geom_histogram(position="identity", alpha=0.5, binwidth=10) +
+  labs(title="Genome Size of Eukaryota in the Barbadian Reefs" ,x="Genome Size (Mbp)", y = "Count")+
+  theme_classic()
+p
+@
+
+
+<<>>=
+
+euk <- induce_tree(2759); euk$taxa <- "Eukaryota"
+virus <- induce_tree(10239); virus$taxa <- "virus"
+bac <- induce_tree(2) ; bac$taxa <- "Bacteria" 
+arch <- induce_tree(2157); arch$taxa <- "Archaea"
+
+everyone <- do.call("rbind", list(euk, virus, bac, arch))
+
+largest <- arrange(everyone,desc(genome_size))
+
+largest_species <- largest[ which(largest$rank == "species"), ]
+
+library("DescTools")
+largest_species$genome_size <- Winsorize(largest_species$genome_size, maxval = 50, na.rm=TRUE)
+
+p<-ggplot(largest_species, aes(x=genome_size, fill=taxa, color=taxa)) +
+  geom_histogram(position="identity", alpha=0.5, binwidth = 0.5) +
+  labs(title="Genome Size of Cellular Organisms" ,x="Genome Size (Mbp)", y = "Count")+
+  scale_color_brewer(palette="Dark2")+
+  scale_fill_brewer(palette="Dark2")+
+  theme_classic()
+p
+
+@
+
+Now we repeat the above plot at the genus level rather than at the species level.
+Although the two plots are very similar, we note that our calculation at each internal
+nodes $t$ in the tree of life should be fixed.
+Currently, we simply compute the average across all the children of $t$
+but we should rather compute a weighted average.
+As it is, the averaage genome size at or near the root is disportionality high because it
+subject to a few large Eukaryota genomes
+
+<<>>=
+
+largest_species <- largest[ which(largest$rank == "genus"), ]
+largest_species$genome_size <- Winsorize(largest_species$genome_size, maxval = 50, na.rm=TRUE)
+
+p<-ggplot(largest_species, aes(x=genome_size, fill=taxa, color=taxa)) +
+  geom_histogram(position="identity", alpha=0.5, binwidth = 0.5) +
+  labs(title="Genome Size of Cellular Organisms" ,x="Genome Size (Mbp)", y = "Count")+
+  scale_color_brewer(palette="Dark2")+
+  scale_fill_brewer(palette="Dark2")+
+  theme_classic()
+p
+@
+Finally, save this all to version 1.0.
+<<>>>=
+load(file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+recursive_isLeaf( 1 )
+tidyup()
+#save( file = file.path(REEF_DIR, "tree_1.0.RData"), tree)
+#write.csv( file = file.path(REEF_DIR, "tree_1.0.csv"), tree)
+@
+
+
+\section{Correlations between genome size and read count}
+
+In this section, we look to see if there is a relationship between the number of reads that are mapped to an organism
+and the size of the genome.
+For this analysis, we will treat each superkingdom separately.
+First, we load a version of the final {\tt tree}.
+<<>>=
+root <- rprojroot::find_root(".git/index"); setwd(root); source(file.path(root, "src/init.R"))
+figurefile <- "/home/data/refined/reef/R/figures/genome_size"
+
+ clrs <- c(glasbey(), glasbey()); 
+  # make the colors a bit easier to read
+ clrs[3] <- clrs[19]
+#  tmp <- clrs[2]; clrs[2] <- clrs[6]; clrs[6] <- tmp
+#  tmp <- clrs[1]; clrs[1] <- clrs[12]; clrs[12] <- tmp
+#  tmp <- clrs[3]; clrs[3] <- clrs[12]; clrs[12] <- tmp
+
+@
+
+
+We begin with Eukaryota. 
+Note that we have to also adjust for the observation that the number of reads mapped to Bellairs and Maycocks
+is significantly different (approximately $4.5M$ versus $9.2M$ reads respectively).
+
+<<>>=
+tree[1,]
+bel <- tree[1, "br_bel"]; may <- tree[1, "br_may"]
+genome_size_adjustments <- list()
+
+lqtile <- 0.1; rqtile <- 0.9
+tree <- original
+
+euk <- induce_tree(2759); euk$taxa <- "Eukaryota"
+euk_species <- euk[ which(euk$rank == "species"), ]
+euk_species_a <- euk_species; euk_species_a$site <- "bellairs"; euk_species_a$reads <- (euk_species$br_bel) / bel
+euk_species_b <- euk_species; euk_species_b$site <- "maycocks"; euk_species_b$reads <- (euk_species$br_may) / may
+# added pseudocount above NO
+euk_tmp <- rbind(euk_species_a, euk_species_b)
+
+tmp <- arrange(euk_tmp, genome_size)
+tmp <- tmp[ which(!is.na(tmp$genome_size)), ]
+euk_tmp <- tmp[floor(nrow(tmp)*lqtile):floor(nrow(tmp)*(rqtile)),]
+# now we remove species with low number of reads
+euk_tmp <- euk_tmp[which(log(euk_tmp$reads) > -12), ]
+f <- lm( formula = log(reads) ~ log(genome_size), data = euk_tmp)
+
+p <- ggplot(euk_tmp, aes(x=log(genome_size), y=log(reads), color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Eukaryota", 
+      x="Log Genome Size (Mbps)", y="Log fraction of reads (versus total reads for site)") +
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f$coefficients[1], slope = f$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+ggsave( filename = "eukaryota.species.png", path = figurefile, device = "png", dpi = 300)
+f$coefficients
+
+euk_tmp$log_reads_adj <- euk_tmp$reads
+genome_size_adjustments["eukaryota"] <- f
+@
+There is no evidence that the number of reads increases with genome size at least when analysis is performed in a manner where attention is restricted to only Eukaryota.
+Note that the slope of this fit is in fact negative if we
+do not remove the low count sites 
+(log fraction reads is below -12).
+
+<<>>=
+lqtile <- 0.0; rqtile <- 1
+tree <- original
+bel <- tree[1, "br_bel"]; may <- tree[1, "br_may"]
+
+virus <- induce_tree(10239); virus$taxa <- "virus"
+virus_species <- virus[ which(virus$rank == "species"), ]
+virus_species_a <- virus_species; virus_species_a$site <- "bellairs"; virus_species_a$reads <- virus_species$br_bel/bel
+virus_species_b <- virus_species; virus_species_b$site <- "maycocks"; virus_species_b$reads <- virus_species$br_may/may
+virus_tmp <- rbind(virus_species_a, virus_species_b)
+
+tmp <- arrange(virus_tmp, genome_size)
+tmp <- tmp[ which(!is.na(tmp$genome_size)), ]
+virus_tmp <- tmp[(floor(nrow(tmp)*lqtile))+1:floor(nrow(tmp)*(rqtile)),]
+virus_tmp <- virus_tmp[ which(log(virus_tmp$reads) > -14), ]
+f <- lm( formula = log(reads) ~ log(genome_size), data = virus_tmp)
+
+p <- ggplot(virus_tmp, aes(x=log(genome_size), y=log(reads), color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Viruses", 
+      x="Log Genome Size (Mbps)", y="Log fraction of  reads (versus total reads for site)") +
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f$coefficients[1], slope = f$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+ggsave( filename = "virus.species.png", path = figurefile, device = "png", dpi = 300)
+f$coefficients
+
+virus_tmp$log_reads_adj <- log(virus_tmp$reads) - 
+              (log(virus_tmp$genome_size)*f$coefficients[2])
+
+f_after <- lm( formula = log_reads_adj ~ log(genome_size), data = virus_tmp)
+
+p <- ggplot(virus_tmp, aes(x=log(genome_size), y=log_reads_adj, color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Viruses", 
+      x="Log Genome Size (Mbps)", y="Log fraction of  reads (versus total reads for site)") +
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f_after$coefficients[1], slope = f_after$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+genome_size_adjustments["viruses"] <- f
+@
+
+<<>>=
+lqtile <- 0.0; rqtile <- 1
+tree <- original
+bel <- tree[1, "br_bel"]; may <- tree[1, "br_may"]
+
+
+arch <- induce_tree(2157); arch$taxa <- "Archaea"
+arch_species <- arch[ which(arch$rank == "species"), ]
+arch_species_a <- arch_species; arch_species_a$site <- "bellairs"; arch_species_a$reads <- arch_species$br_bel/bel
+arch_species_b <- arch_species; arch_species_b$site <- "maycocks"; arch_species_b$reads <- arch_species$br_may/may
+arch_tmp <- rbind(arch_species_a, arch_species_b)
+
+
+tmp <- arrange(arch_tmp, genome_size)
+tmp <- tmp[ which(!is.na(tmp$genome_size)), ]
+arch_tmp <- tmp[(floor(nrow(tmp)*lqtile))+1:floor(nrow(tmp)*(rqtile)),]
+arch_tmp <- arch_tmp[ which(log(arch_tmp$reads) > -14), ]
+f <- lm( formula = log(reads) ~ log(genome_size), data = arch_tmp)
+
+p <- ggplot(arch_tmp, aes(x=log(genome_size), y=log(reads), color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Archaea", 
+      x="Log Genome Size (Mbps)", y="Log number of reads") +
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f$coefficients[1], slope = f$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+ggsave( filename = "archaea.species.png", path = figurefile, device = "png", dpi = 300)
+f$coefficients
+
+
+arch_tmp$log_reads_adj <- log(arch_tmp$reads) - 
+              (log(arch_tmp$genome_size)*f$coefficients[2])
+
+f_after <- lm( formula = log_reads_adj ~ log(genome_size), data = arch_tmp)
+
+
+
+p <- ggplot(arch_tmp, aes(x=log(genome_size), y=log_reads_adj, color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Archaea", 
+      x="Log Genome Size (Mbps)", y="Log fraction of reads") +
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f_after$coefficients[1], slope = f_after$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+
+
+genome_size_adjustments["archaea"] <- f
+@
+
+<<>>=
+lqtile <- 0.0; rqtile <- 1
+tree <- original
+bel <- tree[1, "br_bel"]; may <- tree[1, "br_may"]
+
+bac <- induce_tree(2) ; bac$taxa <- "Bacteria" 
+bac_species <- bac[ which(bac$rank == "species"), ]
+bac_species_a <- bac_species; bac_species_a$site <- "bellairs"; bac_species_a$reads <- bac_species$br_bel/bel
+bac_species_b <- bac_species; bac_species_b$site <- "maycocks"; bac_species_b$reads <- bac_species$br_may/may
+bac_tmp <- rbind(bac_species_a, bac_species_b)
+
+tmp <- arrange(bac_tmp, genome_size)
+tmp <- tmp[ which(!is.na(tmp$genome_size)), ]
+bac_tmp <- tmp[(floor(nrow(tmp)*lqtile))+1:floor(nrow(tmp)*(rqtile)),]
+
+bac_tmp <- bac_tmp[ which(log(bac_tmp$reads) > -14), ]
+f <- lm( formula = log(reads) ~ log(genome_size), data = bac_tmp)
+
+p <- ggplot(bac_tmp, aes(x=log(genome_size), y=log(reads), color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Bacteria", 
+      x="Log Genome Size (Mbps)", y="Log fraction of reads") +
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f$coefficients[1], slope = f$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+ggsave( filename = "bacteria.species.png", path = figurefile, device = "png", dpi = 300)
+f$coefficients
+
+
+bac_tmp$log_reads_adj <- log(bac_tmp$reads) - 
+              (log(bac_tmp$genome_size)*f$coefficients[2])
+
+f_after <- lm( formula = log_reads_adj ~ log(genome_size), data = bac_tmp)
+
+p <- ggplot(bac_tmp, aes(x=log(genome_size), y=log_reads_adj, color = site)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(shape=20, alpha=0.8)+
+  labs(title="Bacteria", 
+      x="Log Genome Size (Mbps)", y="Log fraction of reads") +
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  geom_smooth(method=lm)  +
+  geom_abline(intercept = f_after$coefficients[1], slope = f_after$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+
+
+genome_size_adjustments["bacteria"] <- f
+@
+
+<<>>=
+lqtile <- 0.0; rqtile <- 1
+tree <- original
+tot_tmp <- do.call("rbind", list(euk_tmp, virus_tmp, bac_tmp, arch_tmp))
+
+tmp <- arrange(tot_tmp, genome_size)
+tmp <- tmp[ which(!is.na(tmp$genome_size)), ]
+tot_tmp <- tmp[(floor(nrow(tmp)*lqtile))+1:floor(nrow(tmp)*(rqtile)),]
+tot_tmp <- tot_tmp[ which(log(tot_tmp$reads) > -14), ]
+f <- lm( formula = log(reads) ~ log(genome_size), data = tot_tmp)
+
+p <- ggplot(tot_tmp, aes(x=log(genome_size), y=log(reads), color = taxa)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(aes(shape=factor(site)), alpha=0.8)+
+  labs(title="All", 
+      x="Log Genome Size (Mbps)", y="Log fraction of reads") +
+  geom_rug(outside = TRUE, color="slategray2")+ 
+#  geom_smooth(method=lm)  +
+  geom_abline(intercept = f$coefficients[1], slope = f$coefficients[2], color="purple", 
+                  size=0.5, alpha = 0.75)
+p
+ggsave( filename = "all.png", path = figurefile, device = "png", dpi = 300)
+f$coefficients
+
+
+tot_tmp$log_reads_adj <- log(tot_tmp$reads) - 
+              (log(tot_tmp$genome_size)*f$coefficients[2])
+
+f_after <- lm( formula = log_reads_adj ~ log(genome_size), data = tot_tmp)
+
+p <- ggplot(tot_tmp, aes(x=log(genome_size), y=log_reads_adj, color = taxa)) +
+  scale_color_manual(values=clrs) +
+  theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
+           axis.title.y = element_text(size = 1))+
+  theme_tufte()+
+  geom_rug(outside = TRUE, color="slategray2")+ 
+  coord_cartesian(clip = "off") +
+  geom_point(aes(shape = factor(site)),  alpha=0.8)+
+  labs(title="All", 
+      x="Log Genome Size (Mbps)", y="Log fraction of reads") +
+  geom_rug(outside = TRUE, color="slategray2")+ 
+#  geom_smooth(method=lm)  +
+  geom_abline(intercept = f_after$coefficients[1], slope = f_after$coefficients[2], color="darkgreen", 
+                  size=0.5, alpha = 0.75) +
+  geom_text(aes(x= -7, label="\nLinear Fit", y=f_after$coefficients[1]), colour="black", angle=0, text=element_text(size=3)) +
+
+    geom_hline(yintercept=-5.8,  color = "black")+
+  geom_text(aes(x=-6.5, label="\nViruses", y=-5.8), colour="black", angle=0, text=element_text(size=3)) +
+  geom_text_repel(
+      max.iter=100000,
+      aes(label=subset(tot_tmp, ((taxa == "virus") & (log_reads_adj > -5.8 )))$name),
+      size = 2,
+      data = subset(tot_tmp, ((taxa == "virus") & (log_reads_adj > -5.8 ))),
+       segment.size  = 0.1,
+      nudge_x = -5,
+      nudge_y = +1
+     # nudge_x       = top_left,   segment.size  = 0.1,    direction     = "y",    hjust         = 0.5, force=1
+    ) +
+  
+  geom_hline(yintercept=-8,  color = "blue")+
+  geom_text(aes(x=-6.5, label="\nArchaea", y=-8), colour="blue", angle=0, text=element_text(size=3)) +
+  geom_text_repel(
+      max.iter=100000,
+      aes(label=subset(tot_tmp, ((taxa == "Archaea") & (log_reads_adj > -8 )))$name),
+      size = 2,
+      data = subset(tot_tmp, ((taxa == "Archaea") & (log_reads_adj > -8 ))),
+      segment.size  = 0.1,
+      nudge_x = -5,
+      nudge_y = +5
+     # nudge_x       = top_left,   segment.size  = 0.1,    direction     = "y",    hjust         = 0.5, force=1
+    ) +
+  
+  geom_hline(yintercept=-4.5,  color = "red")+
+  geom_text(aes(x=2.0, label="\nBacteria", y=-4.5), colour="red", angle=0, text=element_text(size=3)) +
+  geom_text_repel(
+      max.iter=100000,
+      aes(label=subset(tot_tmp, ((taxa == "Bacteria") & (log_reads_adj > -4.5 )))$name),
+      size = 2,
+      data = subset(tot_tmp, ((taxa == "Bacteria") & (log_reads_adj > -4.5 ))),
+      segment.size  = 0.1,
+      nudge_x = +1,
+      nudge_y = +1
+     # nudge_x       = top_left,   segment.size  = 0.1,    direction     = "y",    hjust         = 0.5, force=1
+    ) +
+  
+  geom_hline(yintercept=-8.5,  color = "purple") +
+  geom_text(aes(x=3.5, label="\nEukaryota", y=-8.5), colour="purple", angle=0, text=element_text(size=3)) +
+  geom_text_repel(
+      max.iter=100000,
+      aes(label=subset(tot_tmp, ((taxa == "Eukaryota") & (log_reads_adj > -8.5 )))$name),
+      size = 2,
+      data = subset(tot_tmp, ((taxa == "Eukaryota") & (log_reads_adj > -8.5 ))),
+      segment.size  = 0.1,
+      nudge_x = +1,
+      nudge_y = +1
+     # nudge_x       = top_left,   segment.size  = 0.1,    direction     = "y",    hjust         = 0.5, force=1
+    ) 
+p
+
+ggsave( filename = "all.adjusted.png", path = figurefile, device = "png", dpi = 300)
+
+genome_size_adjustments["all"] <- f
+@
+
+The R object that stores the linear fit $f$ is stored in the {\tt reef} folder. 
+Finally we add to our {\tt tree} data structure an attribute corresponding to the corrected read count
+corrected by $f$.
+
+<<>>=
+# Write the linear models to file
+#save( file = file.path(REEF_DIR, "genome_size_adjustment_1.0.RData"), genome_size_adjustments)
+@
+
+
+
+
+
+\end{document}

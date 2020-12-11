@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage[margin=2.0cm]{geometry}%rounded up from 1.87, just to be safe...
+\usepackage{parskip}
+\usepackage{float}
+%\usepackage{times} %make sure that the times new roman is used
+\usepackage{mathptmx}
+
+\usepackage{blindtext}
+\title{Supplemental Information 16: Analysis of the Virus superkingdom }
+\date{May 2020}
+\author{Simpson, Bettauer et al.}
+
+
+%      ------ Format Stuff ---------
+\newlength{\itemdist}
+\setlength{\itemdist}{0.05ex}
+\newlength{\headdist}
+\setlength{\headdist}{0.04ex}
+
+\newcommand{\R}{\mathbb{R}}
+
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+%\pagestyle{fancy}
+
+\maketitle
+
+<<message=FALSE, warning=FALSE>>= 
+options(warn = -1, error=browser)
+root <- rprojroot::find_root(".git/index"); setwd(root); source(file.path(root, "src/init.R"))
+source(file.path(root, "experiments/exp5-decentralization/decentralization_functions.R"))
+source(file.path(root, "experiments/exp16-viruses/local-16.R"))
+figurefile <- file.path(mainfigurefile, "decentralized/viruses")
+@
+
+
+<<>>=
+tree <- original
+make_table(1) # 
+
+tax_virus <- t <-  10239
+make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile, rt=tax_virus, freq = 0.001 )
+
+list_of_taxa <- c(2169561, 2559587, 12429, 549779)
+
+for (t in list_of_taxa)
+  make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile, size = 2)
+@
+
+
+Now we compute the Shannon index for different taxa.
+
+<<>>=
+libary(vegan)
+
+tree <- original
+myo <- induce_tree(10662)
+my <- myo[ which(myo$rank == "species"),]
+tree <- original
+podo <- induce_tree(10744)
+pod <- podo[which(podo$rank == "species"),]
+
+my_counts <- rbind(my$br_bel,  my$br_may)
+my_H <- diversity(my_counts)
+
+pod_counts <- rbind(pod$br_bel,  pod$br_may)
+pod_H <- diversity(pod_counts)
+
+# for giruses
+girus <- c("Ascovirus", "Asfarvirus", "Iridovirus", "Marseillevirus",
+           "Pandoravirus", "Phycodnavirus", "Pithovirus", "Poxvirus",
+  "Mininucleovirus", "Mimivirus", "Tupanvirus" )
+
+# Asco, Irido, Marseille, Pandora, Pitho
+
+gtree <- tree[unlist(lapply(girus, FUN=function(x) { return( grep(x, tree$name) )   })), ]
+ggtree<- gtree[ which(gtree$rank == "species"),]
+girus_counts <- rbind(ggtree$br_bel, ggtree$br_may)
+girus_H <- diversity(girus_counts)
+@
+
+
+
+\end{document}
