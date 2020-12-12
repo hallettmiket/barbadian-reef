@@ -1,0 +1,184 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage[margin=2.0cm]{geometry}%rounded up from 1.87, just to be safe...
+\usepackage{parskip}
+\usepackage{float}
+%\usepackage{times} %make sure that the times new roman is used
+\usepackage{mathptmx}
+
+\usepackage{blindtext}
+\title{Comparison of the frequency vectors between Bellairs and Maycocks}
+\date{July 2019}
+\author{Hallett group}
+
+
+%      ------ Format Stuff ---------
+\newlength{\itemdist}
+\setlength{\itemdist}{0.05ex}
+\newlength{\headdist}
+\setlength{\headdist}{0.04ex}
+
+\newcommand{\R}{\mathbb{R}}
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+%\SweaveOpts{concordance=TRUE}
+%\pagestyle{fancy}
+
+\maketitle
+
+We perform some cursory exploration of the frequency tables obtained from Bracken (REF) and Kraken for 
+the Bellairs and Maycocks reef marine samples.
+The code to perform this analysis is primarily in {\tt src/percolate.R}, as some of the routines
+are too time consuming to be performed within the R markdown setting here.
+Column names from Bracken have been modified for readability below.
+Some of the code is reproduced here to explain the series of steps.
+We begin by reading in the two Braken files from the {\tt data} directory.
+
+<<>>= 
+options(warn = -1)
+root <- rprojroot::find_root(".git/index"); setwd(root); 
+
+setwd(file.path(root, "experiments/exp3-bracken2data.frame"))
+library(xtable)
+source("../../src/functions.R")
+@
+
+The final tree will always be kept in\\ 
+\noindent
+{\tt repo/reefmicrobiome/data/tree.latest}. 
+This data.frame contains all the information we have about our samples.
+It was generated using the code in {\tt ad\_hoc\_scripts.R} and the functions in {\tt functions.R}
+<<>>==
+# load the finalized tree  computed in percolate.R with functions from abundance_comparison.R
+REEF_DIR <- "/home/data/refined/reef/R/"
+load( paste0(REEF_DIR, "raw.tree.april.15.RData" ) )
+tree[1:10, 1:7 ]
+@
+
+The {\tt make\_table()} function takes as input a {\tt tax\_id} and pretty prints
+the information regarding the children of that node.
+
+<<>>=
+root <- make_table( 1 );   # 1 is the root
+make_table( 131567 ) # superkingdoms 131567
+make_table( 2, precision = 4)  # 2 is tax_id for bacteria
+make_table( 1224, precision = 4) # proteobacteris is 1224
+make_table( 1218 )   # 1218 is the tax_id of Prochlorococcus
+make_table( 10239 )  # Viruses is tax_id 10239
+make_table( 2157 ) # Archaea
+make_table( 2759 ) # Eukaryota
+
+make_table( 33154 ) # parent of fungi
+make_table( 4751 ) # fungi
+@
+You can easily then send these tables to file using the {\tt write.csv()} function.
+
+\section{Background: how the tree was constructed}
+
+We now describe how we built the data.frame {\tt tree} and describe the purpose of each of its columns.
+
+\subsection{NCBI Taxonomy}
+<<>>==
+tree[1,]
+tree[1, 1:6]
+@
+
+All of these fields originate from the NCBI Taxonomy download. 
+File {\tt ad\_hoc\_scripts.R} contains code that addedthe names of each taxa after trying to 
+find the {\em scientific name} amongst synonyms. 
+The column {\tt tax\_id} is used throughout the code to find taxa of interest.
+The {\tt parent} column defines the structure of the tree (each node points to its unique parent).
+
+\subsection{Importing the Bracken counts for our two sites}
+I have never observed a big difference in the results if I look at Kraken versus Bracken.
+The script {\tt script\_bracken.bash} contains the shell commands used to generate these files.
+Therefore, I suggest we use only the Bracken mappings of reads to nodes in the tree from
+here on in.
+
+<<>>==
+tree[1,]
+tree[1, 7:8]
+@
+These two fields represent the Braken counts from Bellairs and Maycocks respectively. 
+The first step was to assign the {\tt est\_reads} from the {\tt bellairs.bracken} and {\tt cement.bracken}
+files (cement was the earlier name for Maycocks).
+This information was renamed {\tt br\_bel} and {\tt br\_may}.
+At the same time the {\tt fraction} fieds of the Bracken files were assigned to variables 
+{\tt br\_bel\_frac} and {\tt br\_may\_frac}.
+These reads were assigned to the leaves of {\tt tree}.
+The code is located in {\tt ad\_hoc\_scripts.R}.
+
+The next step was to percolate these reads ``up'' the tree of life to the root.
+More precisely, consider a node $t$ with children $c_1, \ldots, c_k$.
+At the Bellairs site child $c_i$ has with read count ${\tt br\_bel}_i$.
+Then, ${\tt br\_bel}$ for node $t$ is $\Sigma_{1 \leq i \leq k} {\tt br\_bel}_i$.
+This is defined analogously for Maycocks.
+
+Before doing this, the root of the tree of life was manually set to {\tt NA} (see {\tt ad\_hoc\_scripts.R}),
+as there was a mistake in the NCBI download (the root pointed to itself which causes
+a problem for recursion).
+<<>>==
+tree[1,]
+#percolate(1)  # note that this function takes about 1 day to run.
+tree[1,]
+@
+
+Next nodes with 0 counts for both Bellairs and Maycocks were removed (see {\tt ad\_hoc\_scripts.R}).
+Columns were rearranged and the scientific name from NCBI Taxonomy was assigned, if it existed (see comment
+above and {\tt ad\_hoc\_scripts.R}).
+
+\subsection{Global versus Local Frequencies}
+
+There are two distinct concepts of frequencies that each have advantages and disadvantages.
+Consider a node $t$ with total reads $r$ and children $c_1, \ldots, c_k$ with total reads $r_1, \ldots, r_k$ respectively.
+The {\em local frequency} $f_i$ for child $c_i$ is equal to $\frac{r_i}{r}$. 
+The {\em global frequency} $f_i$ for child $c_i$ is equal to $\frac{r_i}{R}$ where $R$ is the total number of reads
+at the root of the tree of life.
+
+The local frequencies were assigned to the {\tt tree} as follows.
+<<>>=
+#void <- local_frequencies(1)
+tree[1, ]
+# Local.Freq.Bel and Local.Freq.May
+@
+The global frequencies were assigned as follows.
+<<>>=
+#void <- global_frequencies(1)
+tree[1, ]
+# Glob.Freq.Bel and Glob.Freq.May, Delta.Freq
+@
+
+
+For convenience, I added a column to the {\tt tree} data.frame to record the difference in global frequencies between the two sites.
+<<>>=
+# tree$DeltaFreq <- tree$Glob.Freq.Bel - tree$Glob.Freq.May
+top <- tree[ order( -abs(tree$DeltaFreq) ),   ]
+top[1:max(which(top$DeltaFreq > 0.01)), c(1,2,3, 13:15) ]
+@
+
+
+\subsection{The Multinomial Statistic}
+
+
+I implemented the multinomial test and applied it to each node in the {\tt tree} datastructure. 
+The relevant function is in {\tt functions.R}.
+<<>>=
+#multinomial_tree_test(1)
+# Fraction significant 
+length(which(tree$Multinom < 0.01))  / nrow(tree)
+@
+
+
+
+\subsection{Taxa Path to Root}
+
+Finally, I added a character to the {\tt tree} data.frame that describes the phylogenetic path to the root.
+<<>>=
+# tree$path <- unlist(lapply( tree$tax_id, FUN = function(x) { return(paste(path2root(x)$name, collapse=" ")) } ))
+@
+
+
+
+\end{document}

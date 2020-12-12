@@ -3,7 +3,7 @@ title: "Absolute Cell Counting"
 output: html_notebook
 ---
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 options(warn = -1)
 root <- rprojroot::find_root(".git/index"); setwd(root); source(file.path(root, "src/init.R"))
 shawn_data_files <- "/home/data/refined/reef/microscopy/re_analysis/"
@@ -12,7 +12,7 @@ library(tidyverse)
 library(prodlim)
 ```
 
-```{r, echo=FALSE}
+```{r, warning=FALSE,message=FALSE,error=FALSE}
 raw_images <- "/home/data/refined/reef/microscopy/imagej_analysis/re-analysis"
 batch_dirs <-         c("20200723_reefwater", "20200814_reefwater", "20200901_bellairs",
                         "20200723_reefwater", "20200812_reefwater", "20200901_maycocks")
@@ -21,7 +21,7 @@ names(batch_dirs) <-  c("B1", "B2", "B3", "M1", "M2", "M3")
 
 First import for Bellairs, batch_dirs[1]
 
-```{r, echo=FALSE}
+```{r, echo=TRUE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 1
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
@@ -45,7 +45,7 @@ master <- data
 
 Import for Bellairs, batch_dirs[2]
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 2
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
@@ -68,7 +68,7 @@ master <- bind_rows(master, data)
 
 Import for Bellairs, batch_dirs[3]
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 3
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
@@ -88,7 +88,7 @@ master <- bind_rows(master, data)
 
 First import for Maycocks, batch_dirs[4]
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 4
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
@@ -112,7 +112,7 @@ master <- bind_rows(master, data)
 
 Import for Maycocks, batch_dirs[5]
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 5
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
@@ -135,7 +135,7 @@ master <- bind_rows(master, data)
 
 Import for Maycocks, batch_dirs[6]
 
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 6
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
@@ -152,9 +152,9 @@ master <- bind_rows(master, data)
 ```
 
 Reorganize slightly and save.
-```{r}
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 master <- master %>%  mutate( FOV = X1, .keep="unused") %>% dplyr::select(site, batch, file, FOV, everything())
-saveRDS(master, file = file.path(analysis_files, "object_tibble_vers_1.0.RData"))
+#saveRDS(master, file = file.path(analysis_files, "object_tibble_vers_1.0.RData"))
 ```
 
 
@@ -335,12 +335,4 @@ M_n <- res %>% filter(site == "M")
 t.test(B_n$n, M_n$n)
 ```
 
-```{r}
-ggplot(res, aes(x=n, color = site)) + 
-  geom_histogram( ) + #aes(y=..density..
-    fill="white", alpha=0.5, position="identity", bins=100) +
-  geom_density(alpha=0.6)+
-  theme_classic() +
-  theme(legend.position="top")
-```
 

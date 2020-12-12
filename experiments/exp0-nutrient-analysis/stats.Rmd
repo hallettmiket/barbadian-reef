@@ -1,0 +1,41 @@
+---
+title: "Statistics for environmental and chemical assays"
+output: html_notebook
+---
+
+```{r}
+B_nitrate <- c( 1.5, 1.7, 1.7, 1.6, 2.4, 2.1, 1.2, 1.9, 1.9)
+M_nitrate <- c(1.1, 0.9, 0.8, 1.0, 1.3, 1.4, 1.2, 0.9, 0.9)
+wilcox.test( B_nitrate, M_nitrate, paired = FALSE, exact = FALSE)
+#YES
+
+
+B_nitrite <- c(0.02, 0.012, 0.022)
+M_nitrite <- c(0.014, 0.016, 0.01)
+t.test(B_nitrite, M_nitrite)
+#NO
+
+B_phos <- c(0.05, 0.03, 0.03, 0.09, 0.12, 0.13, 0.06, 0.06, 0.06)
+M_phos <- c(0.09, 0.07, 0.07, 0.06, 0.08, 0.08, 0.08, 0.09, 0.09)
+wilcox.test( B_phos, M_phos, paired = FALSE, exact = FALSE)
+#NO
+
+
+B_temp <- c(29.031, 29.016, 29.045)
+M_temp <- c(29.098, 29.106, 29.197)
+t.test(B_temp, M_temp)
+#NO
+
+B_DO_pro <- c(90.8, 89, 89.4)
+M_DO_pro <- c(95.1, 95.3, 95.5)
+t.test(B_DO_pro, M_DO_pro)
+mean(B_DO_pro); sd(B_DO_pro); mean(M_DO_pro); sd(M_DO_pro)
+#YES
+
+B_DO_mg <- c(5.77, 5.63, 5.65)
+M_DO_mg <- c(6.01, 6.06, 6.05)
+t.test(B_DO_mg, M_DO_mg)
+#YES
+
+
+```

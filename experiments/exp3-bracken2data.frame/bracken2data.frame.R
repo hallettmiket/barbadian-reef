@@ -14,7 +14,8 @@
 ################################################################
 
 library(dplyr)
-source("~/repo/reefmicrobiome/src/functions.R")
+root <- rprojroot::find_root(".git/index"); setwd(root); 
+source(file.path(root, "src/functions.R"))
 SEQDATA <- "/home/data/raw/ReefData/WaterSamples"
 KDB <- RES <-  "/home/data/refined/reef/kr_br"
 
@@ -173,8 +174,9 @@ for (i in 1:nrow(tree)) {
 tree$DeltaFreq <- tree$Glob.Freq.Bel - tree$Glob.Freq.May
 
 tree <- tree[, c(1:18, 23, 19:22)]
-save(tree, file = "/home/data/refined/reef/R/raw.tree.april.15.RData")
-write.csv(tree, file = "/home/data/refined/reef/R/raw.tree.april.15.csv")
+
+#save(tree, file = "/home/data/refined/reef/R/raw.tree.april.15.RData")
+#write.csv(tree, file = "/home/data/refined/reef/R/raw.tree.april.15.csv")
 
 
 

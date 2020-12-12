@@ -1,7 +1,7 @@
 ###############################################################
 #
 #
-# Simpson et al. (2020) Methods 7  Read alignment and taxa classification
+# Simpson et al. (2020) Methods   Read alignment and taxa classification
 #
 #       Input: post-Trimmomatic read files located in $SEQDATA
 #

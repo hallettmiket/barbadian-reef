@@ -1,7 +1,7 @@
 ###############################################################
 #
 #
-# Simpson et al. (2020) Methods 6 Quality Control of Sequencing Results
+# Simpson et al. (2020) Methods  Quality Control of Sequencing Results
 #
 #       Input: Raw paired-end read files located in $SEQDATA
 #
