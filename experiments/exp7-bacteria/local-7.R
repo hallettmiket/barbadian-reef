@@ -35,15 +35,26 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Bacteria", verbos
   num_taxa <- length(unique(mytree$taxa))
   
   clrs <- c(glasbey(), glasbey()); 
-  clrs <- c(glasbey(), glasbey()); 
   # make the colors a bit easier to read
   
   clrs[3] <- clrs[8]
   
+  if (relative_to == 2) { 
+    tmp <- clrs[12]; clrs[12] <- clrs[10]; clrs[10] <- tmp
+    tmp <- clrs[1]; clrs[1] <- clrs[17]; clrs[17] <- tmp
+    tmp <- clrs[14]; clrs[14] <- clrs[16]; clrs[16] <- tmp
+    tmp <- clrs[13]; clrs[13] <- clrs[2]; clrs[2] <- tmp
+    
+  }
+  
+  
+  
   if (relative_to== 1224) {
      tmp <- clrs[1]; clrs[1] <- clrs[5]; clrs[5] <- tmp
      tmp <- clrs[3]; clrs[3] <- clrs[4]; clrs[4] <- tmp
-     tmp <- clrs[2]; clrs[2] <- clrs[7]; clrs[7] <- tmp}
+     tmp <- clrs[2]; clrs[2] <- clrs[7]; clrs[7] <- tmp
+     tmp <- clrs[4]; clrs[4] <- clrs[9]; clrs[9] <- tmp}
+  
   # tmp <- clrs[2]; clrs[2] <- clrs[6]; clrs[6] <- tmp
   # tmp <- clrs[1]; clrs[1] <- clrs[12]; clrs[12] <- tmp
   # tmp <- clrs[3]; clrs[3] <- clrs[12]; clrs[12] <- tmp
@@ -54,24 +65,25 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Bacteria", verbos
     theme( axis.title.x = element_text(size = 11), axis.text.x = element_text(size = 8),
            axis.title.y = element_text(size = 11), 
           legend.title=element_text(size=8), 
-          legend.text=element_text(size=6))+
+          legend.text=element_text(size=6) ) + 
     guides(col = guide_legend(ncol = 1)) +
     theme_tufte()+
+  #  theme( legend.position="bottom") + # legend.direction = "horizontal" ) +
     geom_rug(outside = TRUE, color="slategray2")+ 
     coord_cartesian(clip = "off") +
     scale_y_continuous(expand = c(0.1, 0.1), limits=c( min(mytree$total_counts), max(mytree$total_counts)) ) +
     scale_x_continuous(limits=c( min(mytree$delta)-stretch_factor, max(mytree$delta)+stretch_factor)) + 
     labs(title=mytitle, 
-         x="Log ratio of frequency B versus M", y="Log of total number of counts") +
+         x="Log ratio of frequency Bellairs versus Maycocks", y="Log of total sum of counts") +
     geom_vline(xintercept=leftpt_freq, color="thistle3") +
     geom_vline(xintercept=rightpt_freq, color = "thistle3") +
     geom_text(aes(x=leftpt_freq, label="\n 95% CI:", y=2), colour="red", angle=90, size=3) +
     
     geom_hline(yintercept=leftpt_counts, color="lightskyblue") + 
-    geom_text(aes(y=leftpt_counts, label=paste0("Qnt:",lc_quant), x=5), colour="seagreen4", angle=0, size=3) +
+    geom_text(aes(y=leftpt_counts, label=paste0("Qnt:",lc_quant), x=3.5), colour="seagreen4", angle=0, size=3) +
     
     geom_hline(yintercept=rightpt_counts, color = "lightskyblue") +
-    geom_text(aes(y=rightpt_counts, label=paste0("Qnt:",rc_quant), x=5), colour="seagreen4", angle=0, size=3) +
+    geom_text(aes(y=rightpt_counts, label=paste0("Qnt:",rc_quant), x=-3), colour="seagreen4", angle=0, size=3) +
     
     geom_vline(xintercept=tmp2[1], color="lightskyblue") + 
     geom_text(aes(x=tmp2[1], label=paste0("Qnt:", lf_quant ), y=3), colour="seagreen4", angle=90, size=3) +
@@ -109,7 +121,7 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Bacteria", verbos
       # direction     = "y" #segment.size  = 0.1, force         = 1
     ) 
   
-   return(p)
+   return(p) 
 }
 
 make_figure <- function(tax_target, name, figurefile, just_species = FALSE) {
@@ -134,36 +146,36 @@ make_figure <- function(tax_target, name, figurefile, just_species = FALSE) {
 
 
     relative_to <- tax_target
-    p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (genus level, relative to root of target)"), verbose = TRUE,
-                        lf_quant = 0.05, rf_quant = 0.95, lc_quant = 0.5, rc_quant = 0.99,
+    p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = "", verbose = TRUE,
+                        lf_quant = 0.025, rf_quant = 0.975, lc_quant = 0.5, rc_quant = 0.99,
                         top_left = -5, top_even = 2, top_right = 5,
                         stretch = 0.25,
-                        size= 2
+                        size= 3
     )
     p
     ggsave( filename = paste0(paste0(paste0(name,".genus.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
   }
 
-
-  children <- list()
-  for (i in 1:length(p2c(tax_target))) {
-    tree <- original
-    tmp <- induce_tree( p2c(tax_target)[i])  
-    tmp$taxa <- tmp[1, "name"]
-    children[[i]] <- tmp
-  }
-  tree <- original
-  target_species <- do.call("rbind", children)
-  target_species <- target_species[ which(target_species$rank == "species"), ]
-  print(nrow(target_species))
-  relative_to <- tax_target
-  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (species level, relative to root of target)"), verbose = TRUE,
-                         lf_quant = 0.01, rf_quant = 0.99, lc_quant = 0.5, rc_quant = 0.99,
-                         top_left = -15, top_even = -5, top_right = 15,
-                         stretch = 1.5,
-                         size = 2)
-  p
-  ggsave( filename = paste0(paste0(paste0(name,".species.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
+# 
+#   children <- list()
+#   for (i in 1:length(p2c(tax_target))) {
+#     tree <- original
+#     tmp <- induce_tree( p2c(tax_target)[i])  
+#     tmp$taxa <- tmp[1, "name"]
+#     children[[i]] <- tmp
+#   }
+#   tree <- original
+#   target_species <- do.call("rbind", children)
+#   target_species <- target_species[ which(target_species$rank == "species"), ]
+#   print(nrow(target_species))
+#   relative_to <- tax_target
+#   p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (species level)"), verbose = TRUE,
+#                          lf_quant = 0.01, rf_quant = 0.99, lc_quant = 0.5, rc_quant = 0.99,
+#                          top_left = -15, top_even = -5, top_right = 15,
+#                          stretch = 1.5,
+#                          size = 2)
+#   p
+#   ggsave( filename = paste0(paste0(paste0(name,".species.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
 
 }
 

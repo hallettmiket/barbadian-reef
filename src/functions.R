@@ -365,3 +365,30 @@ adjust_read_counts <- function( mytree, f ) {
   return(mytree)
 }
 
+
+
+#######################################################
+# Add a column to the tree d.f. isChild iff it is a child
+#######################################################
+
+
+recursive_isLeaf <- function( parent, level = c(0) ) {
+  
+  c <- p2c( parent )
+  if (length(c) == 0) { tree[t2i(parent), "isLeaf"] <<- TRUE; return(NULL) }
+  tree[t2i(parent), "isLeaf"] <<- FALSE
+  
+ # if (length(level) < 100) cat("\nLevel ", level); 
+  
+  c_i <- t2i(c)
+  if (length(c) > 0) {
+    for (i in 1:length(c)) {
+      recursive_isLeaf( c[i],  append(level, c(i, length(c))) )
+    } # i
+  }
+  return( NULL )
+}
+
+
+
+

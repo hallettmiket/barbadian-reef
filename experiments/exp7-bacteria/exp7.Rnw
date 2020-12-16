@@ -41,11 +41,15 @@ figurefile <- file.path(mainfigurefile, "decentralized/bacteria")
 make_table(1) # 
 tax_bacteria <- 2; mt(tax_bacteria)  # bacteria
 tree <- original
+tree[t2i(1783272), "name" ] <- "Terrabacteria"
+tree[t2i(1783270), "name" ] <- "FCB group"
+tree[t2i(1783257), "name" ] <- "PVC group"
 
 t <- tax_bacteria
 make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile, just_species = FALSE)
 
 t <-1224 # proteobacteria
+
 make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile, just_species = FALSE)
 
 list_of_taxa <- c( 2, 1224,1783272, 1783270,1783257, 28211,28216,1236,68525,54526,204455,356,82117,135623,135622,

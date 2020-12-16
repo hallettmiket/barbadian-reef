@@ -167,6 +167,8 @@ prepare_metatara <- function(mt, barbados=TRUE) {
 } # end of prepare_metatara
 
 prepare_barbados_sites <- function(  mt ) {
+  
+  library(tidyverse)
   bellairs <- c(rep(NA, times=ncol(mt)))
   maycocks <- c(rep(NA, times=ncol(mt)))
   names(bellairs) <- colnames(mt)  
@@ -183,10 +185,54 @@ prepare_barbados_sites <- function(  mt ) {
   bellairs["Region"] <- "Barbados"
   maycocks["Region"] <- "Barbados"
   
-  bellairs[8] <- 5 #lat
-  bellairs[9] <- 5.5 #long
-  maycocks[8] <- 4
-  maycocks[9] <- 5.4
+  bellairs[8] <- 13.1130 #lat
+  bellairs[9] <- 50.3829  #long
+  maycocks[8] <- 13.1733
+  maycocks[9] <- 50.3947
+  
+  bellairs[ "Size Fraction Up"] <- maycocks[ "Size Fraction Up" ] <- 1.6
+  
+  bellairs[ "Mean Date"] <- "30/01/18"; maycocks[ "Mean Date"] <- "31/01/18"
+  bellairs[ "Mean Depth"] <- 5; maycocks[ "Mean Depth"] <- 5
+  
+  environ <- readRDS("/home/data/refined/reef/R/environ.RData" )
+  options(pillar.sigfig =5)
+  tmp <- environ %>% group_by(site) %>% summarise(across("Time":"Salinity(ppt)", ~mean(.x, na.rm = TRUE)))
+  
+  bellairs[ "Mean Temp"] <-  29.031
+  maycocks[ "Mean Temp"] <-  29.134
+  bellairs[ "Mean Salinity"] <- 35.033
+  maycocks[ "Mean Salinity"] <- 34.783
+  
+  environ <- environ %>% mutate( adj_DO = `DO(mg/l)` * 1000 / 32 / 1.027 )  %>% 
+                group_by(site) %>% summarise(m = mean(adj_DO))
+  bellairs[ "Oxygen"] <- 172.93
+  maycocks[ "Oxygen"] <- 183.79
+  
+  
+  sea_chem <- readRDS("/home/data/refined/reef/R/sea_chemistry.RData" )
+  
+  #For nitrates. nitrites and Phosphate : mg/l to umol/l : following the conversion outlined in 
+  # https://www.caryinstitute.org/sites/default/files/public/downloads/curriculum-project/4A1_Nitrogen_reading.pdf
+  
+  sea_chem <- sea_chem %>% mutate( adj_NO3_1 = (((`Nitrate#1(NO3-N)mg/l` / 1000 ) / 62.0049) / 0.000001 ) )
+  sea_chem <- sea_chem %>% mutate( adj_NO3_2 = (((`Nitrate#2(NO3-N)mg/l` / 1000 ) / 62.0049) / 0.000001 ) )
+  sea_chem <- sea_chem %>% mutate( adj_NO3_3 = (((`Nitrate#3(NO3-N)mg/l` / 1000 ) / 62.0049) / 0.000001 ) )
+  inter <- sea_chem %>% group_by(site) %>% summarise(across("adj_NO3_1":"adj_NO3_3", ~mean(.x, na.rm = TRUE))) %>% rowwise() %>% mutate(m = mean(c(adj_NO3_1, adj_NO3_2, adj_NO3_3 )))
+  bellairs[ "Mean Nitrates [umol/L]" ] <- as.numeric( inter %>% filter( site =="B") %>% select("m") )
+  maycocks[ "Mean Nitrates [umol/L]" ] <- as.numeric( inter %>% filter( site =="M") %>% select("m") )
+
+  sea_chem <- sea_chem %>% mutate( adj_NO2 = (((`Nitrites(NO2-N)mg/l` / 1000 ) / 46.0055) / 0.000001 ) )
+  inter <- sea_chem %>% group_by(site) %>% summarise( m = mean(adj_NO2) )
+  bellairs[ "NO2 [umol/L]" ] <- as.numeric( inter %>% filter( site =="B") %>% select("m"))
+  maycocks[ "NO2 [umol/L]" ] <- as.numeric( inter %>% filter( site =="M") %>% select("m"))
+    
+  
+  sea_chem <- sea_chem %>% mutate( adj_PO4 = (((`PO4_Mean` / 1000 ) / 94.971) / 0.000001 ) )
+  inter <- sea_chem %>% group_by(site) %>% summarise( m = mean(adj_PO4) )
+  bellairs[ "PO4 [umol/L]" ] <- as.numeric( inter %>% filter( site =="B") %>% select("m"))
+  maycocks[ "PO4 [umol/L]" ] <- as.numeric( inter %>% filter( site =="M") %>% select("m"))
+  
 
   mt <- rbind(maycocks,mt)
   mt <- rbind(bellairs,mt)

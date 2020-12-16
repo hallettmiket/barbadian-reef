@@ -34,6 +34,7 @@ source(file.path(root, "experiments/exp8-tara-oceans/local-8.R"))
 figurefile <- file.path(mainfigurefile, "tara")
 vers <- 1.0
 #load raw tara oceans data (mapped to genera)
+library(tidyverse)
 tara <- read_tsv(file = "/home/data/raw/tara-ocean/miTAG.taxonomic.profiles.release.tsv")
 
 @
@@ -159,13 +160,14 @@ col_environment = c("DCM" = "pink",
                     "MES" = "blue",
                     "MES + oxy min" = "red",
                     "MIX" = "yellow",
-                    "SRF" = "orange"
+                    "SRF" = "orange",
+                    "Barbados" = "green"
   )
-col_biome <- c("Coastal Biome "="red","Polar Biome" = "green", "Trades Biome"="yellow", "Westerlies Biome"="cyan")
+col_biome <- c("Coastal Biome "="red","Polar Biome" = "green", "Trades Biome"="yellow", "Westerlies Biome"="cyan", "Barbados" = "blue")
 
 col_region <- c( "Indian" = glasbey()[1], "Med Sea" = glasbey()[2], "North Atlantic" = glasbey()[3],
                  "North Pacific" = glasbey()[4], "Red Sea" = glasbey()[5], "South Atlantic" = glasbey()[6],
-                 "Southern" = glasbey()[7], "South Pacific" = glasbey()[8] )
+                 "Southern" = glasbey()[7], "South Pacific" = glasbey()[8], "Barbados"  = glasbey()[9])
 
 col_MRGID <- glasbey()[1:21]
 names(col_MRGID)<- c("ANTA",    "ARAB",   "BENG",   "CAMR",   "CARB",   
@@ -336,258 +338,6 @@ mt_all$"Mean Nitrates [umol/L]"[1:2] <- c(0,0)
 umap(small, labels=scale(as.numeric(mt_all$"Mean Nitrates [umol/L]")), controlscale = TRUE,scale=2, dotsize = 2)
 @
 
-Now let's repeat this but with other choices for the basis (not as
-restrictive as {\tt top} k per site).
-
-<<>>=
-
-@
-Here we add relavent information from sea water nutrient analysis perform at both Maycocks and Bellairs. And then see how the two sites compared to the Tara ocean information as highlighted above.
-<<>>=
-Nutrients_bell <- data.frame(matrix(ncol = 5, nrow = 5))
-x <- c("B1", "B2", "B3","Mean","STDV")
-p <- c("Time","Temperature", "DO(%)", "DO(mg/l)", "Salinity(ppt)")
-colnames(Nutrients_bell) <- p
-rownames(Nutrients_bell) <- x
-
-Nutrients_bell[1,] <- c(10.19, 29.031, 90.8, 5.77, 34.49)
-Nutrients_bell[2,] <- c(10.22, 29.016, 89.0, 5.63, 35.22)
-Nutrients_bell[3,]<- c(10.24, 29.045, 89.4, 5.65, 35.39)
-Nutrients_bell[4,] <- c(0, mean(Nutrients_bell[1:3,2]), mean(Nutrients_bell[1:3,3]), mean(Nutrients_bell[1:3,4]),mean(Nutrients_bell[1:3,5]))
-
-tempb <- Nutrients_bell$Temperature[1:3]
-dopb <- Nutrients_bell$`DO(%)`[1:3]
-domb <- Nutrients_bell$`DO(mg/l)`[1:3]
-salb <- Nutrients_bell$`Salinity(ppt)`[1:3]
-
-Nutrients_bell[5,] <- c(0, sd(tempb), sd(dopb), sd(domb), sd(salb))
-Nutrients_bell<-round(Nutrients_bell, 3)
-
-
-Nutrients_may <- data.frame(matrix(ncol = 5, nrow = 5))
-t <- c("M1", "M2", "M3","Mean","STDV")
-y <- c("Time","Temperature", "DO(%)", "DO(mg/l)", "Salinity(ppt)")
-colnames(Nutrients_may) <- y
-rownames(Nutrients_may) <- t
-
-Nutrients_may[1,] <- c(11.28, 29.098, 95.1, 6.01, 35.42)
-Nutrients_may[2,] <- c(11.30, 29.106, 95.3, 6.06, 34.24)
-Nutrients_may[3,] <- c(11.31, 29.197, 95.5, 6.05, 34.69)
-Nutrients_may[4,] <- c(0, mean(Nutrients_may[1:3,2]), mean(Nutrients_may[1:3,3]), mean(Nutrients_may[1:3,4]),mean(Nutrients_may[1:3,5]))
-
-temp <- Nutrients_may$Temperature[1:3]
-dop <- Nutrients_may$`DO(%)`[1:3]
-dom <- Nutrients_may$`DO(mg/l)`[1:3]
-sal <- Nutrients_may$`Salinity(ppt)`[1:3]
-
-Nutrients_may[5,] <- c(0, sd(temp), sd(dop), sd(dom), sd(sal))
-Nutrients_may <-round(Nutrients_may, 3)
-
-#NutrientsTable2-Nirates-Phosphates-Turbidity
-sea_chem <- data.frame(matrix(ncol = 13, nrow = 6))
-t <- c( "Site", "Nitrate#1(NO3-N)mg/l","Nitrate#2(NO3-N)mg/l","Nitrate#3(NO3-N)mg/l","NO3_Mean","NO3_STDV","Nitrites(NO2-N)mg/l","Phosphates#1(PO4)mg/l","Phosphates#2(PO4)mg/l","Phosphates#3(PO4)mg/l","PO4_Mean","PO4_STDV","Turbidity(NTU)")
-y <- c("F1","F2", "F3", "M1", "M2","M3")
-colnames(sea_chem) <- t
-rownames(sea_chem) <- y
-
-sea_chem$Site <- c('Bellairs','Bellairs','Bellairs','Maycocks','Maycocks','Maycocks')
-sea_chem$`Nitrate#1(NO3-N)mg/l` <- c(1.5,1.6,1.2,1.1,1.0,1.2)
-sea_chem$`Nitrate#2(NO3-N)mg/l` <- c(1.7,2.4,1.9,0.9,1.3,0.9)
-sea_chem$`Nitrate#3(NO3-N)mg/l` <- c(1.7,2.1,1.9,0.8,1.4,0.9)
-sea_chem$`Nitrites(NO2-N)mg/l` <- c(0.020,0.012,0.022,0.014,0.016,0.010)
-sea_chem$`Phosphates#1(PO4)mg/l`<- c(0.05,0.09,0.06,0.09,0.06,0.08)
-sea_chem$`Phosphates#2(PO4)mg/l` <- c(0.03,0.12,0.06,0.07,0.08,0.09)
-sea_chem$`Phosphates#3(PO4)mg/l` <- c(0.03,0.13,0.06,0.07,0.08,0.09)
-sea_chem$`Turbidity(NTU)` <- c(8,7,3,7,6,8)
-
-NO3_b1 <- c(sea_chem[1,2], sea_chem[1,3], sea_chem[1,4])
-NO3_b2 <- c(sea_chem[2,2], sea_chem[2,3], sea_chem[2,4])
-NO3_b3 <- c(sea_chem[3,2], sea_chem[3,3], sea_chem[3,4])
-NO3_m1 <- c(sea_chem[4,2], sea_chem[4,3], sea_chem[4,4])
-NO3_m2 <- c(sea_chem[5,2], sea_chem[5,3], sea_chem[5,4])
-NO3_m3 <- c(sea_chem[6,2], sea_chem[6,3], sea_chem[6,4])
-
-PO4_b1 <- c(sea_chem[1,8], sea_chem[1,9], sea_chem[1,10])
-PO4_b2 <- c(sea_chem[2,8], sea_chem[2,9], sea_chem[2,10])
-PO4_b3 <- c(sea_chem[3,8], sea_chem[3,9], sea_chem[3,10])
-PO4_m1 <- c(sea_chem[4,8], sea_chem[4,9], sea_chem[4,10])
-PO4_m2 <- c(sea_chem[5,8], sea_chem[5,9], sea_chem[5,10])
-PO4_m3 <- c(sea_chem[6,8], sea_chem[6,9], sea_chem[6,10])
-
-sea_chem$NO3_Mean <- round(c(mean(NO3_b1),mean(NO3_b2),mean(NO3_b3),mean(NO3_m1),mean(NO3_m2),mean(NO3_m3)), 3)
-sea_chem$NO3_STDV <- round(c(sd(NO3_b1),sd(NO3_b2),sd(NO3_b3),sd(NO3_m1),sd(NO3_m2),sd(NO3_m3)), 3)
-sea_chem$PO4_Mean <- round(c(mean(PO4_b1),mean(PO4_b2),mean(PO4_b3),mean(PO4_m1),mean(PO4_m2),mean(PO4_m3)),3)
-sea_chem$PO4_STDV <- round(c(sd(PO4_b1),sd(PO4_b2),sd(PO4_b3),sd(PO4_m1),sd(PO4_m2),sd(PO4_m3)) ,3)
-
-
-
-@
-Conducting the nonparametric test mann-whitney-wilcox test on nutrients data for both Bellairs and Maycocks. The null hypothesis is that bellairs and maycocks are sampled in waters with identical conditions while the alternative hypothesis is that the two stites are sampled in waters with different conditions.
-<<>>=
-# 
-library(dplyr)
-bell_temp <- Nutrients_bell
-bell_temp$Site <- c("Bell")
-may_temp <- Nutrients_may
-may_temp$Site <- c("May")
-comb_site <- rbind(may_temp, bell_temp)
-
-temperature <- comb_site[c(1:3,6:8),c(2,6)]
-dissolvedoxy <- comb_site[c(1:3,6:8),c(4,6)]
-salinity <- comb_site[c(1:3,6:8),c(5,6)]
-
-#Temperatue
-group_by(temperature, Site)%>% summarise(count = n(), median = median(Temperature, na.rm = TRUE), IQR = IQR(Temperature, na.rm = TRUE))
-wil_temp <- wilcox.test(Temperature ~ Site, data = temperature)
-
-#Dissolved Oxygen
-group_by(dissolvedoxy, Site)%>% summarise(count = n(), median = median(`DO(mg/l)`, na.rm = TRUE), IQR = IQR(`DO(mg/l)`, na.rm = TRUE))
-wil_doxy <- wilcox.test( `DO(mg/l)` ~ Site, data = dissolvedoxy, exact = FALSE)
-
-#Salinity 
-group_by(salinity, Site)%>% summarise(count = n(), median = median(`Salinity(ppt)`, na.rm = TRUE), IQR = IQR(`Salinity(ppt)`, na.rm = TRUE))
-wil_sal <- wilcox.test(`Salinity(ppt)` ~ Site, data = salinity,  exact = FALSE)
-
-#Nitrate
-group_by(sea_chem, Site)%>% summarise(count = n(), median = median(NO3_Mean, na.rm = TRUE), IQR = IQR(NO3_Mean, na.rm = TRUE))
-wil_nitrate <- wilcox.test(NO3_Mean ~ Site, data = sea_chem,  exact = FALSE)
-
-#Nitrite
-group_by(sea_chem, Site)%>% summarise(count = n(), median = median(`Nitrites(NO2-N)mg/l`, na.rm = TRUE), IQR = IQR(`Nitrites(NO2-N)mg/l`, na.rm = TRUE))
-wil_nitrite <- wilcox.test(`Nitrites(NO2-N)mg/l`~ Site, data = sea_chem,  exact = FALSE)
-
-#Phosphate
-group_by(sea_chem, Site)%>% summarise(count = n(), median = median(PO4_Mean, na.rm = TRUE), IQR = IQR(PO4_Mean, na.rm = TRUE))
-wil_phosphate <- wilcox.test(PO4_Mean~ Site, data = sea_chem,  exact = FALSE)
-
-#Turbidity
-group_by(sea_chem, Site)%>% summarise(count = n(), median = median(`Turbidity(NTU)`, na.rm = TRUE), IQR = IQR(`Turbidity(NTU)`, na.rm = TRUE))
-wil_turbidity <- wilcox.test(`Turbidity(NTU)`~ Site, data = sea_chem,  exact = FALSE)
-@
-Now we include the nutrient information for Maycocks andd Nutrient into the tara dataframe to compare.
-<<>>=
-# First we need to convert our values to align with Tara 
-conv_table <- sea_chem[,c(1,5,7,11)]
-
-colnames(conv_table) <- c('Site','NO3(umol/L)', 'NO2(umol/L)','PO4(umol/L)')
-
-
-
-#For nitrates. nitrites and Phosphate : mg/l to umol/l : following the conversion outlined in https://www.caryinstitute.org/sites/default/files/public/downloads/curriculum-project/4A1_Nitrogen_reading.pdf
-
-
-post <- c(1.633,2.033,1.667,0.933,1.233,1.000)
-post2 <- post
-
-
-mw <- 62.0049 #molecular weight of NO2
-
-for(i in length(post)){
-  
-  bld <- post[i]
-  
-  tw <- bld/1000 #mg/L to g/L
-  
-  kl <- tw/mw #g/l  to mol/L
-  
-  ans <-  kl/(0.000001)
-  
- post2[i] <- ans
-  
-  
-}
-
-#Nitrate
-
-mw <- 62.0049  #molecular weight of NO3
-
- for(i in 1:nrow(sea_chem)){
-  
-  bld <- sea_chem$NO3_Mean[i]
-  
-  tw <- bld/1000 #mg/L to g/L
- 
-  kl <- tw/mw #g/l  to mol/L
-
-  ans <-  kl/0.000001
-  
-  conv_table$`NO3(umol/L)`[i] <- ans
-  
-}
-
-#Nitrite
-
-mw <- 46.0055 #molecular weight of NO2
-
-for(i in 1:nrow(sea_chem)){
-  
-  bld <- sea_chem$`Nitrites(NO2-N)mg/l`[i]
-  
-  tw <- bld/1000 #mg/L to g/L
-  
-  kl <- tw/mw #g/l  to mol/L
-  
-  ans <-  kl/(0.000001)
-  
-  conv_table$`NO2(umol/L)`[i] <- ans
-  
-}
-
-#Phosphate
-
-mw <- 94.971 #molecular weight of PO4
-
-for(i in 1:nrow(sea_chem)){
-  
-  bld <- sea_chem$PO4_Mean[i]
-  
-  tw <- bld/1000 #mg/L to g/L
-  
-  kl <- tw/mw #g/l  to mol/L
-  
-  ans <-  kl/(0.000001)
-  
-  conv_table$`PO4(umol/L)`[i] <- ans
-  
-}
-
-#Now we add the values to the TARA DATASET
-Bellairs_nitrate <- round(c(mean(conv_table[1,2], conv_table[2,2],conv_table[3,2])),3)
-Bellairs_nirate_sd <- round(c(sd(conv_table[1:3,2])),3)
-Maycocks_nitrate <- round(c(mean(conv_table[4,2], conv_table[5,2],conv_table[6,2])),3)
-Maycocks_nitrate_sd <- round(c(sd(conv_table[4:6,2])),3)
-
-
-Bellairs_nitrite <- round(c(mean(conv_table[1,3], conv_table[2,3],conv_table[3,3])),3)
-Bellairs_nitrite_sd <- round(c(sd(conv_table[1:3,3])),3)
-Maycocks_nitrite <- round(c(mean(conv_table[4,3], conv_table[5,3],conv_table[6,3])),3)
-Maycocks_nitrite_sd <- round(c(sd(conv_table[4:6,3])),3)
-
-
-Bellairs_phosphate <- round(c(mean(conv_table[1,4], conv_table[2,4],conv_table[3,4])),3)
-Bellairs_phosphate_sd <- round(c(sd(conv_table[1:3,4])),3)
-Maycocks_phosphate <- round(c(mean(conv_table[4,4], conv_table[5,4],conv_table[6,4])),3)
-Maycocks_phosphate_sd <- round(c(sd(conv_table[4:6,4])),3)
-
-
-Bellairs_salinty <- mean(salinity[4,1], salinity[5,1], salinity[6,1])
-Maycocks_salinity <-  mean(salinity[1,1], salinity[2,1], salinity[3,1])
-
-Bellairs_temperature <- mean(temperature[4,1],temperature[5,1],temperature[6,1])
-Maycocks_temperature <- mean(temperature[1,1],temperature[2,1],temperature[3,1])
-
-mt_all$`Mean Nitrates [umol/L]`[1] <- Bellairs_nitrate
-mt_all$`Mean Nitrates [umol/L]`[2] <- Maycocks_nitrate
-mt_all$`NO2 [umol/L]`[1] <- Bellairs_nitrite
-mt_all$`NO2 [umol/L]`[2] <- Maycocks_nitrite
-mt_all$`PO4 [umol/L]`[1] <- Bellairs_phosphate
-mt_all$`PO4 [umol/L]`[2] <- Maycocks_phosphate
-mt_all$`Mean Temp [C]`[1] <- Bellairs_temperature
-mt_all$`Mean Temp [C]`[2] <- Maycocks_temperature
-mt_all$`Mean Salinity [PSU]`[1] <- Bellairs_salinty
-mt_all$`Mean Salinity [PSU]`[2] <- Maycocks_salinity
-mt_all$`Mean Depth[m]`[1]<- 5
-mt_all$`Mean Depth[m]`[2]<- 5
 
 
 
