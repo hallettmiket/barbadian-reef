@@ -118,7 +118,7 @@ get_top_taxa <- function( m, lmt ) {
     return( order(m[,col], decreasing=TRUE)[1:lmt] )
   }) )# end of apply
   
-}
+} 
 
 #
 # Used to change nominal factors in the metadata for the tara oceans project
@@ -192,22 +192,21 @@ prepare_barbados_sites <- function(  mt ) {
   
   bellairs[ "Size Fraction Up"] <- maycocks[ "Size Fraction Up" ] <- 1.6
   
-  bellairs[ "Mean Date"] <- "30/01/18"; maycocks[ "Mean Date"] <- "31/01/18"
-  bellairs[ "Mean Depth"] <- 5; maycocks[ "Mean Depth"] <- 5
+  bellairs[ "Mean Depth[m]"] <- 5; maycocks[ "Mean Depth[m]"] <- 5
   
   environ <- readRDS("/home/data/refined/reef/R/environ.RData" )
   options(pillar.sigfig =5)
   tmp <- environ %>% group_by(site) %>% summarise(across("Time":"Salinity(ppt)", ~mean(.x, na.rm = TRUE)))
   
-  bellairs[ "Mean Temp"] <-  29.031
-  maycocks[ "Mean Temp"] <-  29.134
-  bellairs[ "Mean Salinity"] <- 35.033
-  maycocks[ "Mean Salinity"] <- 34.783
+  bellairs[ "Mean Temp [C]"] <-  29.031
+  maycocks[ "Mean Temp [C]"] <-  29.134
+  bellairs[ "Mean Salinity [PSU]"] <- 35.033
+  maycocks[ "Mean Salinity [PSU]"] <- 34.783
   
   environ <- environ %>% mutate( adj_DO = `DO(mg/l)` * 1000 / 32 / 1.027 )  %>% 
                 group_by(site) %>% summarise(m = mean(adj_DO))
-  bellairs[ "Oxygen"] <- 172.93
-  maycocks[ "Oxygen"] <- 183.79
+  bellairs[ "Mean Oxygen [umol/kg]" ] <- 172.93
+  maycocks[ "Mean Oxygen [umol/kg]" ] <- 183.79
   
   
   sea_chem <- readRDS("/home/data/refined/reef/R/sea_chemistry.RData" )
@@ -238,5 +237,27 @@ prepare_barbados_sites <- function(  mt ) {
   mt <- rbind(bellairs,mt)
   rownames(mt)[1:2] <- c("br_bel", "br_may")
   return(mt)
+}
+
+
+
+eco <- function( ) {
+#In this section, we compute several ecological measures of diversity and richness using the ${\tt vegan} package for use in our 
+# Tara Oceans comparison.
+
+  library(vegan)
+
+  load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+  tree <- tarat
+  bac <- induce_tree(2)  # bac tree
+  rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
+
+
+  g_bac <- bac[, c(7, 8, 25:163)]
+  g_bac <- g_bac[which(bac$rank == "genus"), ]
+  H <- diversity(t(g_bac))
+  
+  Srar <- rarefy(t(g_bac), min(rowSums(t(g_bac))))
+  return(H)
 }
 

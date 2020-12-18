@@ -36,21 +36,20 @@ vers <- 1.0
 #load raw tara oceans data (mapped to genera)
 library(tidyverse)
 tara <- read_tsv(file = "/home/data/raw/tara-ocean/miTAG.taxonomic.profiles.release.tsv")
-
 @
 
 
 
 <<>>=
-tarat <-   include_tara( tree, tara )[[1]]
-nc <- ncol(tarat)
-
-for (i in 1:nrow(tarat)) {
-  tarat[i , (nc+1): (nc+139) ] <- tarat[i, 25:163] / tarat[1, 25:163]
-}
-colnames(tarat)[(nc+1):(nc+139)] <- paste0(colnames(tarat[25:163]), "_Global_freq")
-
-toriginal <- tarat
+# tarat <-   include_tara( tree, tara )[[1]]
+# nc <- ncol(tarat)
+# 
+# for (i in 1:nrow(tarat)) {
+#   tarat[i , (nc+1): (nc+139) ] <- tarat[i, 25:163] / tarat[1, 25:163]
+# }
+# colnames(tarat)[(nc+1):(nc+139)] <- paste0(colnames(tarat[25:163]), "_Global_freq")
+# 
+# toriginal <- tarat
 #save(tarat, file = "/home/data/refined/reef/R/tara_oceans_tree.june.9.Rdata")
 @
 
@@ -64,7 +63,7 @@ load(file = "/home/data/refined/reef/R/tara_oceans_tree.june.9.Rdata")
 # {\tt ocean-microbiome.embl.de\/companion.html}
 w1 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W1.csv")
 w5 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W5.csv")
-w5 <- w5[ 1:(nrow(w8)-2), ] # last two lines are comments
+w5 <- w5[ 1:(nrow(w5)-2), ] # last two lines are comments
 
 w8 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W8.csv")
 w8 <- w8[ 1:(nrow(w8)-2), ] # last two lines are comments
@@ -141,9 +140,14 @@ load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
 tree <- tarat
 bac <- induce_tree(2)  # bac tree
 rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
+
+
 g_bac <- bac[, c(7, 8, 25:163)]
-g_bac <- apply(g_bac, MARGIN=2, FUN = function(c) {c / c[1]})
+colnames(g_bac)[1:2] <- c("Bellairs", "Maycocks")
 g_bac <- g_bac[which(bac$rank == "genus"), ]
+
+g_bac <- apply(g_bac, MARGIN=2, FUN = function(c) {log( (c+ 1) / (sum(c) + length(c) ) )})
+
 tmp <- apply(g_bac, MARGIN=1, var)
 tmp_order <- order(tmp, decreasing=TRUE) 
 top <- get_top_taxa( g_bac, lmt=5)
@@ -152,7 +156,7 @@ small_bac <- g_bac[unique(as.vector(top)), ]
 mt_all <- prepare_metatara(metatara)
 
 
-col_fun = colorRamp2(c(0, 0.05, .3), c("blue", "white", "red"))
+col_fun = colorRamp2(c(min(small_bac), median(small_bac), max(small_bac)), c("blue", "white", "red"))
 col_fun(seq(0, 1))
 
 col_environment = c("DCM" = "pink",
@@ -186,11 +190,6 @@ a1 = HeatmapAnnotation(
       Environment = mt_all[,10], 
       Biome = mt_all[,12],
       Region = factor(mt_all[,13]),
-      MRGID = mt_all[,14],
-      X16S.miTAGs =  mt_all[,15],
-      Richness = mt_all[,16],
-      Chao1 = mt_all[,17 ],
-      Shannon = mt_all[,18],
       Depth= mt_all[,20],
       Temp = mt_all[,21],
       Salinity = mt_all[,22],
@@ -200,32 +199,38 @@ a1 = HeatmapAnnotation(
       PO4 = mt_all[,26],
       NO2NO3 = mt_all[,27],
       SI = mt_all[,28],
-      AMODIS= mt_all[,29],
-      Okubo_Weiss = mt_all[,30],
-      Lyapunov= mt_all[,31],
-      grad_SST_adv = mt_all[,32],
-      retention = mt_all[,33],
-      Depth_MLD_Sigma = mt_all[,34],
-      Depth_Max_Fluo= mt_all[,35],
-      Depth_Max_N2= mt_all[,36],
-      Depth_Max_O2 = mt_all[,37],
-      Depth_Min_O2 = mt_all[,38],
-      Depth_Nitracline= mt_all[,39],
-      miTAG.Richness = mt_all[,40],
-      miTAG.Diversity = mt_all[,41],
-      miTAG.ace = mt_all[,42],
-      OG.Shannon = mt_all[,43],
-      OG.Richness = mt_all[,44],
-      OG.Evenness= mt_all[,45],
-      FC_heterotrophs = mt_all[,46],
-      FC_autotrophs = mt_all[,47],
-      FC_bacteria  = mt_all[,48],
-      FC_picoeuk. = mt_all[,49],
-      gen_time = mt_all[,50],
+      #      MRGID = mt_all[,14],
+#      X16S.miTAGs =  mt_all[,15],
+ #     Richness = mt_all[,16],
+#      Chao1 = mt_all[,17 ],
+ #     Shannon = mt_all[,18],
+
+#      AMODIS= mt_all[,29],
+#      Okubo_Weiss = mt_all[,30],
+#      Lyapunov= mt_all[,31],
+#      grad_SST_adv = mt_all[,32],
+#      retention = mt_all[,33],
+#      Depth_MLD_Sigma = mt_all[,34],
+#      Depth_Max_Fluo= mt_all[,35],
+ #     Depth_Max_N2= mt_all[,36],
+#      Depth_Max_O2 = mt_all[,37],
+#      Depth_Min_O2 = mt_all[,38],
+#      Depth_Nitracline= mt_all[,39],
+#      miTAG.Richness = mt_all[,40],
+#      miTAG.Diversity = mt_all[,41],
+#      miTAG.ace = mt_all[,42],
+#     OG.Shannon = mt_all[,43],
+#      OG.Richness = mt_all[,44],
+#      OG.Evenness= mt_all[,45],
+#      FC_heterotrophs = mt_all[,46],
+#      FC_autotrophs = mt_all[,47],
+#      FC_bacteria  = mt_all[,48],
+#      FC_picoeuk. = mt_all[,49],
+ #     gen_time = mt_all[,50],
       
       annotation_name_side = "left",
   #    row_names_gp = gpar(fontsize = 7),
-      col= list(Environment = col_environment, Biome = col_biome, Region = col_region, MRGID=col_MRGID)
+      col= list(Environment = col_environment, Biome = col_biome, Region = col_region )
       )
 
 
@@ -244,26 +249,31 @@ h1 <- Heatmap(small_bac, name = "expr",
         cluster_columns =cc,
     
         row_names_gp = gpar(fontsize = 7),
-        column_names_gp = gpar(fontsize = 7),
-        top_annotation = a1
+        column_names_gp = gpar(fontsize = 5),
+        top_annotation = a1,
+        raster_quality = 2
+
         ) 
 
 draw(h1, merge_legend=TRUE)
-decorate_heatmap_body("expr", {
-    i = which(cc$order == 1)
-    x = i/ncol(small_bac)
-    grid.lines(c(x, x), c(0, 1), gp = gpar(lwd = 2, lty = 2))
-    grid.text("Bellairs", x, unit(1, "npc") + unit(-8, "mm"))
-})
-
-decorate_heatmap_body("expr", {
-    i = which(cc$order == 2)
-    x = i/ncol(small_bac)
-    grid.lines(c(x, x), c(0, 1), gp = gpar(lwd = 2, lty = 2))
-    grid.text("Maycocks", x, unit(1, "npc") + unit(-11, "mm"))
-})
+# 
+# decorate_heatmap_body("expr", {
+#     i = which(cc$order == 1)
+#     x = i/ncol(small_bac)
+#     grid.lines(c(x, x), c(0, 1), gp = gpar(lwd = 2, lty = 2))
+#     grid.text("Bellairs", x, unit(1, "npc") + unit(-8, "mm"))
+# })
+# 
+# decorate_heatmap_body("expr", {
+#     i = which(cc$order == 2)
+#     x = i/ncol(small_bac)
+#     grid.lines(c(x, x), c(0, 1), gp = gpar(lwd = 2, lty = 2))
+#     grid.text("Maycocks", x, unit(1, "npc") + unit(-11, "mm"))
+# })
 
 @
+
+
 
 
 \section{Compositional Data}
