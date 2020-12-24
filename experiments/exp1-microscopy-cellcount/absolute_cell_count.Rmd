@@ -78,79 +78,9 @@ target_areas <- c(  pi*(0.2/2)^2, pi*(0.8/2)^2, pi * (1.7/2)^2, pi * (3/2)^2 )
 master %>% filter(site=="B", Area < target_areas[4]) -> B_target; summary(B_target$Area)
 master %>% filter(site=="M", Area < target_areas[4]) -> M_target; summary(M_target$Area)
 ```
-```{r}
-target <- master %>% filter( Area < target_areas[4] )
-p <- ggplot(target, aes(factor(site), Area))
-p + geom_violin()
-```
-
-
-```{r}
-target <- master %>% filter(  Area > target_areas[2], Area < target_areas[3])
-p <- ggplot(target, aes(factor(site), Area))
-p + geom_violin()
-```
-
-
-Let's look at just Pelagibachter
-
-```{r}
-target_areas_pelag <- c( pi * (0.2/2)^2, pi * (0.5/2)^2 )
-target <- master %>% filter(  (Area > target_areas_pelag[1] & Area < target_areas_pelag[2]) )
-p <- ggplot(target, aes(factor(site), Area))
-p + geom_violin()
-```
-
-
-Let's look at just Synech.
-
-```{r}
-target_areas_synech <- c( pi * (0.9/2)^2, pi * (1.8/2)^2 )
-target <- master %>% filter(  (Area > target_areas_synech[1] & Area < target_areas_synech[2]) )
-p <- ggplot(target, aes(factor(site), Area))
-p + geom_violin()
-```
-
-
-Let's look at just Proch.
-
-```{r}
-target_areas_proch <- c( pi * (0.5/2)^2, pi * (0.9/2)^2)
-target <- master %>% filter(  (Area > target_areas_proch[1] & Area < target_areas_proch[2]) )
-p <- ggplot(target, aes(factor(site), Area))
-p + geom_violin()
-```
 
 
 
-
-```{r}
-target_areas <- c(  pi*(0.2/2)^2, pi*(0.8/2)^2, pi * (1.7/2)^2, pi * (3/2)^2 ) 
-target <- master %>% filter( Area > target_areas[1], Area < target_areas[4])
-ggplot( target, aes(x=log(Area), color = site)) + 
-  geom_histogram( aes(y=..density..), 
-    fill="white", alpha=0.5, position="identity", bins=100) +
-  geom_density(alpha=0.6)+
-  theme_classic() +
-  theme(legend.position="top")
-```
-
-```{r}
-target_areas <- c(  pi*(0.2/2)^2, pi*(0.8/2)^2, pi * (1.7/2)^2, pi * (3/2)^2 ) 
-
-target_b <- master %>% filter( Area > target_areas[1], Area < target_areas[4])
-bb <- ggplot( target_b, aes(x=log(Area), color = site)) + 
-  geom_histogram( aes(y=..density..), 
-    fill="white", alpha=0.5, position="identity", bins=100) +
-  geom_density(alpha=0.6)+
-  theme_classic() +
-  theme(legend.position="top")
-bb
-```
-
-```{r}
-summary(target_b3$Area)
-```
 
 Get the basic counts that we need.
 
@@ -169,20 +99,20 @@ ggplot(res) + geom_point( aes( x= mean_area, y= StdDev, color =  site ))
 ```
 
 
-I think we should thow out the outlier here (n) but first let's investigate the most extreme a little bit more.
+I think we should thow out the outliers here (n > 1000) but first let's investigate the most extreme a little bit more.
 ```{r}
-big <- res %>% filter(n > 3000) %>% dplyr::select(site, batch, file) # let's pick on big[2,]
-
-reduced <- master
-for (i in 1:nrow(big)) {
-  reduced <- reduced %>% filter( !( site == as.character(big[i,1]) &
-                                    batch == as.numeric(big[i,2]) & 
-                                    file == as.numeric(big[i,3])))
-}
-
-reduced <- reduced  %>% 
+reduced <- master  %>% 
     filter( Area > target_areas[1]) %>%
     filter( Area < target_areas[4]) 
+
+res <- reduced %>% group_by(site, file) %>%
+    summarise( n= n(), mean_area= mean(Area))
+big <- res %>% filter( n > 3000)
+
+for (i in 1:nrow(big)) {
+  reduced <- reduced %>% filter( !( site == as.character(big[i,1]) &
+                                    file == as.numeric(big[i,2])))
+}
 
 ggplot(reduced, aes(x=log(Area), color = site)) + 
   geom_histogram( aes(y=..density..), 
@@ -195,10 +125,8 @@ ggplot(reduced, aes(x=log(Area), color = site)) +
 What is the average number of FOV's per file at each site?
 
 ```{r}
-res <- reduced %>% group_by(site, batch, file) %>%
+res <- reduced %>% group_by(site, file) %>%
     summarise( n= n(), mean_area= mean(Area))
-res2 <- res %>% group_by(site) %>%
-    summarise(nn = n(), ave_n = mean(n))
 
 B_n <- res %>% filter(site == "B")
 M_n <- res %>% filter(site == "M")
