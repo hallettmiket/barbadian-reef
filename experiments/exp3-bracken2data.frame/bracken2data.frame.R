@@ -21,12 +21,12 @@ KDB <- RES <-  "/home/data/refined/reef/kr_br"
 
 
 # Load the Bracken data.
-bellairs <- read.csv(paste0(RES, "temp_trimgl_krbr/bellairs_trimgl.bracken"), header=TRUE, sep = "\t",
+bellairs <- read.csv(file.path(RES, "temp_trimgl_krbr/bellairs_trimgl.bracken"), header=TRUE, sep = "\t",
                      col.names = c("name", "tax_id", "tax_lvl", "assigned_reads", "added_reads", "est_reads", "fraction"))
 bellairs <- bellairs[ order( -bellairs$fraction, -bellairs$est_reads), ]
 bellairs$site <- "b"
 
-maycock  <- read.csv(paste0(RES, "temp_trimgl_krbr/maycocks_trimgl.bracken"), header=TRUE, sep = "\t",
+maycock  <- read.csv(file.path(RES, "temp_trimgl_krbr/maycocks_trimgl.bracken"), header=TRUE, sep = "\t",
                     col.names = c("name", "tax_id", "tax_lvl", "assigned_reads", "added_reads", "est_reads", "fraction"))
 maycock <- maycock[ order( -maycock$fraction, -maycock$est_reads), ]
 maycock$site <- "m"
