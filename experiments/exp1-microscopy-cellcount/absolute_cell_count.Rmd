@@ -6,14 +6,14 @@ output: html_notebook
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 options(warn = -1)
 root <- rprojroot::find_root(".git/index");  source(file.path(root, "src/init.R"))
-shawn_data_files <- "/home/data/refined/reef/microscopy/re_analysis/"
-analysis_files <- "/home/data/refined/reef/microscopy/analysis_Nov_28_2020"
+shawn_data_files <- file.path( ZEN_DATA, "reef/microscopy/re_analysis/")
+analysis_files <-   file.path( ZEN_DATA, "reef/microscopy/analysis_Nov_28_2020")
 library(tidyverse)
 library(prodlim)
 ```
 
 ```{r, warning=FALSE,message=FALSE,error=FALSE}
-raw_images <- "/home/data/refined/reef/microscopy/imagej_analysis/re-analysis"
+raw_images <- file.path( ZEN_DATA, "reef/microscopy/imagej_analysis/re-analysis" )
 batch_dirs <-         c( "20200901_bellairs", "20200901_maycocks")
 master <- tibble()
 ```

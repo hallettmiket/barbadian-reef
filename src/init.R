@@ -2,10 +2,16 @@ library(rprojroot)
 library(xtable); library(ggplot2); library(vcd); library(MASS); library(FNN); library(rlang)
 library(boot); library(ggrepel); library(ggthemes); library(ggpubr); library(pals)
 
+root <- rprojroot::find_root(".git/index"); 
+
 source(file.path(root, "src/functions.R"))
 source(file.path(root, "src/load.tree.R"))
 
-REEF_DIR <- "/home/data/refined/reef/R/R"
+### MODIFY THIS ZEN_DATA 
+ZEN_DATA <- "~/reef_data/"
+
+REEF_DIR <- file.path(ZEN_DATA, "R/R")
+
 mystat<- function( data, indices ) {return(mean(data[indices]))}
 
 

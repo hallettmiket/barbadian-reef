@@ -177,8 +177,8 @@ tree$DeltaFreq <- tree$Glob.Freq.Bel - tree$Glob.Freq.May
 
 tree <- tree[, c(1:18, 23, 19:22)]
 
-#save(tree, file = "/home/data/refined/reef/R/raw.tree.april.15.RData")
-#write.csv(tree, file = "/home/data/refined/reef/R/raw.tree.april.15.csv")
+#save(tree, file = file.path( refined, "R/raw.tree.april.15.RData"))
+#write.csv(tree, file = file.path( refined, "R/raw.tree.april.15.csv"))
 
 
 
