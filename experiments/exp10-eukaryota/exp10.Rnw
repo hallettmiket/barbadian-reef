@@ -40,7 +40,14 @@ tree <- original
 make_table(131567) # cell organisms
 tax_euk <- 2759
 mt(tax_euk)  #eu
-t <- tax_euk; make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile)
+t <- tax_euk; make_figure( t, "", figurefile)
+tree[t2i(2608109), "name"] <- "Haptophyta"
+tree[t2i(554915), "name"] <- "Eumycetozoa"
+tree[t2i(2611341), "name"] <- "Parabasalia/Fornicata"
+tree[t2i(2683617), "name"] <- "Picozoa/Palpitomonas"
+tree[t2i(2608240), "name"] <- "Collodictyonidae"
+tree[t2i(2608240), "name"] <- "Apusomonadidae"
+
 
 tree <- original
 # 33090, 2698737, 33154, 3041, 33630, 4751, 451864, 716545, 716546

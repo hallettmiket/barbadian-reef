@@ -40,6 +40,9 @@ figurefile <- file.path(mainfigurefile, "decentralized/archaea")
 <<>>=
 tax_archaea <- 2157
 tree <- original # we always assume there is a "fresh" copy of the tree in original.
+tree[t2i(1783275), "name"] <- "TACK group"
+tree[t2i(1783276), "name"] <- "DPANN group"
+
 mt(tax_archaea) #archae
 
 mt(28890, relative_taxa = 2157) # euryarchaeota
@@ -56,12 +59,13 @@ mt(1783276, relative_taxa = 2157) # euryarchaeota
 @
 
 <<>>=
-t <- tax_archaea; make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile,
-                                lf_quant = 0.05, rf_quant = 0.95, 
+t <- tax_archaea; 
+make_figure( t, "", figurefile,
+                                lf_quant = 0.05, rf_quant = 0.95,
                           lc_quant = 0.4, rc_quant = 0.95,
-                        top_left = -10, top_even = 1, top_right = 9,
-                        stretch = 0.5,
-                        size =2.0
+                        top_left = -5, top_even = 1, top_right = 1,
+                        stretch = 0.1,
+                        size =3.0
                                )
 
 t <- 2290931; make_figure( t, ifelse(is.na(tree[t2i(t), "name"]), t, tree[t2i(t), "name"]), figurefile,

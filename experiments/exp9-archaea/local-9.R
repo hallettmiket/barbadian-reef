@@ -37,7 +37,10 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Archaea", verbose
   # make the colors a bit easier to read
   clrs <- c(glasbey(), glasbey()); 
   # make the colors a bit easier to read
-  clrs[3] <- clrs[19]
+  tmp <- clrs[1]; clrs[1] <- clrs[2]; clrs[2] <- tmp
+  clrs[3] <- clrs[6]
+  tmp <- clrs[1]; clrs[1] <- clrs[3]; clrs[3] <- tmp
+  
   # tmp <- clrs[2]; clrs[2] <- clrs[6]; clrs[6] <- tmp
   # tmp <- clrs[1]; clrs[1] <- clrs[12]; clrs[12] <- tmp
   # tmp <- clrs[3]; clrs[3] <- clrs[12]; clrs[12] <- tmp
@@ -66,9 +69,9 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Archaea", verbose
     geom_text(aes(y=rightpt_counts, label=paste0("Qnt:",rc_quant), x=1.8), colour="seagreen4", angle=0, text=element_text(size=2)) +
     
     geom_vline(xintercept=tmp2[1], color="lightskyblue") + 
-    geom_text(aes(x=tmp2[1], label=paste0("Qnt:", lf_quant ), y=9.5), colour="seagreen4", angle=90, text=element_text(size=2)) +
+    geom_text(aes(x=tmp2[1], label=paste0("Qnt:", lf_quant ), y=9.1), colour="seagreen4", angle=90, text=element_text(size=2)) +
     geom_vline(xintercept=tmp2[2], color = "lightskyblue")+
-    geom_text(aes(x=tmp2[2], label=paste0("Qnt:", rf_quant ), y=9.5), colour="seagreen4", angle=90, text=element_text(size=2)) +
+    geom_text(aes(x=tmp2[2], label=paste0("Qnt:", rf_quant ), y=9.1), colour="seagreen4", angle=90, text=element_text(size=2)) +
     
     geom_text_repel(
       max.iter=100000,
@@ -125,34 +128,34 @@ make_figure <- function(tax_target, name, figurefile,  lf_quant = 0.10, rf_quant
   
   
   relative_to <- tax_target
-  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (genus level, relative to root of target)"), verbose = TRUE,
+  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = "", verbose = TRUE,
                         lf_quant = lf_quant, rf_quant = rf_quant, lc_quant = lc_quant, rc_quant = rc_quant,
                         top_left = top_left, top_even = top_even, top_right = top_right,
                         stretch = stretch,
                         size = size 
   )
   p
-  ggsave( filename = paste0(paste0(paste0(name,".genus.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
+ # ggsave( filename = paste0(paste0(paste0(name,".genus.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
   
-  children <- list()
-  for (i in 1:length(p2c(tax_target))) {
-    tree <- original
-    tmp <- induce_tree( p2c(tax_target)[i])  
-    tmp$taxa <- ifelse( is.na(tmp[1, "name"]), tmp[1, "tax_id"], tmp[1, "name"])
-    children[[i]] <- tmp
-  }
-  tree <- original
-  target_species <- do.call("rbind", children)
-  target_species <- target_species[ which(target_species$rank == "species"), ]
+#  children <- list()
+#  for (i in 1:length(p2c(tax_target))) {
+#    tree <- original
+#    tmp <- induce_tree( p2c(tax_target)[i])  
+#    tmp$taxa <- ifelse( is.na(tmp[1, "name"]), tmp[1, "tax_id"], tmp[1, "name"])
+ #   children[[i]] <- tmp
+  # }
+#  tree <- original
+ # target_species <- do.call("rbind", children)
+ # target_species <- target_species[ which(target_species$rank == "species"), ]
   
-  relative_to <- tax_target
-  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (species level, relative to root of target)"), verbose = TRUE,
-                        lf_quant = lf_quant, rf_quant = rf_quant, lc_quant = lc_quant, rc_quant = rc_quant,
-                        top_left = top_left, top_even = top_even, top_right = top_right,
-                        stretch = stretch,
-                        size = size)
-  p
-  ggsave( filename = paste0(paste0(paste0(name,".species.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
+  # relative_to <- tax_target
+  #p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (species level, relative to root of target)"), verbose = TRUE,
+   #                     lf_quant = lf_quant, rf_quant = rf_quant, lc_quant = lc_quant, rc_quant = rc_quant,
+    #                    top_left = top_left, top_even = top_even, top_right = top_right,
+     #                   stretch = stretch,
+      #                  size = size)
+  # p
+#  ggsave( filename = paste0(paste0(paste0(name,".species.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
   
 }
 

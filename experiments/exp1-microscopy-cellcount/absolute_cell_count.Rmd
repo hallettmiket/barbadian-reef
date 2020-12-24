@@ -5,7 +5,7 @@ output: html_notebook
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 options(warn = -1)
-root <- rprojroot::find_root(".git/index"); setwd(root); source(file.path(root, "src/init.R"))
+root <- rprojroot::find_root(".git/index");  source(file.path(root, "src/init.R"))
 shawn_data_files <- "/home/data/refined/reef/microscopy/re_analysis/"
 analysis_files <- "/home/data/refined/reef/microscopy/analysis_Nov_28_2020"
 library(tidyverse)
@@ -14,136 +14,37 @@ library(prodlim)
 
 ```{r, warning=FALSE,message=FALSE,error=FALSE}
 raw_images <- "/home/data/refined/reef/microscopy/imagej_analysis/re-analysis"
-batch_dirs <-         c("20200723_reefwater", "20200814_reefwater", "20200901_bellairs",
-                        "20200723_reefwater", "20200812_reefwater", "20200901_maycocks")
-names(batch_dirs) <-  c("B1", "B2", "B3", "M1", "M2", "M3")
+batch_dirs <-         c( "20200901_bellairs", "20200901_maycocks")
+master <- tibble()
 ```
 
-First import for Bellairs, batch_dirs[1]
 
-```{r, echo=TRUE,warning=FALSE,message=FALSE,error=FALSE}
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 1
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
-splits <- str_split(fls, pattern="_")
-tmp <- lapply(1:length(splits), FUN = function(i) {
-  ifelse(splits[[i]][2]=="B", fls[i], NA)
-})
-fls <- compact(map(tmp, .f=function(x) if (!is.na(x)) return(x)))
 
 data <- lapply( 1:length(fls), FUN = function(x) {
   tmp <- read_csv(file.path( raw_images, batch_dirs[target], fls[x] ))
   tmp$site <- "B"
-  tmp$batch <- target
   tmp$file <- x
   return(tmp)
 })
 data <- bind_rows(data)
-master <- data
+master <- bind_rows(master, data)
 ```
 
 
-Import for Bellairs, batch_dirs[2]
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
 target <- 2
 fls <- list.files(file.path(raw_images, batch_dirs[target]),
                   pattern = "*.csv")
-splits <- str_split(fls, pattern="_")
-tmp <- lapply(1:length(splits), FUN = function(i) {
-  ifelse(splits[[i]][2]=="B", fls[i], NA)
-})
-fls <- compact(map(tmp, .f=function(x) if (!is.na(x)) return(x)))
-
-data <- lapply( 1:length(fls), FUN = function(x) {
-  tmp <- read_csv(file.path( raw_images, batch_dirs[target], fls[x] ))
-  tmp$site <- "B"
-  tmp$batch <- target
-  tmp$file <- x
-  return(tmp)
-})
-data <- bind_rows(data)
-master <- bind_rows(master, data)
-```
-
-Import for Bellairs, batch_dirs[3]
-
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
-target <- 3
-fls <- list.files(file.path(raw_images, batch_dirs[target]),
-                  pattern = "*.csv")
-
-data <- lapply( 1:length(fls), FUN = function(x) {
-  tmp <- read_csv(file.path( raw_images, batch_dirs[target], fls[x] ))
-  tmp$site <- "B"
-  tmp$batch <- target
-  tmp$file <- x
-  return(tmp)
-})
-data <- bind_rows(data)
-master <- bind_rows(master, data)
-```
-
-
-
-First import for Maycocks, batch_dirs[4]
-
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
-target <- 4
-fls <- list.files(file.path(raw_images, batch_dirs[target]),
-                  pattern = "*.csv")
-splits <- str_split(fls, pattern="_")
-tmp <- lapply(1:length(splits), FUN = function(i) {
-  ifelse(splits[[i]][2]=="M", fls[i], NA)
-})
-fls <- compact(map(tmp, .f=function(x) if (!is.na(x)) return(x)))
 
 data <- lapply( 1:length(fls), FUN = function(x) {
   tmp <- read_csv(file.path( raw_images, batch_dirs[target], fls[x] ))
   tmp$site <- "M"
-  tmp$batch <- 1
-  tmp$file <- x
-  return(tmp)
-})
-data <- bind_rows(data)
-master <- bind_rows(master, data)
-```
-
-
-Import for Maycocks, batch_dirs[5]
-
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
-target <- 5
-fls <- list.files(file.path(raw_images, batch_dirs[target]),
-                  pattern = "*.csv")
-splits <- str_split(fls, pattern="_")
-tmp <- lapply(1:length(splits), FUN = function(i) {
-  ifelse(splits[[i]][2]=="M", fls[i], NA)
-})
-fls <- compact(map(tmp, .f=function(x) if (!is.na(x)) return(x)))
-
-data <- lapply( 1:length(fls), FUN = function(x) {
-  tmp <- read_csv(file.path( raw_images, batch_dirs[target], fls[x] ))
-  tmp$site <- "M"
-  tmp$batch <- 2
-  tmp$file <- x
-  return(tmp)
-})
-data <- bind_rows(data)
-master <- bind_rows(master, data)
-```
-
-Import for Maycocks, batch_dirs[6]
-
-```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
-target <- 6
-fls <- list.files(file.path(raw_images, batch_dirs[target]),
-                  pattern = "*.csv")
-
-data <- lapply( 1:length(fls), FUN = function(x) {
-  tmp <- read_csv(file.path( raw_images, batch_dirs[target], fls[x] ))
-  tmp$site <- "M"
-  tmp$batch <- 3
   tmp$file <- x
   return(tmp)
 })
@@ -153,12 +54,13 @@ master <- bind_rows(master, data)
 
 Reorganize slightly and save.
 ```{r, echo=FALSE,warning=FALSE,message=FALSE,error=FALSE}
-master <- master %>%  mutate( FOV = X1, .keep="unused") %>% dplyr::select(site, batch, file, FOV, everything())
+master <- master %>%  mutate( FOV = X1, .keep="unused") %>% dplyr::select(site, file, FOV, everything())
 #saveRDS(master, file = file.path(analysis_files, "object_tibble_vers_1.0.RData"))
 ```
 
 
 ```{r}
+master <- readRDS(file.path(analysis_files, "object_tibble_vers_1.0.RData") )
 p <- ggplot(master, aes(factor(site), log(Area)))
 p + geom_violin()
 ```
@@ -235,32 +137,18 @@ ggplot( target, aes(x=log(Area), color = site)) +
 
 ```{r}
 target_areas <- c(  pi*(0.2/2)^2, pi*(0.8/2)^2, pi * (1.7/2)^2, pi * (3/2)^2 ) 
-target_b1 <- master %>% filter( Area > target_areas[1], Area < target_areas[4], batch == 1)
-b1 <- ggplot( target_b1, aes(x=log(Area), color = site)) + 
+
+target_b <- master %>% filter( Area > target_areas[1], Area < target_areas[4])
+bb <- ggplot( target_b, aes(x=log(Area), color = site)) + 
   geom_histogram( aes(y=..density..), 
     fill="white", alpha=0.5, position="identity", bins=100) +
   geom_density(alpha=0.6)+
   theme_classic() +
   theme(legend.position="top")
-target_b2 <- master %>% filter( Area > target_areas[1], Area < target_areas[4], batch == 2)
-b2 <- ggplot( target_b2, aes(x=log(Area), color = site)) + 
-  geom_histogram( aes(y=..density..), 
-    fill="white", alpha=0.5, position="identity", bins=100) +
-  geom_density(alpha=0.6)+
-  theme_classic() +
-  theme(legend.position="top")
-target_b3 <- master %>% filter( Area > target_areas[1], Area < target_areas[4], batch == 3)
-b3 <- ggplot( target_b3, aes(x=log(Area), color = site)) + 
-  geom_histogram( aes(y=..density..), 
-    fill="white", alpha=0.5, position="identity", bins=100) +
-  geom_density(alpha=0.6)+
-  theme_classic() +
-  theme(legend.position="top")
-ggarrange(b1, b2, b3, ncol=3)
+bb
 ```
+
 ```{r}
-summary(target_b1$Area)
-summary(target_b2$Area)
 summary(target_b3$Area)
 ```
 
@@ -268,37 +156,19 @@ Get the basic counts that we need.
 
 ```{r}
 (res <- master %>% filter( Area > target_areas[1], Area < target_areas[4]) %>%
-  group_by( site, batch, file ) %>%
+  group_by( site,  file ) %>%
     summarise( n= n(),  mean_area = mean(Area), StdDev = sd(Area, na.rm=TRUE)  ) )
 ```
 
-```{r}
-ggplot(res) + geom_point( aes( x= mean_area, y= StdDev, color = factor(batch), shape = site ))
-```
+
 
 
 ```{r}
 
-ggplot(res %>% filter(batch==3)) + geom_point( aes( x= mean_area, y= StdDev, color =  site ))
+ggplot(res) + geom_point( aes( x= mean_area, y= StdDev, color =  site ))
 ```
 
-```{r}
-(res <- master %>% 
-  group_by( site, batch, file ) %>%
-    summarise( n= n(),  mean_area = mean(Area), StdDev = sd(Area, na.rm=TRUE)  ) )
-ggplot(res %>% filter(batch==3) ) + geom_point( aes( x= mean_area, y= StdDev, color = factor( site ) ))
 
-```
-
-```{r}
-(res <- master %>% 
-  group_by( site, batch, file ) %>%
-    summarise( n= n(),  mean_area = mean(Area), StdDev = sd(Area, na.rm=TRUE)  ) )
-res2 <- res %>%
-  group_by( site, batch ) %>%
-        summarise( nn= n(),  mean_cells = mean(n), StdDev = sd(n, na.rm=TRUE)  ) 
-ggplot(res ) + geom_point( aes( x= n, y= mean_area, color = factor( batch ) ))
-```
 I think we should thow out the outlier here (n) but first let's investigate the most extreme a little bit more.
 ```{r}
 big <- res %>% filter(n > 3000) %>% dplyr::select(site, batch, file) # let's pick on big[2,]
@@ -310,7 +180,7 @@ for (i in 1:nrow(big)) {
                                     file == as.numeric(big[i,3])))
 }
 
-reduced <- reduced %>% filter(batch==3) %>% 
+reduced <- reduced  %>% 
     filter( Area > target_areas[1]) %>%
     filter( Area < target_areas[4]) 
 
@@ -335,4 +205,12 @@ M_n <- res %>% filter(site == "M")
 t.test(B_n$n, M_n$n)
 ```
 
+```{r}
 
+ggplot(res, aes(x=n, color = site)) + 
+  geom_histogram( aes(y=..density..), 
+    fill="white", alpha=0.5, position="identity", bins=100) +
+  geom_density(alpha=0.6)+
+  theme_classic() +
+  theme(legend.position="top")
+```

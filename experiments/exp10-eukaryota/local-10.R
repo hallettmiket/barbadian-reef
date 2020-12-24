@@ -34,9 +34,16 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Eukaryota", verbo
   
   clrs <- glasbey(); 
   # make the colors a bit easier to read
-  tmp <- clrs[2]; clrs[2] <- clrs[6]; clrs[6] <- tmp
-  tmp <- clrs[1]; clrs[1] <- clrs[12]; clrs[12] <- tmp
-  tmp <- clrs[3]; clrs[3] <- clrs[12]; clrs[12] <- tmp
+  tmp <- clrs
+  clrs[1] <- tmp[6]
+  clrs[2] <- tmp[11]
+  clrs[5] <- tmp[4]
+  clrs[6] <- tmp[7]
+  clrs[12] <- tmp[1]
+  clrs[13] <- tmp[1]
+  clrs[4] <- tmp[14]
+  clrs[14] <- tmp[2]
+  clrs[7] <- tmp[5]
   
   p <- ggplot(mytree, aes(y=total_counts, x=delta, color=taxa)) +
     geom_point(shape=20)+
@@ -55,15 +62,15 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Eukaryota", verbo
     geom_text(aes(x=leftpt_freq, label="\n 95% CI:", y=2), colour="red", angle=90, text=element_text(size=3)) +
     
     geom_hline(yintercept=leftpt_counts, color="lightskyblue") + 
-    geom_text(aes(y=leftpt_counts, label=paste0("\n Qnt:",lc_quant), x=1.8), colour="seagreen4", angle=0, text=element_text(size=3)) +
+    geom_text(aes(y=leftpt_counts, label=paste0("\n Qnt:",lc_quant), x=4), colour="seagreen4", angle=0, text=element_text(size=3)) +
     
     geom_hline(yintercept=rightpt_counts, color = "lightskyblue") +
-    geom_text(aes(y=rightpt_counts, label=paste0("Qnt:",rc_quant), x=1.8), colour="seagreen4", angle=0, text=element_text(size=3)) +
+    geom_text(aes(y=rightpt_counts, label=paste0("Qnt:",rc_quant), x=4), colour="seagreen4", angle=0, text=element_text(size=3)) +
     
     geom_vline(xintercept=tmp2[1], color="lightskyblue") + 
-    geom_text(aes(x=tmp2[1], label=paste0("Qnt:", lf_quant ), y=2), colour="seagreen4", angle=90, text=element_text(size=3)) +
+    geom_text(aes(x=tmp2[1], label=paste0("Qnt:", lf_quant ), y=0), colour="seagreen4", angle=90, text=element_text(size=3)) +
     geom_vline(xintercept=tmp2[2], color = "lightskyblue")+
-    geom_text(aes(x=tmp2[2], label=paste0("\n Qnt:", rf_quant ), y=2), colour="seagreen4", angle=90, text=element_text(size=3)) +
+    geom_text(aes(x=tmp2[2], label=paste0("\n Qnt:", rf_quant ), y=0), colour="seagreen4", angle=90, text=element_text(size=3)) +
     
     geom_text_repel(
       max.iter=100000,
@@ -89,7 +96,7 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Eukaryota", verbo
       size = size,
       data = subset(mytree, ((delta > tmp2[1]) & (delta < tmp2[2]) & 
                                      (total_counts > rightpt_counts) ) ), 
-      segment.size =0.1, nudge_y = 6, nudge_x = -10
+      segment.size =0.1, nudge_y = 4, nudge_x = top_even
      # nudge_x = top_even,
     #   angle        = 45, segment.size  = 0.0,  direction     = "x"   , hjust =0,
     #  force         = 5, # force_pull = 5,
@@ -99,7 +106,7 @@ freq_count_plot <- function( mytree, relative_to = 1, mytitle="Eukaryota", verbo
    return(p)
 }
 
-
+ 
 make_figure <- function(tax_target, name, figurefile) {
   
   name <- gsub("[/ ]", "_", name)
@@ -121,34 +128,34 @@ make_figure <- function(tax_target, name, figurefile) {
   
   
   relative_to <- tax_target
-  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (genus level, relative to root of target)"), verbose = TRUE,
-                        lf_quant = 0.15, rf_quant = 0.89, lc_quant = 0.42, rc_quant = 0.99,
-                        top_left = -20, top_even = -10, top_right = 15,
-                        stretch = 1.0 ,
-                        size = 2.0
+  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = "", verbose = TRUE,
+                        lf_quant = 0.15, rf_quant = 0.89, lc_quant = 0.45, rc_quant = 0.99,
+                        top_left = -6, top_even = 1, top_right = 6,
+                        stretch = 0.8 ,
+                        size = 3.0
   )
   p
-  ggsave( filename = paste0(paste0(paste0(name,".genus.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
+#  ggsave( filename = paste0(paste0(paste0(name,".genus.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
   
-  children <- list()
-  for (i in 1:length(p2c(tax_target))) {
-    tree <- original
-    tmp <- induce_tree( p2c(tax_target)[i])  
-    tmp$taxa <- tmp[1, "name"]
-    children[[i]] <- tmp
-  }
-  tree <- original
-  target_species <- do.call("rbind", children)
-  target_species <- target_species[ which(target_species$rank == "species"), ]
+ # children <- list()
+#  for (i in 1:length(p2c(tax_target))) {
+#    tree <- original
+#    tmp <- induce_tree( p2c(tax_target)[i])  
+#    tmp$taxa <- tmp[1, "name"]
+#    children[[i]] <- tmp
+#  }
+#  tree <- original
+#  target_species <- do.call("rbind", children)
+#  target_species <- target_species[ which(target_species$rank == "species"), ]
   
-  relative_to <- tax_target
-  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (species level, relative to root of target)"), verbose = TRUE,
-                        lf_quant = 0.15, rf_quant = 0.89, lc_quant = 0.42, rc_quant = 0.99,
-                        top_left = -20, top_even = -10, top_right = 15,
-                        stretch = 1.0,
-                        size = 2)
-  p
-  ggsave( filename = paste0(paste0(paste0(name,".species.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
+ # relative_to <- tax_target
+#  p <- freq_count_plot( mytree=target_species, relative_to = relative_to, mytitle = paste0( name, " (species level, relative to root of target)"), verbose = TRUE,
+ #                       lf_quant = 0.15, rf_quant = 0.89, lc_quant = 0.42, rc_quant = 0.99,
+  #                      top_left = -20, top_even = -10, top_right = 15,
+  #                      stretch = 1.0,
+  #                      size = 2)
+  #p
+  #ggsave( filename = paste0(paste0(paste0(name,".species.rel_", relative_to)), ".png"), path = figurefile, device = "png", dpi = 300)
   
 }
 
