@@ -19,7 +19,7 @@ source(file.path(root, "src/functions.R"))
 # SEQDATA <- "/home/data/raw/ReefData/WaterSamples"
 
 # This picks up the files produced by exp2 here:
-KDB <- RES <-  "/home/data/refined/reef/kr_br"
+KDB <- RES <-  file.path(ZEN_DATA , "refined/kr_br")
 
 
 # Load the Bracken data.

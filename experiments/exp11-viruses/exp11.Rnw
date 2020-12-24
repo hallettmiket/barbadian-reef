@@ -31,7 +31,7 @@
 options(warn = -1, error=browser)
 root <- rprojroot::find_root(".git/index"); source(file.path(root, "src/init.R"))
 source(file.path(root, "experiments/exp11-viruses/local-11.R"))
-figurefile <- file.path(mainfigurefile, "decentralized/viruses")
+figurefile <- file.path(MAINFIGUREFILE, "decentralized/viruses")
 @
 
 

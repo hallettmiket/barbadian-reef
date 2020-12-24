@@ -8,10 +8,10 @@ source(file.path(root, "src/functions.R"))
 source(file.path(root, "src/load.tree.R"))
 
 ### MODIFY THIS ZEN_DATA 
-ZEN_DATA <- "~/reef_data/"
+ZEN_DATA <- "~/reef_data"
 
-REEF_DIR <- file.path(ZEN_DATA, "R/R")
-
+REEF_DIR <- file.path(ZEN_DATA, "refined/R")
+MAINFIGUREFILE <- file.path(ZEN_DATA ,"refined/R/figures")
 mystat<- function( data, indices ) {return(mean(data[indices]))}
 
 

@@ -31,11 +31,11 @@
 options(warn = -1)
 root <- rprojroot::find_root(".git/index"); source(file.path(root, "src/init.R"))
 source(file.path(root, "experiments/exp8-tara-oceans/local-8.R"))
-figurefile <- file.path(mainfigurefile, "tara")
+figurefile <- file.path(MAINFIGUREFILE, "tara")
 vers <- 1.0
 #load raw tara oceans data (mapped to genera)
 library(tidyverse)
-tara <- read_tsv(file = "/home/data/raw/tara-ocean/miTAG.taxonomic.profiles.release.tsv")
+tara <- read_tsv(file = file.path(ZEN_DATA ,"refined/tara-ocean/miTAG.taxonomic.profiles.release.tsv"))
 @
 
 
@@ -56,16 +56,16 @@ tara <- read_tsv(file = "/home/data/raw/tara-ocean/miTAG.taxonomic.profiles.rele
 Now we prepare the Tara Oceans metadata.
 <<>>=
 # sets variable tarat (tara tree)
-load(file = "/home/data/refined/reef/R/tara_oceans_tree.june.9.Rdata") 
+load(file = file.path(ZEN_DATA ,"refined/R/tara_oceans_tree.june.9.Rdata")) 
 
 # load the tara oceans metadata 
 # tabs 1 and 8 from the spreadsheet availble at 
 # {\tt ocean-microbiome.embl.de\/companion.html}
-w1 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W1.csv")
-w5 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W5.csv")
+w1 <- read.csv(file.path(ZEN_DATA ,"refined/tara-oceans-metadata/W1.csv"))
+w5 <- read.csv(file.path(ZEN_DATA ,"refined/tara-oceans-metadata/W5.csv"))
 w5 <- w5[ 1:(nrow(w5)-2), ] # last two lines are comments
 
-w8 <- read.csv("/home/data/refined/reef/tara-oceans-metadata/W8.csv")
+w8 <- read.csv(file.path(ZEN_DATA ,"refined/tara-oceans-metadata/W8.csv"))
 w8 <- w8[ 1:(nrow(w8)-2), ] # last two lines are comments
 
 # column 5 of w1 matches column 1 of w8
@@ -128,7 +128,7 @@ Columns with a finite number discrete levels will be converted to numeric.
 # 26-36 numeric
 to_remove <- c(8, 11, 23, 24, 13, 47, 49 )
 metatara <- metatara[, -to_remove]
-#save(metatara, file = "/home/data/refined/reef/R/metatara_1.0.RData")
+#save(metatara, file = file.path(ZEN_DATA ,"refined/R/metatara_1.0.RData"))
 @
 
 <<>>=
@@ -136,7 +136,7 @@ library(ComplexHeatmap)
 library(circlize)
 require(pals)
 
-load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+load(file = file.path(ZEN_DATA ,"refined/R/metatara_1.0.RData"))
 tree <- tarat
 bac <- induce_tree(2)  # bac tree
 rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
@@ -285,7 +285,7 @@ In this section we explore some of the advice of Quinn et al.\ (2019) {\em GigaS
 BiocManager::install("ALDEx2")
 library(zCompositions); library(ALDEx2); library(propr)
 
-load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+load(file = file.path(ZEN_DATA ,"refined/R/metatara_1.0.RData"))
 tree <- tarat  # tarat extends tree to the tara oceans samples
 bac <- induce_tree(2)  # bac tree
 rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")
@@ -323,7 +323,7 @@ BiocManager::install("M3C")
 library(M3C)
 source(file.path(root, "src/umap_M3C.R"))
 
-load(file = "/home/data/refined/reef/R/metatara_1.0.RData")
+load(file = file.path(ZEN_DATA ,"refined/R/metatara_1.0.RData"))
 tree <- tarat
 bac <- induce_tree(2)  # bac tree
 rownames(bac) <- paste(bac$name, bac$tax_id, sep = "_")

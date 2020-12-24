@@ -34,7 +34,7 @@ root <- rprojroot::find_root(".git/index");  source(file.path(root, "src/init.R"
 
 # Load the tree data.frame and genome size fits. 
 source(file.path(root, "experiments/exp9-archaea/local-9.R"))
-figurefile <- file.path(mainfigurefile, "decentralized/archaea")
+figurefile <- file.path(MAINFIGUREFILE, "decentralized/archaea")
 @
 
 <<>>=

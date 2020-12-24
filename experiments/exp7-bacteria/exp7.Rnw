@@ -33,7 +33,7 @@ options(warn = -1)
 # Load the tree data.frame and genome size fits. 
 root <- rprojroot::find_root(".git/index"); source(file.path(root, "src/init.R"))
 source(file.path(root, "experiments/exp7-bacteria/local-7.R"))
-figurefile <- file.path(mainfigurefile, "decentralized/bacteria")
+figurefile <- file.path(MAINFIGUREFILE, "decentralized/bacteria")
 @
 
 

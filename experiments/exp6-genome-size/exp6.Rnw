@@ -50,12 +50,12 @@ source(file.path(root, "src/load.tree.R"))
 
        
 # Load the tree data.frame with Bracken counts etc.
-REEF_DIR <- "/home/data/refined/reef/R/"
+REEF_DIR <- file.path(ZEN_DATA, "refined/R/")
 date <- "april.19"
-load(file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+load(file = paste0(paste0( file.path(REEF_DIR , "ultra.pure.tree."), date), ".RData"))
 original <- tree # for safe keeping
 mt <- make_table
-figurefile <- "/home/data/refined/reef/R/figures/genome_size"
+figurefile <- file.path(MAINFIGUREFILE, "genome_size")
 @
 
 We begin by reading in the NCBI's summary file of all genes obtained from {\tt ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME\_REPORTS/}.
@@ -155,7 +155,7 @@ for (i in 1:200) {
 
 Let's revisit briefly after these deletions.
 <<>>=
-load(file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+load(file = paste0(paste0(file.path(REEF_DIR , "ultra.pure.tree."), date), ".RData"))
 
 euk <- induce_tree(2759);       
 largest <- arrange(euk,desc(genome_size))
@@ -218,7 +218,7 @@ p
 @
 Finally, save this all to version 1.0.
 <<echo=FALSE, results=hide>>=
-load(file = paste0(paste0("/home/data/refined/reef/R/ultra.pure.tree.", date), ".RData"))
+load(file = paste0(paste0(file.path(REEF_DIR , "ultra.pure.tree."), date), ".RData"))
 recursive_isLeaf( 1 )
 #  tidyup()  # both this and the function itself in the src folder needs to be uncommented
 #save( file = file.path(REEF_DIR, "tree_1.0.RData"), tree)
@@ -234,7 +234,7 @@ For this analysis, we will treat each superkingdom separately.
 First, we load a version of the final {\tt tree}.
 <<>>=
 root <- rprojroot::find_root(".git/index");  source(file.path(root, "src/init.R"))
-figurefile <- "/home/data/refined/reef/R/figures/genome_size"
+figurefile <- file.path(MAINFIGUREFILE, "genome_size")
 
  clrs <- c(glasbey(), glasbey()); 
   # make the colors a bit easier to read

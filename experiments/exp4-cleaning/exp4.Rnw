@@ -41,7 +41,7 @@ source(file.path(root, "experiments/exp4-cleaning/local-4.R"))
 
 
 # Load the tree data.frame with Bracken counts etc.
-REEF_DIR <- "/home/data/refined/reef/R/"
+REEF_DIR <- file.path(ZEN_DATA, "refined/R/")
 load( paste0(REEF_DIR, "raw.tree.april.15.RData" ) )  # loads tree data.frame
 original <- tree # for safe keeping
 date <- "april.15"

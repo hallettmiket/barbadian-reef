@@ -32,7 +32,7 @@ options(warn = -1)
 root <- rprojroot::find_root(".git/index"); source(file.path(root, "src/init.R"))
 
 source(file.path(root, "experiments/exp10-eukaryota/local-10.R"))
-figurefile <- file.path(mainfigurefile, "decentralized/eukaryota")
+figurefile <- file.path(MAINFIGUREFILE, "decentralized/eukaryota")
 @
 
 <<>>=

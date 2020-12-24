@@ -38,7 +38,8 @@ We begin by reading in the two Braken files from the {\tt data} directory.
 
 <<>>= 
 options(warn = -1)
-root <- rprojroot::find_root(".git/index"); setwd(root); 
+root <- rprojroot::find_root(".git/index"); 
+#setwd(root); 
 
 setwd(file.path(root, "experiments/exp3-bracken2data.frame"))
 library(xtable)
@@ -52,7 +53,7 @@ This data.frame contains all the information we have about our samples.
 It was generated using the code in {\tt ad\_hoc\_scripts.R} and the functions in {\tt functions.R}
 <<>>==
 # load the finalized tree  computed in percolate.R with functions from abundance_comparison.R
-REEF_DIR <- "/home/data/refined/reef/R/"
+REEF_DIR <- file.path(ZEN_DATA, "refined/R/")
 load( paste0(REEF_DIR, "raw.tree.april.15.RData" ) )
 tree[1:10, 1:7 ]
 @
