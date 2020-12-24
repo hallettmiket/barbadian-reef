@@ -14,9 +14,11 @@
 ################################################################
 
 library(dplyr)
-root <- rprojroot::find_root(".git/index"); setwd(root); 
+root <- rprojroot::find_root(".git/index"); 
 source(file.path(root, "src/functions.R"))
-SEQDATA <- "/home/data/raw/ReefData/WaterSamples"
+# SEQDATA <- "/home/data/raw/ReefData/WaterSamples"
+
+# This picks up the files produced by exp2 here:
 KDB <- RES <-  "/home/data/refined/reef/kr_br"
 
 
@@ -121,7 +123,7 @@ tree[1, "parent"] <- NA
 # percolate the reads at the leaves up through the tree to the root.
 void <- percolate(1)
 
-save(tree, file = "~/temp.percolate.tree.Rdata")
+#save(tree, file = "~/temp.percolate.tree.Rdata")
 # prune away all nodes (taxa) without any reads assigned to them.
 
 to_remove <- intersect( which(tree$br_bel==0), which(tree$br_may==0) )
