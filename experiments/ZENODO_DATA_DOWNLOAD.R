@@ -11,6 +11,9 @@ source(file.path(root, "src/init.R"))
 
 dir.create(ZEN_DATA)
 
-download.file("zenodolink" , 
-              file.path(ZEN_DATA, "reef-data.tar.gz"))
+library(zen4R)
+options(timeout = max(1000, getOption("timeout")))
+download_zenodo(doi="10.5281/zenodo.4357318" , 
+              path = file.path(ZEN_DATA))
+
 untar( file.path(ZEN_DATA,"data/reef-data.tar.gz"))
